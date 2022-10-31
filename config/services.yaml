@@ -1,0 +1,159 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+  uploads_dir_name: 'files'
+  dir_files_for_wysiwyg: 'others'
+  uploads_base_url: '%env(BASE_URL)%'
+  payment_handler: '%env(PAYMENT_HANDLER)%'
+  payment_handler_method: '%env(PAYMENT_HANDLER_METHOD)%'
+  moneta_id: '%env(MONETA_ID)%'
+  moneta_secret: '%env(MONETA_SECRET)%'
+
+services:
+  # default configuration for services in *this* file
+  _defaults:
+    autowire: true      # Automatically injects dependencies in your services.
+    autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    bind:
+      $uploadedAssetsBaseUrl: '%uploads_base_url%'
+      $pathUploadPublic: '%uploads_dir_name%'
+      $directoryForWYSIWYG: '%dir_files_for_wysiwyg%'
+
+  # makes classes in src/ available to be used as services
+  # this creates a service per class whose id is the fully-qualified class name
+  App\:
+    resource: '../src/*'
+    exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+
+  # controllers are imported separately to make sure services can be injected
+  # as action arguments even if you don't extend any base controller class
+  App\Controller\:
+    resource: '../src/Controller'
+    tags: ['controller.service_arguments']
+
+  App\Model\File\EventListener\FileListener:
+    tags:
+      - { name: doctrine.orm.entity_listener, event: postRemove, lazy: true }
+
+  App\Model\Page\EventListener\PageListener:
+    tags:
+      - { name: doctrine.orm.entity_listener, event: postRemove, lazy: true }
+      - { name: doctrine.orm.entity_listener, event: postUpdate, lazy: true }
+      - { name: doctrine.orm.entity_listener, event: preUpdate, lazy: true }
+      - { name: doctrine.orm.entity_listener, event: postPersist, lazy: true }
+
+  App\Model\Article\EventListener\ArticleListener:
+    tags:
+      - { name: doctrine.orm.entity_listener, event: postRemove, lazy: true }
+      - { name: doctrine.orm.entity_listener, event: postUpdate, lazy: true }
+      - { name: doctrine.orm.entity_listener, event: preUpdate, lazy: true }
+      - { name: doctrine.orm.entity_listener, event: postPersist, lazy: true }
+
+  App\Model\Works\EventListener\WorkListener:
+    tags:
+      - { name: doctrine.orm.entity_listener, event: postRemove, lazy: true }
+      - { name: doctrine.orm.entity_listener, event: postUpdate, lazy: true }
+      - { name: doctrine.orm.entity_listener, event: preUpdate, lazy: true }
+      - { name: doctrine.orm.entity_listener, event: postPersist, lazy: true }
+
+  App\Model\News\EventListener\NewsListener:
+    tags:
+      - { name: doctrine.orm.entity_listener, event: postRemove, lazy: true }
+      - { name: doctrine.orm.entity_listener, event: postUpdate, lazy: true }
+      - { name: doctrine.orm.entity_listener, event: preUpdate, lazy: true }
+      - { name: doctrine.orm.entity_listener, event: postPersist, lazy: true }
+
+  Redis:
+    class: Redis
+    calls:
+      - method: connect
+        arguments:
+          - '%env(REDIS_HOST)%'
+      - method: auth
+        arguments:
+          - '%env(REDIS_PASSWORD)%'
+
+  Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler:
+    arguments:
+      - '@Redis'
+  Symfony\Component\HttpFoundation\Session\Session:
+    alias: Symfony\Component\HttpFoundation\Session\SessionInterface
+
+  App\Model\Dealer\Service\ResetTokenizer:
+    factory: 'App\Model\Dealer\Service\ResetTokenizerFactory:create'
+    arguments: ['PT1H']
+
+  App\Model\Cpanel\Repository\DealerRepository:
+    public: true
+
+  App\Model\Ticket\Repository\TicketRepository:
+    public: true
+
+  App\Model\Mailer\Repository\RecipientRepository:
+    public: true
+
+  App\Model\Ecommerce\ReadModel\Category\CategoryFetcher:
+    public: true
+
+  App\Model\Ecommerce\ReadModel\Product\ProductFetcher:
+    public: true
+
+  App\Model\Ecommerce\ReadModel\Attribute\AttributeFetcher:
+    public: true
+
+  App\Model\Article\ReadModel\ArticleFetcher:
+    public: true
+
+  App\Model\Gallery\ReadModel\AlbumFetcher:
+    public: true
+
+  App\Model\Works\ReadModel\WorkFetcher:
+    public: true
+
+  App\Model\DesignProject\Repository\ProjectRepository:
+    public: true
+
+  App\Model\Lead\Repository\LeadRepository:
+    public: true
+
+  App\Model\Slider\ReadModel\SlidersFetcher:
+    public: true
+
+  App\Model\PopularProducts\ReadModel\PopularFetcher:
+    public: true
+
+  App\Model\Salon\Repository\ModerationSalonRepository:
+    public: true
+
+  App\Model\QuickOrder\Repository\QuickOrderRepository:
+    public: true
+
+  App\Model\Order\Repository\OrderRepository:
+    public: true
+
+  App\Model\Quiz\Repository\ResultRepository:
+    public: true
+
+  Symfony\Component\Asset\Context\RequestStackContext: '@assets.context'
+
+  App\Model\File\Service\Uploader:
+    arguments: ['@oneup_flysystem.public_uploads_filesystem_filesystem','@oneup_flysystem.private_uploads_filesystem_filesystem']
+
+  Liip\ImagineBundle\Service\FilterService:
+    alias: 'liip_imagine.service.filter'
+
+  Liip\ImagineBundle\Imagine\Cache\CacheManager:
+    alias: 'liip_imagine.cache.manager'
+
+  app.filter.preview_square:
+    class: App\Helper\PreviewSquareFilter
+    tags:
+      - { name: "liip_imagine.filter.loader", loader: preview_square }
+
+  App\Model\Buyer\Service\ResetTokenizer:
+    factory: 'App\Model\Buyer\Helper\ResetTokenizerFactory:create'
+    arguments: ['PT1H']

@@ -1,0 +1,145 @@
+{% extends 'frontend/container.html.twig' %}
+
+
+{% block contextSlider %}
+{{ slider_context(2) }}
+{% endblock %}
+
+{% block main %}
+    <main class="news-page">
+
+        {% block breadcrumbs %}
+        {% endblock %}
+
+        {% block headline %}
+        {% endblock %}
+
+        <div class="wrap">
+            {% block sidebar %}
+                <aside class="sidebar">
+                    {% set current=current??'' %}
+                    <nav class="sidebar-nav">
+                        <h2 class="sidebar__heading">Услуги</h2>
+                        <ul class="sidebar-nav__list">
+
+                            {% if current == path('design.project') %}
+                                <li class="sidebar-nav__item  sidebar-nav__item--active">
+                                    <a class="sidebar-nav__link">Бесплатный 3D-проект</a>
+                                </li>
+                            {% else %}
+                                <li class="sidebar-nav__item">
+                                    <a class="sidebar-nav__link" href="{{ path('design.project') }}">Бесплатный
+                                        3D-проект</a>
+                                </li>
+                            {% endif %}
+
+                            {% if current == path('works') %}
+                                <li class="sidebar-nav__item  sidebar-nav__item--active">
+                                    <a class="sidebar-nav__link">Выполенные проекты</a>
+                                </li>
+                            {% else %}
+                                <li class="sidebar-nav__item">
+                                    <a class="sidebar-nav__link" href="{{ path('works') }}">Выполенные проекты</a>
+                                </li>
+                            {% endif %}
+
+                        </ul>
+                    </nav>
+
+                    <nav class="sidebar-nav">
+                        <h2 class="sidebar__heading">Информация</h2>
+                        <ul class="sidebar-nav__list">
+                            {% if current == 'salons' %}
+                                <li class="sidebar-nav__item  sidebar-nav__item--active">
+                                    <a class="sidebar-nav__link">Салоны</a>
+                                </li>
+                            {% else %}
+                                <li class="sidebar-nav__item">
+                                    <a class="sidebar-nav__link" href="{{ path('salons') }}">Салоны</a>
+                                </li>
+                            {% endif %}
+
+                            {% if current == 'service' %}
+                                <li class="sidebar-nav__item  sidebar-nav__item--active">
+                                    <a class="sidebar-nav__link">Доставка и установка</a>
+                                </li>
+                            {% else %}
+                                <li class="sidebar-nav__item">
+                                    <a class="sidebar-nav__link" href="/service">Доставка и установка</a>
+                                </li>
+                            {% endif %}
+
+                            {% if current == 'payment' %}
+                                <li class="sidebar-nav__item  sidebar-nav__item--active">
+                                    <a class="sidebar-nav__link">Оплата</a>
+                                </li>
+                            {% else %}
+                                <li class="sidebar-nav__item">
+                                    <a class="sidebar-nav__link" href="/payment">Оплата</a>
+                                </li>
+                            {% endif %}
+
+                            {% if current == 'faq' %}
+                                <li class="sidebar-nav__item  sidebar-nav__item--active">
+                                    <a class="sidebar-nav__link">Вопрос-ответ</a>
+                                </li>
+                            {% else %}
+                                <li class="sidebar-nav__item">
+                                    <a class="sidebar-nav__link" href="/faq">Вопрос-ответ</a>
+                                </li>
+                            {% endif %}
+
+                            {% if current == path('dealer.signup') %}
+                                <li class="sidebar-nav__item  sidebar-nav__item--active">
+                                    <a class="sidebar-nav__link">Как стать дилером</a>
+                                </li>
+                            {% else %}
+                                <li class="sidebar-nav__item">
+                                    <a class="sidebar-nav__link" href="{{ path('dealer.signup') }}">Как стать
+                                        дилером</a>
+                                </li>
+                            {% endif %}
+
+                            {% if current == path('articles') %}
+                                <li class="sidebar-nav__item  sidebar-nav__item--active">
+                                    <a class="sidebar-nav__link">Новости</a>
+                                </li>
+                            {% else %}
+                                <li class="sidebar-nav__item">
+                                    <a class="sidebar-nav__link" href="{{ path('articles') }}">Новости</a>
+                                </li>
+                            {% endif %}
+
+                            {% if current == 'about' %}
+                                <li class="sidebar-nav__item  sidebar-nav__item--active">
+                                    <a class="sidebar-nav__link">О компании</a>
+                                </li>
+                            {% else %}
+                                <li class="sidebar-nav__item">
+                                    <a class="sidebar-nav__link" href="/about">О компании</a>
+                                </li>
+                            {% endif %}
+
+                            {% if current == 'contact' %}
+                                <li class="sidebar-nav__item  sidebar-nav__item--active">
+                                    <a class="sidebar-nav__link">Контакты</a>
+                                </li>
+                            {% else %}
+                                <li class="sidebar-nav__item">
+                                    <a class="sidebar-nav__link" href="/contact">Контакты</a>
+                                </li>
+                            {% endif %}
+
+                        </ul>
+                    </nav>
+
+                </aside>
+            {% endblock %}
+
+            {% block content %}
+            {% endblock %}
+
+        </div>
+
+    </main>
+{% endblock %}

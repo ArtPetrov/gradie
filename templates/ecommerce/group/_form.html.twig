@@ -1,0 +1,102 @@
+<div class="card-body dashboard-tabs p-0">
+    <ul class="nav nav-tabs px-4" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="main-tab" data-toggle="tab" href="#main" role="tab" aria-controls="main"
+               aria-selected="true">Основное настройки</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="attribute-tab" data-toggle="tab" href="#attribute" role="tab"
+               aria-controls="attribute" aria-selected="false">Фильтры</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="recommend-tab" data-toggle="tab" href="#recommend" role="tab"
+               aria-controls="recommend"
+               aria-selected="false">Товары группы</a>
+        </li>
+    </ul>
+    {{ form_start(form,{
+        attr: {
+            id:'productForm',
+            class:'forms-sample',
+            novalidate:'',
+        }
+    }) }}
+    <div class="tab-content py-0 px-0">
+
+        <div class="tab-pane fade active show" id="main" role="tabpanel" aria-labelledby="main-tab">
+            <div class="m-5">
+                <div class="form-group">
+                    <label for="exampleInputName">Название группы связанных товаров</label>
+                    {{ form_widget(form.name, {attr: {
+                        id: 'exampleInputName',
+                        class: 'form-control'
+                    }}) }}
+                </div>
+                {{ form_errors(form.name) }}
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="recommend" role="tabpanel" aria-labelledby="recommend-tab">
+            <div class="m-5">
+                <div class="form-group">
+                    <input id='products-group-search' class="form-control col-12"
+                           placeholder="Введите название или артикул товара, который хотите добавить."
+                           autocomplete="off">
+                </div>
+            </div>
+            <hr>
+            <p class="card-description mt-4 ml-5 mr-5">
+                Список связанных товаров группы:
+            </p>
+
+            <ul class="products-group-box"
+                data-path="{{ path('ecommerce.products.recomended.json') }}"
+                data-prototype="{{ form_widget(form.products.vars.prototype)|e('html_attr') }}">
+                {% for product in form.products %}
+                    {{ form_widget(product) }}
+                {% else %}
+                    {{ form_widget(form.products) }}
+                {% endfor %}
+            </ul>
+
+        </div>
+
+        <div class="tab-pane fade" id="attribute" role="tabpanel" aria-labelledby="attribute-tab">
+
+            <p class="card-description mt-4 ml-5 mr-5">
+                Выберите атрибут для фильтрации:
+            </p>
+
+            <div class="d-flex m-4 flex-wrap ml-5 mr-5 container-property-attrs"
+                 data-path="{{ path('ecommerce.attributes.json') }}"
+                 data-checkbox='
+                <div class="form-check form-check-flat form-check-primary m-2 ml-3">
+                    <label class="form-check-label hover-cursor">
+                        <input type="checkbox" class="form-check-input select-attribute" data-slug="__slug__">
+                        __name__
+                        <i class="input-helper"></i></label>
+                </div>'
+            >
+            </div>
+            <p class="card-description mt-4 ml-5 mr-5">
+                Выбранные атрибуты:
+            </p>
+            <ul class="container-filters"
+                data-prototype="{{ form_widget(form.selectors.vars.prototype)|e('html_attr') }}">
+                {% for selector in form.selectors %}
+                    {{ form_widget(selector) }}
+                {% else %}
+                    {{ form_widget(form.selectors) }}
+                {% endfor %}
+            </ul>
+        </div>
+
+
+    </div>
+    <div class="text-center mt-5 mb-4">
+        <input form="productForm" type="submit" class="btn btn-primary" value="{{ name_sumbit }}">
+    </div>
+    {{ form_end(form) }}
+</div>
+
+

@@ -1,0 +1,42 @@
+{% extends 'frontend/pages/container.html.twig' %}
+
+{% block title %}Восстановить пароль{% endblock %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a class="breadcrumbs__link" href="{{ path('index') }}">Главная</a>
+        <span class="breadcrumbs__separator"></span>
+        <a class="breadcrumbs__link" href="{{ path('buyer.login') }}">Авторизация</a>
+        <span class="breadcrumbs__separator"></span>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="content">
+        <div class="authoriz">
+
+            {% include 'frontend/_flashes.html.twig' %}
+
+            <h2 class="modal__heading">Введите новый пароль</h2>
+
+            {{ form_start(form) }}
+            <label class="modal__label" for="form_email">Новый пароль</label>
+            {{ form_widget(form.password, {attr: {
+                class: 'modal__input',
+            }}) }}
+            {{  form_errors(form.password) }}
+            <label class="modal__label" for="form_email">Повторите новый пароль</label>
+            {{ form_widget(form.repeatPassword, {attr: {
+                class: 'modal__input',
+            }}) }}
+            <div class="modal__action">
+                <button class="modal__button" type="submit">Изменить пароль</button>
+                <a class="modal__reg" href="{{ path('buyer.login') }}">Вспомнил пароль!</a>
+            </div>
+            {{  form_errors(form.repeatPassword) }}
+            {{ form_end(form) }}
+
+
+        </div>
+    </div>
+{% endblock %}

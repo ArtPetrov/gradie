@@ -1,0 +1,124 @@
+{% extends 'dealer/content.html.twig' %}
+
+{% block content %}
+    <div class="content-wrapper">
+        {% block breadcrumbs %}
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ path('dealer.index') }}">Главная</a></li>
+                <li class="breadcrumb-item active">Ваш профиль</li>
+            </ol>
+        {% endblock %}
+
+        <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Карточка дилера</h3>
+                        <p class="card-description">Здесь находится Ваша персональная информация.(Данные обновлять через заявку в тех. поддержку)</p>
+                        <div class="mt-3">
+                            {% include 'dealer/_flashes.html.twig' %}
+                        </div>
+                        {{ form_start(form,{
+                            attr: {
+                                class:'forms-sample'
+                            }
+                        }) }}
+
+                        <div class="form-group">
+                            <label for="exampleInputName">ФИО:</label>
+                            {{ form_widget(form.name, {attr: {
+                                id: 'exampleInputName',
+                                class: 'form-control',
+                                readonly: true
+                            }}) }}
+                        </div>
+                        {{ form_errors(form.name) }}
+
+                        <div class="form-group">
+                            <label for="exampleInputEmail">Email адрес:</label>
+                            {{ form_widget(form.email, {attr: {
+                                id: 'exampleInputEmail',
+                                class: 'form-control'
+                            }}) }}
+                        </div>
+                        {{ form_errors(form.email) }}
+
+                        <div class="form-group">
+                            <label for="exampleInputPhone">Телефон:</label>
+                            {{ form_widget(form.phone, {attr: {
+                                id: 'exampleInputPhone',
+                                class: 'form-control',
+                                readonly: true
+                            }}) }}
+                        </div>
+                        {{ form_errors(form.phone) }}
+
+                        <div class="form-group">
+                            <label for="exampleInputSite">Веб-сайт:</label>
+                            {{ form_widget(form.site, {attr: {
+                                id: 'exampleInputSite',
+                                class: 'form-control',
+                                readonly: true
+                            }}) }}
+                        </div>
+                        {{ form_errors(form.site) }}
+
+                        <div class="form-group">
+                            <label for="exampleInputAddress">Адрес:</label>
+                            {{ form_widget(form.address, {attr: {
+                                id: 'exampleInputAddress',
+                                class: 'form-control',
+                                readonly: true
+                            }}) }}
+                        </div>
+                        {{ form_errors(form.address) }}
+
+                        <div class="form-group">
+                            <label for="exampleInputInn">ИНН:</label>
+                            {{ form_widget(form.inn, {attr: {
+                                id: 'exampleInputInn',
+                                class: 'form-control',
+                                readonly: true
+                            }}) }}
+                        </div>
+                        {{ form_errors(form.inn) }}
+
+                        <div class="form-group">
+                            <label for="exampleInputKpp">КПП:</label>
+                            {{ form_widget(form.kpp, {attr: {
+                                id: 'exampleInputKpp',
+                                class: 'form-control',
+                                readonly: true
+                            }}) }}
+                        </div>
+                        {{ form_errors(form.kpp) }}
+
+                        <div class="form-group">
+                            <label for="exampleСontrahens">Контрагент:</label>
+                            {{ form_widget(form.contrahens, {attr: {
+                                id: 'exampleСontrahens',
+                                class: 'form-control',
+                                readonly: true
+                            }}) }}
+                        </div>
+                        {{ form_errors(form.contrahens) }}
+
+                        <div class="form-check form-check-flat form-check-primary mt-2 mb-4">
+                            <label class="form-check-label">
+                                {{ form_widget(form.notification, {attr: {
+                                    class: 'form-check-input'
+                                }}) }}
+                                Хочу получать рассылку на электронный ящик
+                                <i class="input-helper"></i></label>
+                        </div>
+                        {{ form_errors(form.notification) }}
+
+                        <button type="submit" class="btn btn-primary mr-2">Редактировать данные</button>
+                        <a href="{{ path('dealer.profile.password') }}" class="btn btn-danger mr-2">Изменить пароль</a>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

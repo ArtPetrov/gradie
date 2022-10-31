@@ -1,0 +1,141 @@
+<div class="card-body dashboard-tabs p-0">
+    <ul class="nav nav-tabs px-4" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="main-tab" data-toggle="tab" href="#main" role="tab" aria-controls="main"
+               aria-selected="true">Контент</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="seo-tab" data-toggle="tab" href="#seo" role="tab" aria-controls="seo"
+               aria-selected="false">SEO</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab"
+               aria-controls="settings" aria-selected="false">Настройки</a>
+        </li>
+
+    </ul>
+    {{ form_start(form,{
+        attr: {
+            class:'forms-sample tinymce-form',
+            novalidate:'',
+            'data-path-upload': path('cpanel.upload.tiny.temporary')
+        }
+    }) }}
+
+    <div class="tab-content py-0 px-0">
+        <div class="tab-pane fade active show" id="main" role="tabpanel" aria-labelledby="main-tab">
+            <div class=" m-5">
+                <div class="form-group">
+                    <label for="inputHeader">Заголовок страницы:</label>
+                    {{ form_widget(form.content.header, {attr: {
+                        placeholder: 'Например: Первая страница',
+                        id: 'inputHeader',
+                        class: 'form-control url-generator-name'
+                    }}) }}
+                </div>
+                {{ form_errors(form.content.header) }}
+                <div class="form-group">
+                    <label for="exampleInputContent">Содержание страницы:</label>
+                    {{ form_widget(form.content.body, {attr: {
+                        class: 'form-control tinymce',
+                        rows:25
+                    }}) }}
+                </div>
+                {{ form_errors(form.content.body) }}
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="seo" role="tabpanel" aria-labelledby="seo-tab">
+            <div class=" m-5">
+                <div class="form-group">
+                    <label for="exampleInputTitle">Title:</label>
+                    {{ form_widget(form.seo.title, {attr: {
+                        placeholder: 'Заголовок страницы в браузере',
+                        id: 'exampleInputTitle',
+                        class: 'form-control'
+                    }}) }}
+                </div>
+                {{ form_errors(form.seo.title) }}
+                <div class="form-group">
+                    <label for="exampleInputKeyword">Keywords:</label>
+                    {{ form_widget(form.seo.keywords, {attr: {
+                        placeholder: 'Ключевые слова через запятую.',
+                        id: 'exampleInputKeyword',
+                        rows:3,
+                        class: 'form-control'
+                    }}) }}
+                </div>
+                {{ form_errors(form.seo.keywords) }}
+                <div class="form-group">
+                    <label for="exampleInputDescription">Description:</label>
+                    {{ form_widget(form.seo.description, {attr: {
+                        placeholder: 'Краткое описание страницы',
+                        id: 'exampleInputDescription',
+                        rows:3,
+                        class: 'form-control'
+                    }}) }}
+                </div>
+                {{ form_errors(form.seo.description) }}
+            </div>
+        </div>
+
+
+        <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+            <div class=" m-5">
+                <div class="form-group">
+                    <label for="inputName">Системное название:</label>
+                    {{ form_widget(form.name, {attr: {
+                        placeholder: 'Название страницы: Для лендинга',
+                        id: 'inputName',
+                        class: 'form-control'
+                    }}) }}
+                </div>
+                {{ form_errors(form.name) }}
+
+
+                <div class="form-group">
+                    <label for="inputSlug">URL:</label>
+                    <div class="row">
+                        <div class="flex-grow-1">
+                            {{ form_widget(form.settings.slug, {attr: {
+                                placeholder: 'URL адрес страницы',
+                                id: 'inputSlug',
+                                class: 'form-control url-generator-field'
+                            }}) }}
+                        </div>
+                        <div class="ml-4">
+                            <button type="button" class="btn btn-outline-secondary url-generator-actor" data-path="{{path('cpanel.generator.slug') }}">Сгенерировать</button>
+                        </div>
+                    </div>
+                </div>
+
+
+                {{ form_errors(form.settings.slug) }}
+
+                <div class="form-group">
+                    <label for="inputTemplate">Шаблон страницы:</label>
+                    {{ form_widget(form.settings.template, {attr: {
+                        placeholder: 'Название шаблона для отображения',
+                        id: 'inputTemplate',
+                        class: 'form-control'
+                    }}) }}
+                </div>
+                {{ form_errors(form.settings.template) }}
+                <div class="form-group">
+                    <label for="inputCode">Код статуса страницы:</label>
+                    {{ form_widget(form.settings.status, {attr: {
+                        placeholder: 'Код ответа HTTP',
+                        id: 'inputCode',
+                        class: 'form-control'
+                    }}) }}
+                </div>
+                {{ form_errors(form.settings.status) }}
+
+            </div>
+        </div>
+    </div>
+    <div class="text-center mt-5 mb-4">
+        <button type="submit" class="btn btn-primary">{{ name_sumbit }}</button>
+    </div>
+    {{ form_end(form) }}
+</div>

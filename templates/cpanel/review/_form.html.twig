@@ -1,0 +1,51 @@
+{{ form_start(form,{
+    attr: {
+        class:'forms-sample'
+    }
+}) }}
+
+<div class="form-group">
+    <label for="exampleInputParent">Статус отзыва:</label>
+    {{ form_widget(form.status, {attr: {
+        class: 'form-control',
+    }}) }}
+</div>
+{{ form_errors(form.status) }}
+
+<div class="form-group">
+    <label for="exampleInputParent">Рейтинг отзыва:</label>
+    {{ form_widget(form.rating, {attr: {
+        class: 'form-control',
+    }}) }}
+</div>
+{{ form_errors(form.rating) }}
+
+<div class="form-group">
+    <label for="form_createAt">Дата публикации:</label>
+    {{ form_widget(form.createAt, {attr: {
+        class: 'form-control datetime'
+    }}) }}
+</div>
+{{ form_errors(form.createAt) }}
+
+<div class="form-group">
+    <label for="form_createAt">Автор комментария:</label>
+    {{ form_widget(form.name, {attr: {
+        class: 'form-control',
+        placeholder: 'Введите ФИО автора',
+    }}) }}
+</div>
+{{ form_errors(form.name) }}
+
+<div class="form-group">
+    <label for="form_createAt">Комментарий:</label>
+    {{ form_widget(form.message, {attr: {
+        class: 'form-control',
+        placeholder: 'Напишите отзыв о товаре',
+        rows:4
+    }}) }}
+</div>
+{{ form_errors(form.message) }}
+
+<button type="submit" class="btn btn-primary mr-2">{{ name_sumbit }}</button>
+{{ form_end(form) }}

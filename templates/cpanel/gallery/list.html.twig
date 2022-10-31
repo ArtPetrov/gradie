@@ -1,0 +1,94 @@
+{% extends 'cpanel/content.html.twig' %}
+
+{% block title %}{{ parent() }} - Галерея{% endblock %}
+
+{% block content %}
+    <div class="content-wrapper">
+        {% block breadcrumbs %}
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ path('cpanel.index') }}">Главная</a></li>
+                <li class="breadcrumb-item active">Галерея</li>
+            </ol>
+        {% endblock %}
+        <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card ">
+                <a href="{{ path('cpanel.album.create') }}" class="btn btn-success btn-rounded btn-fw">
+                    Создать альбом
+                </a>
+            </div>
+        </div>
+        {% include 'cpanel/_flashes.html.twig' %}
+        <div class="row">
+
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Список альбомов</h4>
+                        <div class="table-responsive pt-3">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <td><b>Название альбома</b></td>
+                                    <td class="text-center"><b>Фотографий</b></td>
+                                    <td class="text-right"><b>Действие</b></td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for album in gallery %}
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="d-flex flex-row align-items-center">
+                                                    <a class="move-position mdi mdi-arrow-up-bold-circle-outline icon-md text-secondary"
+                                                       data-path="{{ path('cpanel.album.position', {id:album.id}) }}"
+                                                       data-parent="tr"
+                                                       data-direction="up"
+                                                    ></a>
+                                                    <a class="move-position mdi mdi-arrow-down-bold-circle-outline icon-md text-secondary"
+                                                       data-path="{{ path('cpanel.album.position', {id:album.id}) }}"
+                                                       data-parent="tr"
+                                                       data-direction="down"
+                                                    ></a>
+                                                    <p class="mb-0 ml-1 pl-3 ">
+                                                        <a href="{{ path('cpanel.album',{id:album.id}) }}">{{ album.name.short }}</a>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <b>{{ album.images|length }}</b>
+                                        </td>
+                                        <td class="text-right">
+                                            <a href="{{ path('cpanel.album',{id:album.id}) }}"
+                                               class="btn btn-sm btn-info">Редактировать</a>
+                                            <button data-path="{{ path('cpanel.album.remove', {id:album.id}) }}"
+                                                    data-parent="tr"
+                                                    class="btn btn-sm btn-danger delete-element">
+                                                Удалить
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                {% else %}
+                                    <tr>
+                                        <td colspan="4" class="text-center">
+                                            Альбомы не найдены.
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                <input type="hidden" name="token_csrf" value="{{ csrf_token('any') }}"/>
+                                </tbody>
+                            </table>
+                            <div class="navigation" style="display:flex; margin-top: 30px">
+                                <div style="margin-left: auto;margin-right:auto">
+                                    {{ knp_pagination_render(gallery) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

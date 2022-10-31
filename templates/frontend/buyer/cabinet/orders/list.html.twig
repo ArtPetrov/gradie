@@ -1,0 +1,114 @@
+{% extends 'frontend/buyer/container.html.twig' %}
+
+{% block title %}Личный кабинет{% endblock %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a class="breadcrumbs__link" href="{{ path('index') }}">Главная</a>
+        <span class="breadcrumbs__separator"></span>
+        <a class="breadcrumbs__link" href="{{ path('buyer.index') }}">Кабинет</a>
+        <span class="breadcrumbs__separator"></span>
+    </div>
+{% endblock %}
+
+{% block headline %}
+    <h1 class="page-title">Кабинет</h1>
+{% endblock %}
+
+{% block sidebar %}
+    {% set current = app.request.pathinfo %}
+    {{ parent() }}
+{% endblock %}
+
+{% block sidebarContent %}
+    {% set current = app.request.pathinfo %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <table class="orders">
+        <tbody>
+        <tr class="orders__row  orders__row--th">
+            <th class="orders__th  orders__th--number">№ заказа</th>
+            <th class="orders__th  orders__th--goods">Товары</th>
+            <th class="orders__th  orders__th--status">Статус</th>
+            <th class="orders__th  orders__th--amount">Стоимость</th>
+        </tr>
+        {% for order in orders %}
+            <tr class="orders__row">
+                <td class="orders__td  orders__td--number" data-label="№ заказа:">
+                    {{ order.id }}
+                    <div class="orders__date">{{ order.createdAt|date('d.m.Y') }}</div>
+                </td>
+                <td class="orders__td">
+                    <span class="orders__goods"
+                          data-label="Товары:">{{ order.getTotalProducts }} {{ title_for_count(order.getTotalProducts,['товар','товара','товаров']) }}</span>
+                    <a class="orders__button" href="{{ path('buyer.order',{uuid:order.uuid}) }}">Подробнее</a>
+
+                    {% if order.invoicesForPay|length > 0 %}
+                        <a href="{{ path('payment.order',{'uuid':order.uuid}) }}"
+                           class="order__button  order__button--pay">
+
+                            {% if order.getTotalPrice == order.getTotalWaitPay %}
+                                Оплатить
+                            {% else %}
+                                Доплатить {{ order.getTotalWaitPay|number_format(2, '.',' ') }} ₽
+                            {% endif %}
+                        </a>
+
+                    {% endif %}
+
+                    {% if order.inProcessing %}
+                        <form
+                                action="{{ path('buyer.order.canceled', {'uuid': order.uuid}) }}"
+                                method="POST"
+                                onsubmit="return confirm('Вы уверены что хотите отменить заказ?')"
+                                style="display: inline-flex">
+                            <input type="hidden" name="token" value="{{ csrf_token('any') }}"/>
+                            <button type="submit" class="orders__button  orders__button--cancel">Отменить</button>
+                        </form>
+                    {% endif %}
+                </td>
+
+                {% if order.status.value =='PENDING_PAYMENT' %}
+                    <td class="orders__td  orders__td--status  orders__td--processing" data-label="Статус:">В
+                        обработке
+                    </td>
+                {% elseif order.status.value == 'IN_PROCESSING' %}
+                    <td class="orders__td  orders__td--status  orders__td--processing" data-label="Статус:">В
+                        обработке
+                    </td>
+                {% elseif order.status.value == 'IN_WORK' %}
+                    <td class="orders__td  orders__td--status  orders__td--processing" data-label="Статус:">В работе
+                    </td>
+                {% elseif order.status.value == 'COMPLETED' %}
+                    <td class="orders__td  orders__td--status  orders__td--completed" data-label="Статус:">Завершен</td>
+                {% elseif order.status.value == 'CANCELED_CLIENT' %}
+                    <td class="orders__td  orders__td--status  orders__td--canceled" data-label="Статус:">Вы отменили
+                        заказ
+                    </td>
+                {% elseif order.status.value == 'CANCELED' %}
+                    <td class="orders__td  orders__td--status  orders__td--canceled" data-label="Статус:">Отменен</td>
+                {% else %}
+                    <td class="orders__td  orders__td--status  orders__td--processing"
+                        data-label="Статус:">{{ order.status.value }}</td>
+                {% endif %}
+                <td class="orders__td  orders__td--amount" data-label="Сумма:">
+                    {% if order.status.value =='CANCELED_CLIENT' or order.status.value =='CANCELED' %}
+                        Счет закрыт
+                    {% else %}
+                        {{ order.getTotalPrice|number_format(2, '.',' ') }} ₽
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr class="orders__row">
+                <td colspan="4">
+                    Список заказов пустой
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {{ knp_pagination_render(orders,'frontend/buyer/cabinet/pagination.html.twig') }}
+{% endblock %}

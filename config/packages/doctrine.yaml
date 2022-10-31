@@ -1,0 +1,174 @@
+doctrine:
+  dbal:
+    driver: 'pdo_pgsql'
+    server_version: '12'
+    charset: utf8
+    default_table_options:
+      charset: utf8
+
+    url: '%env(resolve:DATABASE_URL)%'
+
+    mapping_types:
+      _int4: integer
+
+    types:
+      ecommerce.attribute.values: 'App\Model\Ecommerce\Entity\Attribute\ValuesType'
+      ecommerce.product.attributes: 'App\Model\Ecommerce\Entity\Product\AttributesType'
+      ecommerce.category.filters: 'App\Model\Ecommerce\Entity\Category\FiltersType'
+      ecommerce.type.array.integer: 'App\Model\Ecommerce\Helper\Type\ArrayInteger'
+      design.project.size: 'App\Model\DesignProject\Entity\SizeType'
+
+  orm:
+    auto_generate_proxy_classes: true
+    naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+    auto_mapping: true
+    hydrators:
+      FetchKeyPair: 'App\Hydrators\FetchKeyPair'
+
+    mappings:
+
+      Administrator:
+        is_bundle: false
+        type: annotation
+        dir: '%kernel.project_dir%/src/Model/Cpanel/Entity'
+        prefix: 'App\Model\Cpanel\Entity'
+        alias: Administrator
+
+      Dealer:
+        is_bundle: false
+        type: annotation
+        dir: '%kernel.project_dir%/src/Model/Dealer/Entity'
+        prefix: 'App\Model\Dealer\Entity'
+        alias: Dealer
+
+      File:
+        is_bundle: false
+        type: annotation
+        dir: '%kernel.project_dir%/src/Model/File/Entity'
+        prefix: 'App\Model\File\Entity'
+
+      News:
+        is_bundle: false
+        type: annotation
+        dir: '%kernel.project_dir%/src/Model/News/Entity'
+        prefix: 'App\Model\News\Entity'
+
+      Ticket:
+        is_bundle: false
+        type: annotation
+        dir: '%kernel.project_dir%/src/Model/Ticket/Entity'
+        prefix: 'App\Model\Ticket\Entity'
+
+      Mailer:
+        is_bundle: false
+        type: annotation
+        dir: '%kernel.project_dir%/src/Model/Mailer/Entity'
+        prefix: 'App\Model\Mailer\Entity'
+
+      Ecommerce:
+        is_bundle: false
+        type: annotation
+        dir: '%kernel.project_dir%/src/Model/Ecommerce/Entity'
+        prefix: 'App\Model\Ecommerce\Entity'
+
+      Page:
+        is_bundle: false
+        type: annotation
+        dir: '%kernel.project_dir%/src/Model/Page/Entity'
+        prefix: 'App\Model\Page\Entity'
+
+      Gallery:
+        is_bundle: false
+        type: annotation
+        dir: '%kernel.project_dir%/src/Model/Gallery/Entity'
+        prefix: 'App\Model\Gallery\Entity'
+
+      Article:
+        is_bundle: false
+        type: annotation
+        dir: '%kernel.project_dir%/src/Model/Article/Entity'
+        prefix: 'App\Model\Article\Entity'
+
+      Works:
+        is_bundle: false
+        type: annotation
+        dir: '%kernel.project_dir%/src/Model/Works/Entity'
+        prefix: 'App\Model\Works\Entity'
+
+      DesignProject:
+        is_bundle: false
+        type: annotation
+        dir: '%kernel.project_dir%/src/Model/DesignProject/Entity'
+        prefix: 'App\Model\DesignProject\Entity'
+
+      Lead:
+        is_bundle: false
+        type: annotation
+        dir: '%kernel.project_dir%/src/Model/Lead/Entity'
+        prefix: 'App\Model\Lead\Entity'
+
+      Salon:
+        is_bundle: false
+        type: annotation
+        dir: '%kernel.project_dir%/src/Model/Salon/Entity'
+        prefix: 'App\Model\Salon\Entity'
+
+      Slider:
+        is_bundle: false
+        type: annotation
+        dir: '%kernel.project_dir%/src/Model/Slider/Entity'
+        prefix: 'App\Model\Slider\Entity'
+
+      PopularProducts:
+        is_bundle: false
+        type: annotation
+        dir: '%kernel.project_dir%/src/Model/PopularProducts/Entity'
+        prefix: 'App\Model\PopularProducts\Entity'
+
+      Buyer:
+        is_bundle: false
+        type: annotation
+        dir: '%kernel.project_dir%/src/Model/Buyer/Entity'
+        prefix: 'App\Model\Buyer\Entity'
+
+      Review:
+        is_bundle: false
+        type: annotation
+        dir: '%kernel.project_dir%/src/Model/Review/Entity'
+        prefix: 'App\Model\Review\Entity'
+
+      QuickOrder:
+        is_bundle: false
+        type: annotation
+        dir: '%kernel.project_dir%/src/Model/QuickOrder/Entity'
+        prefix: 'App\Model\QuickOrder\Entity'
+
+      Promocode:
+        is_bundle: false
+        type: annotation
+        dir: '%kernel.project_dir%/src/Model/Promocode/Entity'
+        prefix: 'App\Model\Promocode\Entity'
+
+      Basket:
+        is_bundle: false
+        type: annotation
+        dir: '%kernel.project_dir%/src/Model/Basket/Entity'
+        prefix: 'App\Model\Basket\Entity'
+
+      Order:
+        is_bundle: false
+        type: annotation
+        dir: '%kernel.project_dir%/src/Model/Order/Entity'
+        prefix: 'App\Model\Order\Entity'
+
+      Payment:
+        is_bundle: false
+        type: annotation
+        dir: '%kernel.project_dir%/src/Model/Payment/Entity'
+        prefix: 'App\Model\Payment\Entity'
+
+      Quiz:
+        is_bundle: false
+        type: annotation
+        dir: '%kernel.project_dir%/src/Model/Quiz/Entity'
+        prefix: 'App\Model\Quiz\Entity'

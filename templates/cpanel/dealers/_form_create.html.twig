@@ -1,0 +1,109 @@
+{{ form_start(form,{
+    attr: {
+        class:'forms-sample'
+    }
+}) }}
+
+<div class="form-group">
+    <label for="exampleSelectCategory">Категория дилера:</label>
+    {{ form_widget(form.category, {attr: {
+        id: 'exampleSelectCategory',
+        class: 'form-control'
+    }}) }}
+</div>
+{{ form_errors(form.category) }}
+
+<div class="form-group">
+    <label for="exampleSelectManager">Назначить менеджера:</label>
+    {{ form_widget(form.manager, {attr: {
+        id: 'exampleSelectManager',
+        class: 'form-control'
+    }}) }}
+</div>
+{{ form_errors(form.manager) }}
+
+<div class="form-group">
+    <label for="exampleInputName">ФИО:</label>
+    {{ form_widget(form.name, {attr: {
+        id: 'exampleInputName',
+        class: 'form-control'
+    }}) }}
+</div>
+{{ form_errors(form.name) }}
+<div class="form-group">
+    <label for="exampleInputEmail">Email адрес:</label>
+    {{ form_widget(form.email, {attr: {
+        id: 'exampleInputEmail',
+        class: 'form-control'
+    }}) }}
+</div>
+{{ form_errors(form.email) }}
+
+<div class="form-group">
+    <label for="exampleInputPhone">Телефон:</label>
+    {{ form_widget(form.phone, {attr: {
+        id: 'exampleInputPhone',
+        class: 'form-control'
+    }}) }}
+</div>
+{{ form_errors(form.phone) }}
+
+<div class="form-group">
+    <label for="exampleInputSite">Веб-сайт:</label>
+    {{ form_widget(form.site, {attr: {
+        id: 'exampleInputSite',
+        class: 'form-control'
+    }}) }}
+</div>
+{{ form_errors(form.site) }}
+
+<div class="form-group">
+    <label for="exampleContragent">Контрагент:</label>
+    {{ form_widget(form.contrahens, {attr: {
+        id: 'exampleContragent',
+        class: 'form-control'
+    }}) }}
+</div>
+{{ form_errors(form.contrahens) }}
+
+<div class="form-group">
+    <label for="exampleInputAddress">Адрес:</label>
+    {{ form_widget(form.address, {attr: {
+        id: 'exampleInputAddress',
+        class: 'form-control'
+    }}) }}
+</div>
+{{ form_errors(form.address) }}
+
+
+<div class="form-group">
+    <label for="exampleInputInn">ИНН:</label>
+    {{ form_widget(form.inn, {attr: {
+        id: 'exampleInputInn',
+        class: 'form-control'
+    }}) }}
+</div>
+{{ form_errors(form.inn) }}
+
+<div class="form-group">
+    <label for="exampleInputKpp">КПП:</label>
+    {{ form_widget(form.kpp, {attr: {
+        id: 'exampleInputKpp',
+        class: 'form-control'
+    }}) }}
+</div>
+{{ form_errors(form.kpp) }}
+
+
+<div class="form-check form-check-flat form-check-primary mt-2 mb-4">
+    <label class="form-check-label">
+        {{ form_widget(form.notification, {attr: {
+            class: 'form-check-input'
+        }}) }}
+        Хочу получать рассылку на электронный ящик
+        <i class="input-helper"></i></label>
+</div>
+{{ form_errors(form.notification) }}
+
+<button type="submit" class="btn btn-primary mr-2">{{ name_sumbit }}</button>
+{{ form_end(form) }}

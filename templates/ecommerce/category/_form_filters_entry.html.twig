@@ -1,0 +1,26 @@
+{% block _form_filters_entry_widget %}
+    <li class="d-flex flex-nowrap mt-3">
+        <div class="col-sm-3">
+            <input type="text" class="form-control name-attribute" placeholder="Название" disabled>
+            {{ form_row(form.slug) }}
+        </div>
+        <div class="col-sm-3">
+            <input type="text" class="form-control name-type-field" placeholder="Тип" disabled>
+            {{ form_row(form.type) }}
+        </div>
+        <div class="col-sm-4">
+            {{ form_widget(form.label, {attr: {
+                placeholder: 'Надпись у фильтра',
+                class: 'form-control'
+            }}) }}
+        </div>
+        <div class="col-sm-2 flex-nowrap">
+            <button type="button" class="btn btn-inverse-success btn-icon move-filter">
+                <i class="mdi mdi-priority-high"></i>
+            </button>
+            <button type="button" class="btn btn-inverse-danger btn-icon ml-2 remove-filter">
+                <i class="mdi mdi-delete-forever"></i>
+            </button>
+        </div>
+    </li>
+{% endblock %}

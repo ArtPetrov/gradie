@@ -1,0 +1,76 @@
+{% extends 'frontend/container.html.twig' %}
+
+{% block title %}{{ seo.title|default('Корзина') }}{% endblock %}
+{% block keywords %}{{ seo.keywords|default('Корзина') }}{% endblock %}
+{% block description %}{{ seo.description|default('Корзина') }}{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('frontend.basket') }}
+{% endblock %}
+
+{% block contextSlider %}
+    {{ slider_context(2) }}
+{% endblock %}
+
+{% block main %}
+
+    <div class="breadcrumbs">
+        <a class="breadcrumbs__link" href="{{ path('index') }}">Главная</a>
+        <span class="breadcrumbs__separator"></span>
+    </div>
+
+    <h1 class="page-title">Корзина</h1>
+
+    <div class="wrap basket-content" style="display: none">
+
+        <div class="cart-items basket-items" data-template='
+            <div class="cart-item">
+                <a href="__link__"><img class="cart-item__image" src="__cover__" width="90" height="90" alt="" /></a>
+                <p class="cart-item__title"><a href="__link__">__name__</a></p>
+                <p class="cart-item__price">
+                    __price__
+                </p>
+                <div class="cart-item__bottom">
+                    <input name="product-id" type="hidden" value="__id__" />
+                    <input class="cart-item__quantity basket-update-count" type="number" value="__count__" />
+                    <a href="javascript:void(0)" class="cart-item__del basket-remove">Удалить</a>
+                </div>
+            </div>'
+             data-template-price='__cost-total__<span class="cart-item__price-per-item">__cost__/шт</span>'
+             data-template-price-old='
+                    <span class="cart-item__price-new">__cost-total__</span>
+                    <span class="cart-item__price-per-item">__cost__/шт</span>
+                    <span class="cart-item__price-per-item-old">__cost-old__/шт</span>'>
+        </div>
+
+        <div class="cart-order order-information">
+            <p class="cart-order__total">Сумма заказа:</p>
+            <p class="cart-order__amount total-price"></p>
+            <p class="cart-order__total promocode-info" style="display: none">Скидка по промокоду:</p>
+            <p class="cart-order__amount promocode-info promocode-discount" style="display: none"></p>
+            <p class="cart-order__total promocode-info" style="display: none">Итоговая сумма:</p>
+            <p class="cart-order__amount promocode-info promocode-total-price" style="display: none"></p>
+            <a href="{{ path('ordering.step1') }}">
+                <button type="button" class="cart-order__submit">Оформить заказ</button>
+            </a>
+
+            <div class="cart-order__promo">
+                <label class="cart-order__promo-caption" for="">У меня есть промокод:</label>
+                <div class="cart-order__promo-fields">
+                    <input class="cart-order__promo-input" name="promocode" type="text" value=""
+                           placeholder="Введите свой промокод"/>
+                    <input type="hidden" name="path-promocode" value="{{ path('promo.check') }}"/>
+                    <button class="cart-order__promo-button promocode-send" type="button">Применить</button>
+                </div>
+                <p class="cart-order__promo-info promocode-message"></p>
+            </div>
+        </div>
+
+    </div>
+
+    <h3 class="basket-empty">Ваша корзина пустая.</h3>
+
+    {{ recommended_for_basket(basket_token.token) }}
+
+{% endblock %}

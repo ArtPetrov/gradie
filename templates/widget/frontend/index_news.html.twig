@@ -1,0 +1,23 @@
+{% if articles|length > 0 %}
+    <section class="news">
+        <div class="headline">
+            <h2 class="heading">
+                <a href="{{path('articles')}}">Новости</a>
+            </h2>
+            <a class="headline__all" href="{{path('articles')}}">Все новости</a>
+        </div>
+        <ul class="news__list">
+            {% for news in articles %}
+            <li class="news__item">
+                {% if news.cover is null %}
+                    <img class="news__image" src="https://imgholder.ru/220x320/EEE/" width="220" height="320" alt="{{news.name}}" />
+                {% else %}
+                    <img class="news__image" src="{{news.cover|imagine_filter('article_220_320')}}" width="220" height="320" alt="{{news.name}}" />
+                {% endif %}
+                <time class="news__date" datetime="{{ news.date|date('Y-m-d') }}">{{ news.date|date('d.m.Y') }}</time>
+                <a class="news__title" href="{{path('article',{id:news.id})}}">{{news.name}}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+{% endif %}

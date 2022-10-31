@@ -1,0 +1,492 @@
+<div class="card-body dashboard-tabs p-0">
+    <ul class="nav nav-tabs px-4" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="manager-tab" data-toggle="tab" href="#manager" role="tab"
+               aria-controls="manager"
+               aria-selected="true">Управление заказом</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="client-info-tab" data-toggle="tab" href="#client-info" role="tab"
+               aria-controls="client-info" aria-selected="false">Информация о клиенте</a>
+        </li>
+        {% if order.status.inProcessCreating %}
+            <li class="nav-item">
+                <a class="nav-link" id="basket-tab" data-toggle="tab" href="#basket" role="tab" aria-controls="basket"
+                   aria-selected="false">Корзина клиента</a>
+            </li>
+        {% else %}
+            <li class="nav-item">
+                <a class="nav-link" id="composition-tab" data-toggle="tab" href="#composition" role="tab"
+                   aria-controls="composition" aria-selected="false">Сформированный состав</a>
+            </li>
+        {% endif %}
+        <li class="nav-item">
+            <a class="nav-link" id="invoices-tab" data-toggle="tab" href="#invoices" role="tab"
+               aria-controls="invoices"
+               aria-selected="false">Счета по заказу</a>
+        </li>
+        {% if order.hasPromocode %}
+            <li class="nav-item">
+                <a class="nav-link" id="promocode-tab" data-toggle="tab" href="#promocode" role="tab"
+                   aria-controls="promocode"
+                   aria-selected="false">Промокод</a>
+            </li>
+        {% endif %}
+    </ul>
+
+    <div class="tab-content py-0 px-0">
+
+        <div class="tab-pane fade active show" id="manager" role="tabpanel" aria-labelledby="manager-tab">
+            <div class="m-5">
+                <div class="d-flex d-inline">
+                    <div class="flex-grow-1">
+                        <h5>Заказ {{ order.id }} от {{ order.createdAt|date('d.m.Y H:i') }}</h5>
+                        {% if order.payment.online %}<span class="badge badge-success">Онлайн оплата</span>{% endif %}
+                        {% if order.payment.cash %}<span class="badge badge-success">Наличными курьеру</span>{% endif %}
+                    </div>
+                    {% if order.status.value != 'COMPLETED' and order.status.value != 'CANCELED' and order.status.value != 'CANCELED_CLIENT' %}
+                        <form
+                                action="{{ path('cpanel.order.canceled', {'id': order.id}) }}"
+                                method="POST"
+                                onsubmit='return confirm("Вы уверены что хотите отменить заказ? \nВсе счета будут отменены! \n ЗАКАЗ БУДЕТ НЕ ВОССТАНОВИТЬ!")'
+                                class="form-inline">
+                            <input type="hidden" name="token" value="{{ csrf_token('any') }}"/>
+                            <button type="submit" class="btn btn-danger  btn-sm">Отменить заказ</button>
+                        </form>
+                    {% endif %}
+                    {% if not order.status.inProcessCreating %}
+                    <form
+                            action="{{ path('cpanel.order.copy', {'id': order.id}) }}"
+                            method="POST"
+                            onsubmit='return confirm("Вы уверены что хотите создать копию заказа? \nТекущий заказ будет закрыт!")'
+                            class="form-inline ml-3">
+                        <input type="hidden" name="token" value="{{ csrf_token('any') }}"/>
+                        <button type="submit" class="btn btn-info  btn-sm">
+                            Создать копию
+                            {% if order.status.value != 'COMPLETED' and order.status.value != 'CANCELED' and order.status.value != 'CANCELED_CLIENT' %}
+                                и закрыть текущий
+                            {% endif %}
+                        </button>
+                    </form>
+                    {% endif %}
+                </div>
+                {{ form_start(manager,{
+                    attr: {
+                        class:'forms-sample mt-4',
+                    }
+                }) }}
+
+                <div class="form-group row{% if manager.vars.value.status is null %} d-none{% endif %}">
+                    <label class="col-form-label mr-4">Статус:</label>
+                    <div>
+                        {% if manager.vars.value.status not in ['CANCELED','CANCELED_CLIENT','COMPLETED'] %}
+                            {{ form_widget(manager.status, {attr: {
+                                class: 'form-control'
+                            }}) }}
+                        {% else %}
+                            {{ form_widget(manager.status, {attr: {
+                                class: 'form-control',
+                                disabled: 'disabled'
+                            }}) }}
+                        {% endif %}
+                    </div>
+
+                    {{ form_errors(manager.status) }}
+                </div>
+
+                <div class="form-group row{% if manager.vars.value.status is not null %} d-none{% endif %}">
+                    <label class="col-form-label mr-4">Статус:</label>
+                    <div>
+                        <input class="form-control" readonly="" style="width: 250px;"
+                               value="{{ manager.vars.value.currentStatus }}"/>
+                    </div>
+                    <span class="card-description pt-3 ml-3">Необходимо сформировать заказ, чтобы поле стало доступным!</span>
+                </div>
+
+                <div class="form-group">
+                    <label>Комментарий по заказу</label>
+                    {{ form_widget(manager.comment, {attr: {
+                        class: 'form-control',
+                        placeholder: 'Видят только менеджеры',
+                        rows:5
+                    }}) }}
+                    {{ form_errors(manager.comment) }}
+                </div>
+                <div class="d-flex d-inline">
+                    <div class="flex-grow-1">
+                        <button type="submit" class="btn btn-primary mr-2">Обновить информацию</button>
+                        {{ form_end(manager) }}
+                    </div>
+                    {% if order.status.inProcessCreating %}
+                        <form
+                                action="{{ path('cpanel.order.compile', {'id': order.id}) }}"
+                                method="POST"
+                                onsubmit='return confirm("Вы уверены что хотите сформировать заказ? \n\nСостав заказа будет не изменить!")'
+                                class="form-inline">
+                            <input type="hidden" name="token" value="{{ csrf_token('any') }}"/>
+                            <button type="submit" class="btn btn-info ">Сформировать заказ!</button>
+                        </form>
+                    {% endif %}
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="client-info" role="tabpanel" aria-labelledby="client-info-tab">
+            <div class=" m-5">
+
+                <div class="form-group row">
+                    <label for="infoName" class="col-sm-2 col-form-label">ФИО:</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="infoName" value="{{ order.contact.name }}" readonly>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="infoEmail" class="col-sm-2 col-form-label">Телефон:</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="infoEmail" value="{{ order.contact.phone }}"
+                               readonly>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="infoEmail" class="col-sm-2 col-form-label">Email:</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="infoEmail" value="{{ order.contact.email }}"
+                               readonly>
+                    </div>
+                </div>
+
+                {% if order.address.type is not null %}
+                    <hr/>
+                    <h6>Информация по доставке:</h6>
+                    <hr/>
+
+                    <div class="form-group">
+                        <label for="infoEmail">Тип доставки:</label>
+                        <input type="text" class="form-control" id="infoEmail" value="
+{% if order.address.type=='moscow' %}в Москву
+{% elseif  order.address.type == 'regions' %}в Регион
+{% elseif  order.address.type == 'pickup' %}Самовывоз со склада
+{% endif %}
+" readonly>
+                    </div>
+                    {% for key,value in order.address.fields %}
+
+                        {% if key=='city' %}
+                            <div class="form-group">
+                                <label for="info{{ key }}">Город:</label>
+                                <input type="text" class="form-control" id="info{{ key }}" value="{{ value }}" readonly>
+                            </div>
+                        {% endif %}
+
+                        {% if key=='address' %}
+                            <div class="form-group">
+                                <label for="info{{ key }}">Адрес:</label>
+                                <input type="text" class="form-control" id="info{{ key }}" value="{{ value }}" readonly>
+                            </div>
+                        {% endif %}
+
+                        {% if key=='transportCompany' %}
+                            <div class="form-group">
+                                <label for="info{{ key }}">Транспортная компания:</label>
+                                <input type="text" class="form-control" id="info{{ key }}" value="{{ value }}" readonly>
+                            </div>
+                        {% endif %}
+
+                        {% if key=='deliveryTo' %}
+                            <div class="form-group">
+                                <label for="info{{ key }}">Доставка:</label>
+                                <input type="text" class="form-control" id="info{{ key }}" value="
+{% if value=='abroad' %}За МКАД ({{ order.address.fields['howManyKm'] }} км)
+{% elseif value=='mkad' %}В пределах МКАД
+{% elseif value=='company' %}До терминала транспортной компании
+{% elseif value=='home' %}До Вашего адреса (курьером транспортной компании)
+{% endif %}
+" readonly>
+                            </div>
+                        {% endif %}
+
+                        {% if key=='insurance' %}
+                            <div class="form-group">
+                                <label for="info{{ key }}">Страхование груза:</label>
+                                <input type="text" class="form-control" id="info{{ key }}" value="
+{% if value %}Да
+{% else %}Нет
+{% endif %}
+" readonly>
+                            </div>
+                        {% endif %}
+
+                        {% if key=='tightPacking' %}
+                            <div class="form-group">
+                                <label for="info{{ key }}">Жесткая упаковка (обрешетка, паллетный борт и т. д):</label>
+                                <input type="text" class="form-control" id="info{{ key }}" value="
+{% if value %}Да
+{% else %}Нет
+{% endif %}
+" readonly>
+                            </div>
+                        {% endif %}
+
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+        {% if order.status.inProcessCreating %}
+            <div class="tab-pane fade" id="basket" role="tabpanel" aria-labelledby="basket-tab">
+                <div class="m-5">
+
+                    <div class="form-group mb-5">
+                        <input id='basket-search' class="form-control col-12"
+                               placeholder="Введите название или артикул товара, который хотите добавить в корзину клиента."
+                               autocomplete="off">
+                    </div>
+
+                    <hr>
+
+                    <table class="table basket-table"
+                           data-token="{{ csrf_token('any') }}"
+                           data-path="{{ path('cpanel.order.basket',{id:order.id}) }}"
+                           data-prototype='
+ <tr class="product-table"  data-id="__id__">
+                                <td class="text-center"><a href="{{ path('product',{id:-100}) }}">__id__</a></td>
+                                <td class="text-center"><b>__article__</b></td>
+                                <td>__name__</td>
+                                <td class="text-center">
+                                    <input type="text" class="product-count form-control text-center ml-auto mr-auto"
+                                           style="width: 70px;" value="__count__">
+                                </td>
+                                <td class="text-right price">__price__</td>
+                                <td class="text-right"><b class="total-price">__total__</b></td><td class="text-right">
+                                    <button class="btn btn-sm btn-danger remove-product">Удалить</button>
+                                </td>
+                            </tr>
+'/>
+                    <thead>
+                    <tr>
+                        <th class="text-center">ID</th>
+                        <th class="text-center">Артикул</th>
+                        <th>Название</th>
+                        <th class="text-center">Количество</th>
+                        <th class="text-center">Цена</th>
+                        <th class="text-center">Итого</th>
+                        <th class="text-center">Действие</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in basket %}
+                        <tr class="product-table" data-id="{{ item.product.id }}">
+                            <td class="text-center">
+                                <a href="{{ path('product',{id:item.product.id}) }}">{{ item.product.id }}</a>
+                            </td>
+                            <td class="text-center"><b>{{ item.product.info.article }}</b></td>
+                            <td>{{ item.product.info.name }}</td>
+                            <td class="text-center">
+                                <input type="text" class="product-count form-control text-center ml-auto mr-auto"
+                                       style="width: 70px;" value="{{ item.count }}">
+                            </td>
+                            <td class="text-right price">{{ item.product.getFinishPrice|number_format(2, '.',' ') }}</td>
+                            <td class="text-right">
+                                <b class="total-price">{{ (item.product.getFinishPrice*item.count)|number_format(2, '.',' ') }}</b>
+                            </td>
+                            <td class="text-right">
+                                <button class="btn btn-sm btn-danger remove-product">Удалить</button>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="6" class="text-center">
+                                Товары в корзине не обнаружены. Возможно клиент очистил корзину.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    </table>
+
+                    <div class="totalPriceRow text-right mt-2" >
+                        <i class="pr-2">Сумма заказа за товары: </i><b class="totalPriceSum">0</b> ₽
+                    </div>
+
+                </div>
+            </div>
+        {% else %}
+            <div class="tab-pane fade" id="composition" role="tabpanel" aria-labelledby="composition-tab">
+                <div class="m-5">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th class="text-center">ID</th>
+                            <th class="text-center">Артикул</th>
+                            <th>Название</th>
+                            <th class="text-center">Вес</th>
+                            <th class="text-center">Объем</th>
+                            <th class="text-center">Количество</th>
+                            <th class="text-center">Цена</th>
+                            <th class="text-center"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for product in order.products %}
+                            <tr>
+                                <td class="text-center">
+                                    <a href="{{ path('product',{id:product.productId}) }}">{{ product.productId }}</a>
+                                </td>
+                                <td class="text-center"><b>{{ product.article }}</b></td>
+                                <td>{{ product.name }}</td>
+                                <td class="text-center">{{ product.weight|number_format(3, '.',' ') }}</td>
+                                <td class="text-center">{{ product.volume|number_format(3, '.',' ') }}</td>
+                                <td class="text-right">{{ product.count }}</td>
+                                <td class="text-right">{{ product.price|number_format(2, '.',' ') }}</td>
+                                <td class="text-right">
+                                    <b>{{ (product.price*product.count)|number_format(2, '.',' ') }}</b></td>
+                            </tr>
+                            {% if loop.last %}
+                                <tr>
+                                    <td class="text-right" colspan="7">
+                                        <i>Сумма заказа за товары:</i>
+                                    </td>
+                                    <td class="text-center">
+                                        <b>{{ order.getTotalPriceProducts|number_format(2, '.',' ') }}</b></td>
+                                </tr>
+                            {% endif %}
+                        {% else %}
+                            <tr>
+                                <td colspan="8" class="text-center">
+                                    Товары не обнаружены.
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if order.hasPromocode %}
+            <div class="tab-pane fade" id="promocode" role="tabpanel" aria-labelledby="promocode-tab">
+                <div class="m-5">
+                    <div class="form-group">
+                        <label>Код:</label>
+                        <input type="text" class="form-control" value="{{ order.promocode.code }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Спецификация:</label>
+                        <textarea class="form-control" rows="7">
+{% for key,value in order.promocode.details %}{{ key|upper }}: {{ value }}
+{% endfor %}
+                        </textarea>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="tab-pane fade" id="invoices" role="tabpanel" aria-labelledby="invoices-tab">
+            <div class="m-5">
+                {% if manager.vars.value.status not in ['CANCELED','CANCELED_CLIENT','COMPLETED'] %}
+                    {{ form_start(invoiceForm,{
+                        attr: {
+                            class:'form-inline'
+                        }
+                    }) }}
+
+                    <div class="input-group mb-2 mr-sm-2" style="width: 180px;">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">Сумма</div>
+                        </div>
+                        {{ form_widget(invoiceForm.sum, {attr: {
+                            class: 'form-control'
+                        }}) }}
+                    </div>
+
+                    <div class="input-group mb-2 mr-sm-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">Тип</div>
+                        </div>
+                        {{ form_widget(invoiceForm.type, {attr: {
+                            class: 'form-control'
+                        }}) }}
+                    </div>
+
+                    <div class="input-group mb-2 flex-grow-1 mr-sm-2">
+                        {{ form_widget(invoiceForm.comment, {attr: {
+                            class: 'form-control',
+                            placeholder: 'Комментарий',
+                        }}) }}
+                    </div>
+
+                    <button type="submit" class="btn btn-primary mb-2 ml-4 mr-4">Создать счет</button>
+                    {{ form_end(invoiceForm) }}
+
+                    <hr class="mt-4 mb-2">
+                        {%  if order.invoicesForPay|length>0 %}
+                            <div class="d-flex">
+                            <a href="{{ path('payment.order', {'uuid': order.uuid}) }}" class="btn btn-success mt-3 mb-3 ml-auto mr-auto">Ссылка на оплату заказа</a>
+                            </div>
+                        {% endif %}
+                {% endif %}
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th class="text-center">Тип</th>
+                        <th class="text-center">Сумма</th>
+                        <th class="text-center">Дата формирования</th>
+                        <th class="text-center">Статус</th>
+                        <th>Комментарий</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for invoice in order.invoices %}
+                        <tr>
+                            <td class="text-center">
+                                {% if invoice.type.value =='MAIN' %}
+                                    <span class="badge badge-info">Основной</span>
+                                {% elseif  invoice.type.value == 'SHIPPING' %}
+                                    <span class="badge badge-primary">Доставка</span>
+                                {% elseif  invoice.type.value == 'ADDITIONAL' %}
+                                    <span class="badge badge-success">Дополнительный</span>
+                                {% endif %}
+                            </td>
+                            <td class="text-right">{{ invoice.sum|number_format(2, '.',' ') }}</td>
+                            <td class="text-center">{{ invoice.createdAt|date('d.m.Y H:i') }}</td>
+                            <td class="text-center d-flex d-inline">
+
+                                {% if invoice.status.value =='CREATE' %}
+                                    <a class="badge badge-link" href="{{ path('payment.invoice', {'id': invoice.id}) }}">Ссылка на оплату</a>
+                                    <span class="badge badge-warning">Ожидает оплаты</span>
+                                {% elseif  invoice.status.value == 'PAID' %}
+                                    <span class="badge badge-success">Оплачено</span>
+                                {% elseif  invoice.status.value == 'CANCEL' %}
+                                    <span class="badge badge-primary">Отменено</span>
+                                {% endif %}
+                                {% if invoice.status.canBeCanceled %}
+                                    <form
+                                            action="{{ path('cpanel.invoice.canceled', {'id': invoice.id}) }}"
+                                            method="POST"
+                                            onsubmit="return confirm('Вы уверены что хотите отменить счет?')"
+                                            class="form-inline">
+                                        <input type="hidden" name="token" value="{{ csrf_token('any') }}"/>
+                                        <button type="submit" class="btn btn-danger badge ml-3">Отменить</button>
+                                    </form>
+                                {% endif %}
+                            </td>
+                            <td>{{ invoice.comment }}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="5" class="text-center">
+                                Счета не обнаружены.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+

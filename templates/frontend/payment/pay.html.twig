@@ -1,0 +1,36 @@
+{% extends 'frontend/container.html.twig' %}
+
+{% block title %}{{ seo.title|default('Оплатить счет') }}{% endblock %}
+{% block keywords %}{{ seo.keywords|default('Оформление заказа') }}{% endblock %}
+{% block description %}{{ seo.description|default('Оформление заказа') }}{% endblock %}
+
+{% block contextSlider %}
+    {{ slider_context(2) }}
+{% endblock %}
+
+{% block main %}
+
+    <div class="breadcrumbs">
+        <a class="breadcrumbs__link" href="{{ path('index') }}">Главная</a>
+        <span class="breadcrumbs__separator"></span>
+    </div>
+    {{ form_start(form, {
+        attr: {
+            class:'ordering',
+        }
+    }) }}
+
+    <h1 class="page-title">Cчет для заказа № {{ payment.order.id }}</h1>
+
+    <h2 class="ordering__heading"><span class="ordering__step">!</span>К оплате: {{ payment.sum|number_format(2, '.',' ') }} Р</h2>
+
+    <input type="hidden" name="MNT_ID" value="{{getParam('moneta_id')}}">
+    <input type="hidden" name="MNT_TRANSACTION_ID" value="{{form.vars.value.id}}">
+    <input type="hidden" name="MNT_CURRENCY_CODE" value="RUB">
+    <input type="hidden" name="MNT_AMOUNT" value="{{form.vars.value.sum|number_format(2, '.',' ')}}">
+    <input type="hidden" name="MNT_DESCRIPTION" value="Оплата счета №{{ payment.order.id }}/{{ form.vars.value.id }}">
+
+    <button class="ordering__button  ordering__button--pay" type="submit">Оплатить</button>
+    {{ form_end(form) }}
+
+{% endblock %}

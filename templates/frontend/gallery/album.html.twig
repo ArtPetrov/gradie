@@ -1,0 +1,35 @@
+{% extends 'frontend/pages/container.html.twig' %}
+
+{% block title %}{{ album.seo.title|default('Заголовок страницы') }}{% endblock %}
+{% block keywords %}{{ album.seo.keywords|default('Ключевые слова') }}{% endblock %}
+{% block description %}{{ album.seo.description|default('Описание') }}{% endblock %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a class="breadcrumbs__link" href="{{ path('index') }}">Главная</a>
+        <span class="breadcrumbs__separator"></span>
+        <a class="breadcrumbs__link" href="{{ path('galleries') }}">Галерея</a>
+        <span class="breadcrumbs__separator"></span>
+    </div>
+{% endblock %}
+
+{% block headline %}
+    <div class="news-page__headline">
+        <h1 class="page-title news-page__title">{{ album.name.full }}</h1>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="content">
+        <ul class="album">
+            {% for image in album.images %}
+                <li class="album__item">
+                    <a class="album__link" href="{{ asset( 'files/'~image.file.path) }}">
+                        <img class="album__image" src="{{ image.file.path|imagine_filter('gallery_215_215') }}"
+                             width="215" height="215"/>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% if products|length > 0 %}
+    <div class="recommend">
+        <h2 class="recommend__heading">С этим товаром покупают</h2>
+        <div class="recommend__items">
+            {% for product in products %}
+                <div class="recommend__item">
+                    <a href="{{ path('product',{id:product.id}) }}">
+                    <img class="recommend__image"
+                         src="{% if product.cover %}{{ product.cover|imagine_filter('product_95_95') }}{% else %}https://imgholder.ru/95/DDD/&text=Нет фото&font=kelson{% endif %}"
+                         width="95" height="95" alt="{{ product.name }}"/>
+                    </a>
+                    <a class="recommend__title"
+                       href="{{ path('product',{id:product.id}) }}">{{ product.name }}</a>
+                    <div class="recommend__bottom">
+                        {% if product.old_cost > 0 %}
+                            <p class="recommend__price">
+                                <span class="recommend__price-new">{{ product.cost|number_format(0, '.',' ') }} ₽</span>
+                                <span class="recommend__price-old">{{ product.old_cost|number_format(0, '.',' ') }} ₽</span>
+                            </p>
+                        {% else %}
+                            <p class="recommend__price">{{ product.cost|number_format(0, '.',' ') }}
+                                ₽</p>
+                        {% endif %}
+                        <button class="recommend__button basket-adding" type="button"
+                                data-id="{{ product.id }}">В корзину
+                        </button>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}

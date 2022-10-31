@@ -1,0 +1,45 @@
+{% extends 'cpanel/content.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('cpanel.datetime') }}
+{% endblock %}
+
+{% block title %}{{ parent() }} - Редактировать отзыв{% endblock %}
+
+{% block content %}
+    <div class="content-wrapper">
+        {% block breadcrumbs %}
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ path('cpanel.index') }}">Главная</a></li>
+                <li class="breadcrumb-item"><a href="{{ path('cpanel.reviews') }}">Отзывы</a></li>
+                <li class="breadcrumb-item active">Отзыв от
+                    {% if review.buyer is not null %}
+                        <a href="{{ path('cpanel.buyer.edit',{id: review.buyer.id}) }}">{{ review.name }}</a>
+                    {% else %}
+                        {{ review.name }}
+                    {% endif %}
+                </li>
+                <li class="ml-auto">[<a href="{{ path('cpanel.product',{id:review.product.id}) }}" >
+                        Перейти к товару
+                    </a>]</li>
+            </ol>
+        {% endblock %}
+        {% include 'cpanel/_flashes.html.twig' %}
+        <div class="row">
+
+            <div class="col-lg-12 grid-margin stretch-card">
+
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title">Редактировать отзыв</h2>
+                        <p class="card-description"></p>
+                        {{ include('cpanel/review/_form.html.twig',{
+                            name_sumbit:'Редактировать отзыв'
+                        }) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

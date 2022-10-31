@@ -1,0 +1,108 @@
+"passwords.not.equal": "Пароли не совпадают. Укажите одинаковые пароли."
+"email.duplicate": "Извините, этот адрес e-mail уже занят другим администратором."
+"administrator.created": "Администратор добавлен!"
+"administrator.updated": "Информация обновлена!"
+
+"manager.created": "Менеджер добавлен!"
+"manager.updated": "Информация о менджера обновлена!"
+
+"category.dealer.created": "Категория дилеров создана!"
+"category.dealer.updated": "Инфомарция о категории дилеров обновлена!"
+
+"dealer.created": "Дилер добавлен в систему."
+"dealer.updated": "Информация о дилере обновлена."
+"dealer.blocked": "Дилер заблокирован."
+"dealer.unblock": "Блокировка с дилера снята."
+"dealer.active": "Дилер активирован в системе."
+"dealer.assign.salon": "Салон привязан к дилеру."
+"dealer.not.assign.exist": "Ошибка добавления салона. Салону уже присвоен этот дилер."
+"dealer.not.assign.busy": "Ошибка добавления салона. У салона уже есть дилер."
+
+"news.created": "Новость добавлена."
+"news.updated": "Новость отредактирована."
+
+"mailing.created": "Рассылка создана и отправлена в работу."
+"mailer.select.type.recipient": "Выберите кому будет отправлено письмо."
+"mailer.recipient.email.null": "Email список адресатов пустой или заполнен неверно."
+"mailer.recipient.categories.null": "Выберите какой категории будет отправлено письмо."
+"mailer.recipient.categories.not.dealers": "В указанных категориях нет дилеров."
+
+"page.created": "Страница добавлена на сайт."
+"page.updated": "Страница обновлена."
+
+"album.created": "Альбом добавлен в галерею."
+"album.updated": "Альбом обновлен."
+"album.not.set.cover": "Выберите обложку альбома."
+
+"article.created": "Новость опубликована на сайте."
+"article.updated": "Новость обновлена"
+"article.not.set.cover": "Выберите обложку для новости."
+
+"work.created": "Работа опубликована на сайте."
+"work.updated": "Работа обновлена"
+"work.not.set.cover": "Выберите обложку для работы."
+
+"project.updated": "Заявка на дизайн-проект обновлена."
+
+"salon.not.found": "Салон не найден."
+"salon.append": "Салон добавлен на сайт."
+"salon.updated": "Салон отредактирован."
+"salon.request.cancel": "Заявка отклонена.
+"
+"cover.not.upload": "Загрузите фотографию для слайда"
+"cover.not.valid": "Вы должны загрузить фотографию"
+"slider.created": "Слайдер добавлен на сайт"
+"slider.updated": "Слайдер обновлен"
+
+"popular.product.created": "Элемент в популярные добавлен"
+"popular.product.updated": "Элемент в популярных обновлен"
+
+"design.projects.report.error": "Ошибка при формировании отчета по дизайн-проектам"
+"design.projects.report.error.range": "Ошибка при формировании отчета - даты указаны неверено."
+"design.projects.report.error.zero": "За указанный период заявки не найдены, отчет не будет сформирован."
+
+"buyer.updated": "Информация о покупатели обновлена."
+"buyer.email.user.exists": "Данный Email уже занят другим покупателем."
+
+"review.updated": "Отзыв обновлен!"
+
+"quick.order.update": "Заявка на быстрый заказ обновлена."
+"quick.order.not.found": "Заявка не найдена."
+
+"promocode.not.found": "Такой промокод не найден в системе"
+"promocode.created": "Промокод создан!"
+"promocode.code.not.unique": "Промокод с таким кодом уже есть."
+"promocode.update": "Промокод обноволен."
+"promocode.limit.sum.max": "Сумма заказа очень большая для промокода."
+"promocode.limit.sum.min": "Сумма заказа очень маленькая для промокода."
+"promocode.not.active.end": "Промокод не активен."
+"promocode.not.active.start": "Промокод не активен."
+"promocode.count.ended": "Промкоды закончились."
+
+"invoice.create": "Счет добавлен!"
+"invoice.error.less.zero": "Сумма счета должна быть больше нуля."
+"invoice.error.type.not.supported": "Вы не можете создавать счет данного типа."
+"invoice.not.found": "Счет не найден."
+"invoice.canceled": "Счет отменен!"
+"invoice.error.order.completed": "Нельзя выставить счет для выполненного заказа!"
+"invoice.error.order.canceled": "Нельзя выставить счет для отмененного заказа!"
+
+"order.error.canceled.completed": "Нельзя отменить выполненный заказ!"
+"order.canceled": "Заказ отменен!"
+"order.update": "Заказ обновлен!"
+"order.not.process.creating": "Заказ не может быть сформирован. (уже не в процессе создания)"
+"order.compile": "Заказ сформирован!"
+"order.create.copy": "Копия заказа успешно создана!"
+
+"csrf.token.invalid": "Ошибка CSRF-токена, повторите попытку ещё раз."
+
+quiz.not.found: "Опрос не найден!"
+quiz.created: "Опрос добавлен."
+quiz.updated: "Опрос обновлен."
+quiz.question.not.found: "Вопрос из опроса не найден!"
+quiz.quest.created: "Вопрос добавлен в опрос."
+quiz.quest.updated: "Вопрос обновлен. Проверьте карту опроса!"
+quiz.question.value.not.found: "Вариант ответа для вопроса не найден."
+quiz.quest.value.created: "Вариант ответа для вопроса из опроса, добавлен!"
+quiz.cover.not.upload: "Загрузите картинку для варианта ответа"
+quiz.quest.value.updated: "Вариант ответа обновлен!"

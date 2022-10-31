@@ -1,0 +1,221 @@
+<div class="card-body dashboard-tabs p-0">
+    <ul class="nav nav-tabs px-4" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="main-tab" data-toggle="tab" href="#main" role="tab" aria-controls="main"
+               aria-selected="true">Контент</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="images-tab" data-toggle="tab" href="#images" role="tab" aria-controls="images"
+               aria-selected="false">Галерея</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="images-tab" data-toggle="tab" href="#diy" role="tab" aria-controls="diy"
+               aria-selected="false">Сборка</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="composition-tab" data-toggle="tab" href="#composition" role="tab"
+               aria-controls="composition"
+               aria-selected="false">Состав</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="seo-tab" data-toggle="tab" href="#seo" role="tab" aria-controls="seo"
+               aria-selected="false">SEO</a>
+        </li>
+    </ul>
+
+    {{ form_start(form,{
+        attr: {
+            class:'forms-sample tinymce-form',
+            novalidate:'',
+            'data-path-upload': path('cpanel.upload.tiny.temporary')
+        }
+    }) }}
+
+    <div class="tab-content py-0 px-0">
+
+        <div class="tab-pane fade active show" id="main" role="tabpanel" aria-labelledby="main-tab">
+            <div class=" m-5">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="exampleInputContent">Название:</label>
+                            {{ form_widget(form.content.name, {attr: {
+                                placeholder: 'Отображается в общем списке работ',
+                                class: 'form-control',
+                                id: 'inputFullName'
+                            }}) }}
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="exampleInputPublishedAt">Стоимость:</label>
+                            {{ form_widget(form.content.price, {attr: {
+                                placeholder: 'Аналогичная стоимость',
+                                class: 'form-control',
+                                id: 'inputFullName'
+                            }}) }}
+                        </div>
+                    </div>
+                    {{ form_errors(form.content.name) }}
+                    {{ form_errors(form.content.price) }}
+                </div>
+
+                <div class="form-group">
+                    <label for="inputFullName">Заголовок проекта:</label>
+                    {{ form_widget(form.content.header, {attr: {
+                        placeholder: 'Отображается на странице проекта',
+                        id: 'inputFullName',
+                        class: 'form-control'
+                    }}) }}
+                </div>
+                {{ form_errors(form.content.header) }}
+
+                <div class="form-group">
+                    {{ form_widget(form.content.content, {attr: {
+                        class: 'form-control tinymce',
+                        rows:25
+                    }}) }}
+                </div>
+                {{ form_errors(form.content.content) }}
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="seo" role="tabpanel" aria-labelledby="seo-tab">
+            <div class=" m-5">
+                <div class="form-group">
+                    <label for="exampleInputTitle">Title:</label>
+                    {{ form_widget(form.seo.title, {attr: {
+                        placeholder: 'Заголовок страницы в браузере',
+                        id: 'exampleInputTitle',
+                        class: 'form-control'
+                    }}) }}
+                </div>
+                {{ form_errors(form.seo.title) }}
+                <div class="form-group">
+                    <label for="exampleInputKeyword">Keywords:</label>
+                    {{ form_widget(form.seo.keywords, {attr: {
+                        placeholder: 'Ключевые слова через запятую.',
+                        id: 'exampleInputKeyword',
+                        rows:3,
+                        class: 'form-control'
+                    }}) }}
+                </div>
+                {{ form_errors(form.seo.keywords) }}
+                <div class="form-group">
+                    <label for="exampleInputDescription">Description:</label>
+                    {{ form_widget(form.seo.description, {attr: {
+                        placeholder: 'Краткое описание страницы',
+                        id: 'exampleInputDescription',
+                        rows:3,
+                        class: 'form-control'
+                    }}) }}
+                </div>
+                {{ form_errors(form.seo.description) }}
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="images-tab">
+            <div class="m-5">
+                <div class="btn btn-inverse-info upload-file p-3 w-100 text-center hover-cursor">
+                    Загрузка фотографий<br><br>
+                    Перетащите на меня файлы или просто нажмите тут!
+                </div>
+                <div id="previews" class="mt-4">
+                    <h4 class="card-title">Очередь загрузки фотографий:</h4>
+                </div>
+            </div>
+
+            <div class="images-box row  m-5"
+                 data-path-upload="{{ path('work.image.upload',{type:'images'}) }}"
+                 data-prototype="{{ form_widget(form.images.vars.prototype)|e('html_attr') }}">
+                {% for image in form.images %}
+                    {{ form_widget(image) }}
+                {% else %}
+                    {{ form_widget(form.images) }}
+                {% endfor %}
+            </div>
+
+            <div id="template" class="d-none">
+                <div class="d-flex flex-row mt-5">
+                    <div class="col-6">
+                        Файл: <b data-dz-name></b> (<span data-dz-size></span>)
+                    </div>
+                    <div class="col-6">
+                        <div class="progress mt-1">
+                            <div class="progress-bar bg-success" role="progressbar" aria-valuenow="0"
+                                 aria-valuemin="0" aria-valuemax="100" data-dz-uploadprogress></div>
+                        </div>
+                        <strong class="error text-danger" data-dz-errormessage></strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="diy" role="tabpanel" aria-labelledby="diy-tab">
+            <div class="m-5">
+                <div class="btn btn-inverse-info upload-file-diy p-3 w-100 text-center hover-cursor">
+                    Загрузка фотографий<br><br>
+                    Перетащите на меня файлы или просто нажмите тут!
+                </div>
+                <div id="previews-diy" class="mt-4">
+                    <h4 class="card-title">Очередь загрузки фотографий:</h4>
+                </div>
+            </div>
+
+            <div class="images-diy row m-5"
+                 data-path-upload="{{ path('work.image.upload',{type:'diy'}) }}"
+                 data-prototype="{{ form_widget(form.diy.vars.prototype)|e('html_attr') }}">
+                {% for image in form.diy %}
+                    {{ form_widget(image) }}
+                {% else %}
+                    {{ form_widget(form.diy) }}
+                {% endfor %}
+            </div>
+
+            <div id="template" class="d-none">
+                <div class="d-flex flex-row mt-5">
+                    <div class="col-6">
+                        Файл: <b data-dz-name></b> (<span data-dz-size></span>)
+                    </div>
+                    <div class="col-6">
+                        <div class="progress mt-1">
+                            <div class="progress-bar bg-success" role="progressbar" aria-valuenow="0"
+                                 aria-valuemin="0" aria-valuemax="100" data-dz-uploadprogress></div>
+                        </div>
+                        <strong class="error text-danger" data-dz-errormessage></strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="composition" role="tabpanel" aria-labelledby="composition-tab">
+            <div class="m-5">
+                <div class="form-group">
+                    <input id='composition-search' class="form-control col-12"
+                           placeholder="Введите название или артикул товара, который хотите добавить."
+                           autocomplete="off">
+                </div>
+            </div>
+            <hr>
+            <p class="card-description mt-4 ml-5 mr-5">
+                <b>Состав работа:</b>
+            </p>
+            <ul class="composition-box"
+                data-path="{{ path('ecommerce.products.composition.json') }}"
+                data-prototype="{{ form_widget(form.composition.vars.prototype)|e('html_attr') }}">
+                {% for composition in form.composition %}
+                    {{ form_widget(composition) }}
+                {% else %}
+                    {{ form_widget(form.composition) }}
+                {% endfor %}
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="text-center mt-5 mb-4">
+        <input type="hidden" name="token_csrf" value="{{ csrf_token('any') }}"/>
+        <button type="submit" class="btn btn-primary">{{ name_sumbit }}</button>
+    </div>
+    {{ form_end(form) }}
+</div>

@@ -1,0 +1,55 @@
+{% extends 'frontend/pages/container.html.twig' %}
+
+{% block title %}{{ seo.title|default('Заголовок страницы') }}{% endblock %}
+{% block keywords %}{{ seo.keywords|default('Ключевые слова') }}{% endblock %}
+{% block description %}{{ seo.description|default('Описание') }}{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('frontend.salons') }}
+{% endblock %}
+
+{% block sidebar %}
+    {% set current = slug %}
+    {{ parent() }}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a class="breadcrumbs__link" href="{{ path('index') }}">Главная</a>
+        <span class="breadcrumbs__separator"></span>
+    </div>
+{% endblock %}
+
+{% block headline %}
+    <div class="news-page__headline">
+        <h1 class="page-title  news-page__title">{{ header|default('') }}
+        </h1>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="content">
+        <div class="addresses-page">
+
+            <p class="addresses-page__text">{{ content|default('')|raw }}</p>
+
+            <div class="addresses">
+
+                <div class="addresses__inner">
+                    <div class="addresses__search">
+                        <input id="search_city" class="addresses__search-input" type="text"
+                               placeholder="Введите город"/>
+                        <input type="hidden" class="path-for-salons" value="{{ path('salons.json') }}">
+                    </div>
+                    <ul class="addresses__list cities-list">
+                    </ul>
+                </div>
+
+                <div id="map" class="addresses__map"></div>
+
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

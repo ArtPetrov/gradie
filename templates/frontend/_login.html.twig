@@ -1,0 +1,48 @@
+
+<h2 class="modal__heading">Войти в кабинет</h2>
+{{ form_start(auth) }}
+<label class="modal__label" for="form_email">Email</label>
+{{ form_widget(auth.email, {attr: {
+    placeholder: 'Введите Email',
+    value: last_username,
+    class: 'modal__input',
+}}) }}
+            {{  form_errors(auth.email) }}
+<label class="modal__label" for="form_password">Пароль</label>
+{{ form_widget(auth.password, {attr: {
+    placeholder: 'Введите свой пароль',
+    class: 'modal__input'
+}}) }}
+            {{  form_errors(auth.password) }}
+<div class="modal__remember-wrap">
+    <label class="checkbox  modal__remember">
+        <input class="checkbox__input  visually-hidden" type="checkbox"  name="_remember_me" />
+        <span class="checkbox__indicator"></span>
+        Запомнить меня
+    </label>
+    <a class="modal__forgot" href="{{ path('buyer.reset') }}">Забыли пароль?</a>
+</div>
+
+<div class="modal__action">
+    <button class="modal__button" type="submit">Войти</button>
+    <a class="modal__reg" href="{{ path('buyer.signup') }}">Зарегистрироваться</a>
+</div>
+{{ form_end(auth) }}
+
+<h2 class="modal__heading">Войти с помощью</h2>
+
+<ul class="social-login">
+    <li class="social-login__item">
+        <a class="social-login__link  social-login__link--vk" href="{{ path('oauth.connect',{network:'vk'}) }}" aria-label="ВКонтакте"></a>
+    </li>
+    <li class="social-login__item">
+        <a class="social-login__link  social-login__link--ya" href="{{ path('oauth.connect',{network:'yandex'}) }}" aria-label="Yandex"></a>
+    </li>
+    <li class="social-login__item">
+        <a class="social-login__link  social-login__link--fb" href="{{ path('oauth.connect',{network:'facebook'}) }}" aria-label="Facebook"></a>
+    </li>
+    <li class="social-login__item">
+        <a class="social-login__link  social-login__link--ok" href="{{ path('oauth.connect',{network:'ok'}) }}" aria-label="Одноклассники"></a>
+    </li>
+
+</ul>

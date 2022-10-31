@@ -1,0 +1,7 @@
+{% if status == 'wait' %}
+    <span class="badge badge-info">На модерации</span>
+{% elseif status == 'active' %}
+    <span class="badge badge-success">Опубликован</span>
+{% elseif status == 'blocked' %}
+    <span class="badge badge-danger">Отклонен</span>
+{% endif %}

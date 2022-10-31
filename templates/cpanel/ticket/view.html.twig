@@ -1,0 +1,101 @@
+{% extends 'cpanel/content.html.twig' %}
+
+{% block title %}{{ parent() }} - Служба поддержки{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('ticket.tinymce') }}
+{% endblock %}
+{% block content %}
+    <div class="content-wrapper">
+        {% block breadcrumbs %}
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ path('cpanel.index') }}">Главная</a></li>
+                <li class="breadcrumb-item"><a href="{{ path('cpanel.tickets') }}">Служба поддержки</a></li>
+                <li class="breadcrumb-item active">Вопрос
+                    #{{ ticket.id }}  {% if ticket.status.isClosed %}(Закрыт){% endif %}</li>
+            </ol>
+        {% endblock %}
+
+        {% if ticket.status.isClosed %}
+            <div class="alert alert-danger mb-4 mt-4 text-center">
+                <b>Вопрос закрыт.</b>
+            </div>
+        {% endif %}
+
+        {% include 'cpanel/_flashes.html.twig' %}
+
+        <div class="row">
+
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title">{{ ticket.header }}</h2>
+                        <div class="d-flex d-inline">
+                            <div class="flex-grow-1"><p class="card-description">
+                                    Дата создания заявки: {{ ticket.createdAt|date('d.m.Y H:i') }}
+                                    {% if ticket.createdAt != ticket.updatedAt %}
+                                        <br>
+                                        Последние обновление:  {{ ticket.updatedAt|date('d.m.Y H:i') }}
+                                    {% endif %}</p>
+                            </div>
+                            {% if ticket.status.isOpen %}
+                                <form action="{{ path('cpanel.ticket.closed', { id: ticket.id }) }}" method="post"
+                                      onsubmit="return confirm('Вы уверены, что хотите закрыть вопрос?')">
+                                    <input type="hidden" name="token" value="{{ csrf_token('any') }}"/>
+                                    <button type="submit" class="btn btn-success">Закрыть вопрос</button>
+                                </form>
+                            {% endif %}
+                            <form action="{{ path('cpanel.ticket.delete', { id: ticket.id }) }}" method="post"
+                                  onsubmit="return confirm('Вы уверены, что хотите удалить вопрос? Действие будет не отменить')">
+                                <input type="hidden" name="token" value="{{ csrf_token('any') }}"/>
+                                <button type="submit" class="btn btn-danger ml-3">Удалить</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% for message in ticket.messages %}
+                <div class="col-lg-12 grid-margin stretch-card" {% if loop.last %}id="new"{% endif %}>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex d-inline">
+                                <p class="card-description mr-3">{{ message.createdAt|date('d.m.Y H:i') }}</p>
+                                <b class="card-title">
+                                    {% if message.author %}
+                                        <a href="{{ path("cpanel.dealer.edit",{id:message.author.id}) }}">{{ message.author.getShowName }}</a>
+                                    {% else %}
+                                        <a href="{{ path("cpanel.profile",{id:message.support.id}) }}">
+                                        {{ message.support.getShowName }}
+                                        </a>
+                                    {% endif %}</b>
+                            </div>
+                            <p>
+                                {{ message.content|raw }}
+                            </p>
+
+                            {% if message.files|length>0 %}
+                                <p class="mt-4"><b>Прикрепленный файл:</b></p>
+                                {% for link in message.files %}
+                                    <p class="ml-4"><a
+                                                href="{{ path("cpanel.file",{id:link.file.id}) }}">{{ link.file.originalFilename }}</a>
+                                    </p>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            {% if ticket.status.isOpen %}
+                <div class="col-lg-12 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            {{ include('cpanel/ticket/_form_message.html.twig',{
+                                name_sumbit:'Ответить'
+                            }) }}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

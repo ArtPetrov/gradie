@@ -1,0 +1,28 @@
+{% block _form_selectors_entry_widget %}
+    <li class="d-flex flex-nowrap mt-3">
+
+        <div class="col-sm-3">
+            <input type="text" class="form-control name-attribute" placeholder="Название" disabled>
+            {{ form_row(form.slug) }}
+            {{ form_row(form.name) }}
+        </div>
+        <div class="col-sm-3">
+            {{ form_widget(form.type, {attr: {
+                class: 'form-control change-value',
+            }}) }}
+        </div>
+        <div class="col-sm-3">
+            {{ form_widget(form.title, {attr: {
+                class: 'form-control change-value'
+            }}) }}
+        </div>
+        <div class="col-sm-2 flex-nowrap">
+            <button type="button" class="btn btn-inverse-success btn-icon move-attribute">
+                <i class="mdi mdi-priority-high"></i>
+            </button>
+            <button type="button" class="btn btn-inverse-danger btn-icon ml-2 remove-attribute">
+                <i class="mdi mdi-delete-forever"></i>
+            </button>
+        </div>
+    </li>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% if sliders|length > 0 %}
+    <div class="main-slider">
+        <div class="swiper-wrapper">
+            {% for slider in sliders %}
+                <div class="main-slider__item  swiper-slide">
+                    <img class="main-slider__image" src="{{ asset('/files/'~slider.cover.path)}}" width="1600" height="900"
+                         alt=""/>
+                    <div class="main-slider__inner  wrapper">
+                        <p class="main-slider__heading">{{ slider.info.header }}</p>
+                        <p class="main-slider__text">{{ slider.info.description }}</p>
+                        {% if slider.button.enable %}
+                            <a class="main-slider__button" href="{{ slider.button.link }}">{{ slider.button.label }}</a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="main-slider__pagination  wrapper"></div>
+    </div>
+{% endif %}

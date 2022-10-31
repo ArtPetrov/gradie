@@ -1,0 +1,111 @@
+{% extends 'cpanel/content.html.twig' %}
+
+{% block title %}{{ parent() }} - Слайдеры{% endblock %}
+
+{% block content %}
+    <div class="content-wrapper">
+    {% block breadcrumbs %}
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('cpanel.index') }}">Главная</a></li>
+            <li class="breadcrumb-item active">Слайдеры</li>
+        </ol>
+    {% endblock %}
+    <div class="row">
+        <div class="col-lg-12 grid-margin stretch-card ">
+            <a href="{{ path('cpanel.slider.create',{type:'context'}) }}" class="btn btn-success btn-fw">
+                Добавить контекстный слайд
+            </a>
+            <a href="{{ path('cpanel.slider.create',{type:'index'}) }}" class="btn btn-success btn-fw ml-3">
+                Добавить слайд для главной страницы
+            </a>
+        </div>
+    </div>
+
+    {% include 'cpanel/_flashes.html.twig' %}
+
+    <div class="card">
+        <div class="card-body dashboard-tabs p-0">
+            <ul class="nav nav-tabs px-4" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link {% if app.request.get('type') == 'index' %}active{% endif %}"
+                       href="{{ path("cpanel.sliders",{type:'index'}) }}"
+                    >Слайды на главной странице</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if app.request.get('type') == 'context' %}active{% endif %}"
+                       href="{{ path("cpanel.sliders",{type:'context'}) }}"
+                    >Контекстные слайды</a>
+                </li>
+            </ul>
+
+            <div class="tab-content py-0 px-0">
+                <div class="tab-pane fade active show pl-3 pr-3">
+
+                    <table class="table table-striped mt-4">
+                        <thead>
+                        <tr>
+                            <td><b>Заголовок слайда</b></td>
+                            <td class="text-center"><b>Статус</b></td>
+                            <td class="text-right"><b>Действие</b></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for slider in sliders %}
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="d-flex flex-row align-items-center">
+                                            <a class="move-position mdi mdi-arrow-up-bold-circle-outline icon-md text-secondary"
+                                               data-path="{{ path('cpanel.slider.position', {id:slider.id}) }}"
+                                               data-parent="tr"
+                                               data-direction="up"
+                                            ></a>
+                                            <a class="move-position mdi mdi-arrow-down-bold-circle-outline icon-md text-secondary"
+                                               data-path="{{ path('cpanel.slider.position', {id:slider.id}) }}"
+                                               data-parent="tr"
+                                               data-direction="down"
+                                            ></a>
+                                            <p class="mb-0 ml-1 pl-3 ">
+                                                <a href="{{ path('cpanel.slider',{id:slider.id}) }}">{{ slider.info.header }}</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    {% if slider.isEnable %}
+                                        <span class="badge badge-success">Отображается</span>
+                                    {% else %}
+                                        <span class="badge badge-danger">Выключен</span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-right">
+                                    <a href="{{ path('cpanel.slider',{id:slider.id}) }}"
+                                       class="btn btn-sm btn-info">Редактировать</a>
+                                    <button data-path="{{ path('cpanel.slider.remove', {id:slider.id}) }}"
+                                            data-parent="tr"
+                                            class="btn btn-sm btn-danger delete-element">
+                                        Удалить
+                                    </button>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="4" class="text-center">
+                                    Слайды не найдены.
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        <input type="hidden" name="token_csrf" value="{{ csrf_token('any') }}"/>
+                        </tbody>
+                    </table>
+
+                    <div class="navigation d-flex mt-4 col-lg-12">
+                        <div class="ml-auto mr-auto">
+                            {{ knp_pagination_render(sliders) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

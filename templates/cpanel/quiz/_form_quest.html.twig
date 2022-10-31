@@ -1,0 +1,51 @@
+{{ form_start(form,{
+    attr: {
+        class:'forms-sample'
+    }
+}) }}
+
+<div class="form-group">
+    <label>Техническое название:</label>
+    {{ form_widget(form.name, {attr: {
+        placeholder: 'Например: Выбор цвета',
+        class: 'form-control'
+    }}) }}
+</div>
+{{ form_errors(form.name) }}
+
+<div class="form-group">
+    <label>Вопрос:</label>
+    {{ form_widget(form.quest, {attr: {
+        placeholder: 'Например: Какой цвет Вам нравится больше',
+        class: 'form-control'
+    }}) }}
+</div>
+{{ form_errors(form.quest) }}
+
+<div class="form-group">
+    <label>Тип вариантов ответа:</label>
+    {{ form_widget(form.type, {attr: {
+        class: 'form-control'
+    }}) }}
+</div>
+{{ form_errors(form.type) }}
+
+<div class="form-group">
+    <label>Подсказка к вопросу:</label>
+    {{ form_widget(form.help, {attr: {
+        placeholder: 'Например: Ваша гардеробная будет создана в этом стиле',
+        class: 'form-control'
+    }}) }}
+</div>
+{{ form_errors(form.help) }}
+
+<div class="form-group">
+    {{ form_widget(form.skip, {label: 'Можно ли пропустить этот вопрос (Вариантивность зависит! Не выбирать для ветлений!)'}) }}
+</div>
+
+<div class="form-group">
+    {{ form_widget(form.anotherAnswer, {label: 'Клиент может добавить свой вариант ответа (Не все типы вопросов поддерживают! Вариативность нарушается!)'}) }}
+</div>
+
+<button type="submit" class="btn btn-primary mr-2">{{ name_sumbit }}</button>
+{{ form_end(form) }}

@@ -1,0 +1,71 @@
+{{ form_start(form,{
+    attr: {
+        class:'forms-sample tinymce-form',
+        'data-path-upload': path('cpanel.upload.tiny.temporary')
+    }
+}) }}
+
+<div class="form-group">
+    {{ form_widget(form.enable, {label: 'Включить опрос'}) }}
+</div>
+
+<div class="form-group">
+    <label for="exampleInputHeader">Заголовок опроса:</label>
+    {{ form_widget(form.name, {attr: {
+        placeholder: 'Например: Опрос на создание гардеробной',
+        id: 'exampleInputHeader',
+        class: 'form-control'
+    }}) }}
+</div>
+{{ form_errors(form.name) }}
+
+<div class="form-group">
+    <label for="exampleInputKeyword">Вступительный текст:</label>
+    {{ form_widget(form.textBegin, {attr: {
+        placeholder: 'Например: Рассчитайте стоимость гардеробной примерно за 1 минуту!',
+        id: 'exampleInputKeyword',
+        rows:3,
+        class: 'form-control'
+    }}) }}
+</div>
+{{ form_errors(form.textBegin) }}
+
+
+<div class="form-group">
+    <label for="exampleInputKeyword">Заключительный текст:</label>
+    {{ form_widget(form.textEnd, {attr: {
+        placeholder: 'Например: А пока мы считаем, можете посмотреть галерею наших работ',
+        id: 'exampleInputKeyword',
+        rows:3,
+        class: 'form-control'
+    }}) }}
+</div>
+{{ form_errors(form.textEnd) }}
+
+<div class="form-group">
+    <label>Картинка приветствия</label>
+    {{ form_widget(form.cover, {attr: {
+        class: 'file-upload-default'
+    }}) }}
+    <div class="input-group col-xs-12">
+        <input type="text" class="form-control file-upload-info" disabled=""
+               placeholder="Загружается оригинальный файл">
+        <span class="input-group-append">
+                          <button class="file-upload-browse btn btn-primary" type="button">Загрузить картинку</button>
+                        </span>
+    </div>
+</div>
+{{ form_errors(form.cover) }}
+
+<div class="form-group">
+    <label>Текст над опросом(необязательный):</label>
+    {{ form_widget(form.content, {attr: {
+        class: 'form-control tinymce',
+        rows:25
+    }}) }}
+    {{ form_errors(form.content) }}
+</div>
+
+
+<button type="submit" class="btn btn-primary mr-2">{{ name_sumbit }}</button>
+{{ form_end(form) }}

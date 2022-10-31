@@ -1,0 +1,94 @@
+{% extends 'frontend/buyer/container.html.twig' %}
+
+{% block title %}Личный кабинет - Настройки{% endblock %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a class="breadcrumbs__link" href="{{ path('index') }}">Главная</a>
+        <span class="breadcrumbs__separator"></span>
+        <a class="breadcrumbs__link" href="{{ path('buyer.index') }}">Кабинет</a>
+        <span class="breadcrumbs__separator"></span>
+    </div>
+{% endblock %}
+
+{% block headline %}
+    <h1 class="page-title">Личные данные</h1>
+{% endblock %}
+
+{% block sidebar %}
+    {% set current = app.request.pathinfo %}
+    {{ parent() }}
+{% endblock %}
+
+{% block sidebarContent %}
+    {% set current = app.request.pathinfo %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <div class="user-data">
+
+        <table class="user-data__items">
+            <tbody>
+            <tr class="user-data__item">
+                <th class="user-data__caption">ФИО:</th>
+                <td class="user-data__value">{{ app.user.information.name | default('Не указано') }}</td>
+            </tr>
+            <tr class="user-data__item">
+                <th class="user-data__caption">E-mail:</th>
+                <td class="user-data__value">{{ app.user.information.email | default('Не указан') }}</td>
+            </tr>
+            <tr class="user-data__item">
+                <th class="user-data__caption">Телефон:</th>
+                <td class="user-data__value">{{ app.user.information.phone | default('Не указан') }}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <a href="{{ path('buyer.setting.information') }}" class="user-data__button">Изменить</a>
+
+        <table class="user-data__items">
+            <tbody>
+            <tr class="user-data__item">
+                <th class="user-data__caption">Пароль:</th>
+                <td class="user-data__value">••••••••</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <a href="{{ path('buyer.setting.password') }}" class="user-data__button">Изменить</a>
+
+        <b>Аккаунты социальных сетей:</b>
+        <table class="user-data__items" style="margin-top: 20px;">
+            <tbody>
+            <tr class="user-data__item">
+                <td class="user-data__value">
+                    {% if app.user.hasNetwork('yandex') %}
+                        <a class="orders__button orders__button--cancel" href="{{ path('buyer.oauth.detach',{network:'yandex'}) }}">Отключить Yandex</a>
+                    {% else %}
+                        <a class="orders__button" href="{{ path('buyer.oauth.connect',{network:'yandex_attach'}) }}">Подключить Yandex</a>
+                    {% endif %}
+
+                    {% if app.user.hasNetwork('vk') %}
+                        <a class="orders__button orders__button--cancel" href="{{ path('buyer.oauth.detach',{network:'vk'}) }}">Отключить VK</a>
+                    {% else %}
+                        <a class="orders__button" href="{{ path('buyer.oauth.connect',{network:'vk_attach'}) }}">Подключить VK</a>
+                    {% endif %}
+
+                    {% if app.user.hasNetwork('facebook') %}
+                        <a class="orders__button orders__button--cancel" href="{{ path('buyer.oauth.detach',{network:'facebook'}) }}">Отключить Facebook</a>
+                    {% else %}
+                        <a class="orders__button" href="{{ path('buyer.oauth.connect',{network:'facebook_attach'}) }}">Подключить Facebook</a>
+                    {% endif %}
+
+                    {% if app.user.hasNetwork('ok') %}
+                        <a class="orders__button orders__button--cancel" href="{{ path('buyer.oauth.detach',{network:'ok'}) }}">Отключить Одноклассники</a>
+                    {% else %}
+                        <a class="orders__button" href="{{ path('buyer.oauth.connect',{network:'ok_attach'}) }}">Подключить Одноклассники</a>
+                    {% endif %}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

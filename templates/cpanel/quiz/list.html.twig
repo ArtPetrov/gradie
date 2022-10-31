@@ -1,0 +1,81 @@
+{% extends 'cpanel/content.html.twig' %}
+
+{% block content %}
+    <div class="content-wrapper">
+        {% block breadcrumbs %}
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active">Главная</li>
+            </ol>
+        {% endblock %}
+        <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card mt-2">
+                <a href="{{ path('cpanel.quiz.add') }}" class="btn btn-success btn-fw">
+                    Создать опрос
+                </a>
+            </div>
+        </div>
+        {% include 'cpanel/_flashes.html.twig' %}
+        <div class="row">
+
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Список опросов</h4>
+                        <div class="table-responsive pt-3">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <td><b>Название опроса</b></td>
+                                    <td class="text-center"><b>Статус</b></td>
+                                    <td class="text-right"><b>Действие</b></td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for quiz in quizs %}
+                                    <tr>
+                                        <td>
+                                            <a href="{{ path('cpanel.quiz.questions',{id:quiz.id}) }}">{{ quiz.name }}</a>
+                                        </td>
+                                        <td class="text-center">
+                                            {% if quiz.isEnable  %}
+                                                <span class="badge badge-success">Включен</span>
+                                            {% else %}
+                                                <span class="badge badge-secondary">Выключен</span>
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-right">
+                                            <a href="{{ path('cpanel.quiz.edit',{id:quiz.id}) }}"
+                                               class="btn btn-sm btn-info">Редактировать</a>
+                                            <a href="{{ path('cpanel.quiz.map',{id:quiz.id}) }}"
+                                               class="btn btn-sm btn-success">Карта</a>
+                                            <a href="{{ path('quiz',{id:quiz.id}) }}"
+                                               class="btn btn-sm btn-secondary">Ссылка</a>
+                                            <button data-path="{{ path('cpanel.quiz.remove', {id:quiz.id}) }}"
+                                                    data-parent="tr"
+                                                    class="btn btn-sm btn-danger delete-element">
+                                                Удалить
+                                            </button>
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="3" class="text-center">
+                                            Опросы не найдены.
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                <input type="hidden" name="token_csrf" value="{{ csrf_token('any') }}"/>
+                                </tbody>
+                            </table>
+                            <div class="navigation mt-3 d-flex">
+                                <div class="mr-auto ml-auto">
+                                    {{ knp_pagination_render(quizs) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

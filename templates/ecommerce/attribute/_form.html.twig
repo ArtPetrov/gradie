@@ -1,0 +1,68 @@
+{{ form_start(form,{
+    attr: {
+        class:'forms-sample',
+    }
+}) }}
+
+<div class="form-group">
+    <label for="exampleInputName">Название атрибута</label>
+    {{ form_widget(form.name, {attr: {
+        placeholder: 'Например: Цвет',
+        id: 'exampleInputName',
+        class: 'form-control'
+    }}) }}
+</div>
+{{ form_errors(form.name) }}
+
+<div class="form-group">
+    <label for="exampleSelectType">Тип атрибута</label>
+    {{ form_widget(form.type, {attr: {
+        id: 'exampleSelectType',
+        class: 'form-control'
+    }}) }}
+</div>
+{{ form_errors(form.type) }}
+
+<p class="card-description fields-group">
+    Варианты выбора:
+</p>
+<ul class="attributes-list ml-5 list-unstyled fields-group"
+    data-prototype="{{ form_widget(form.values.vars.prototype.label, {attr: {
+        class: 'form-control col-sm-3',
+        placeholder: 'Название поля'
+    }})|e('html_attr') }} {{ form_widget(form.values.vars.prototype.value, {attr: {
+        class: 'form-control col-sm-3 ml-4',
+        placeholder: 'Значение в базе'
+    }})|e('html_attr') }}
+            <button type='button' class='btn btn-inverse-danger btn-icon ml-3 delete-field'>
+<i class='mdi mdi-delete-forever'></i>
+</button>
+">
+    {% for field in form.values %}
+    <li class="form-row p-2">
+        {{ form_widget(field.label, {attr: {
+            class: 'form-control col-sm-3',
+            placeholder: 'Название поля'
+        }}) }}
+        {{ form_widget(field.value, {attr: {
+            class: 'form-control col-sm-3 ml-4',
+            placeholder: 'Значение в базе'
+        }}) }}
+        <button type="button" class="btn btn-inverse-danger btn-icon ml-3 delete-field">
+            <i class="mdi mdi-delete-forever"></i>
+        </button>
+    </li>
+    {% else %}
+        {{ form_widget(form.values, {attr: {
+            class: 'd-none'
+        }}) }}
+    {% endfor %}
+    <li class="form-row p-2">
+        <button type="button" class="btn btn-link btn-fw create-field-value">Добавить вариант выбора</button>
+    </li>
+</ul>
+
+
+<button type="submit" class="btn btn-primary float-right ">{{ name_sumbit }}</button>
+
+{{ form_end(form) }}

@@ -1,0 +1,49 @@
+{% extends 'frontend/container.html.twig' %}
+
+{% block title %}{{ seo.title|default('Заголовок страницы') }}{% endblock %}
+{% block keywords %}{{ seo.keywords|default('Ключевые слова') }}{% endblock %}
+{% block description %}{{ seo.description|default('Описание') }}{% endblock %}
+
+{% block main %}
+
+    <main>
+
+        <div class="breadcrumbs">
+            <a class="breadcrumbs__link" href="{{ path('index') }}">Главная</a>
+            <span class="breadcrumbs__separator"></span>
+        </div>
+
+        <h1 class="page-title">{{ header|default('Каталог товаров') }}</h1>
+
+        <div class="wrap">
+
+            {{ sidebar_category() }}
+
+            <div class="content  catalog">
+
+                {% for category in categories %}
+
+                    <div class="headline">
+                        <h2 class="heading">Популярное в разделе «{{ category.name }}»</h2>
+                        <a class="headline__all" href="{{ path('catalog.categorie',{slug:category.path}) }}">Все товары
+                            раздела</a>
+                    </div>
+
+                    {% if category.type=='VIEW' %}
+                        {{ product_cards(category.path,category.type,6) }}
+                    {% else %}
+                        {{ product_cards(category.path,category.type,4) }}
+                    {% endif %}
+
+                {% endfor %}
+
+                <div class="description">
+                    {{ content|raw }}
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+{% endblock %}

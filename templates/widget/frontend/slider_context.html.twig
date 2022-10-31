@@ -1,0 +1,13 @@
+{% if sliders|length > 0 %}
+    <ul class="services">
+        {% for slider in sliders %}
+            <li class="services__item">
+                <p class="services__title">{{ slider.header }}</p>
+                <p class="services__desc">{{ slider.description }}</p>
+                {% if slider.button_enable %}
+                    <a class="services__button" href="{{ slider.button_link }}">{{ slider.button_label }}</a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}

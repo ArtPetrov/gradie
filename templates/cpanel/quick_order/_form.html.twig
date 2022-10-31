@@ -1,0 +1,78 @@
+<div class="card-body dashboard-tabs p-0">
+    <ul class="nav nav-tabs px-4" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="main-tab" data-toggle="tab" href="#main" role="tab" aria-controls="main"
+               aria-selected="true">Быстрый заказ</a>
+        </li>
+    </ul>
+
+    {{ form_start(form,{
+        attr: {
+            class:'forms-sample',
+        }
+    }) }}
+
+
+    <div class="tab-content py-0 px-0">
+
+        <div class="tab-pane fade active show" id="main" role="tabpanel" aria-labelledby="main-tab">
+            <div class=" m-5">
+
+                <h6>Товар: {{ order.product.name }} ({{ order.product.count }} шт.) <a
+                            href="{{ path('product',{id:order.product.id}) }}"> [{{ order.product.article }}]</a></h6>
+
+                <p class="card-description">
+                    Дата заказа: {{ order.createdAt|date('d.m.Y H:i') }}<br>
+                </p>
+
+                <p class="card-description mt-5 mb-4">
+                    <b>Информация о клиенте:</b>
+                </p>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Как обращаться:</label>
+                            <input class="form-control" type="text" value="{{ order.client.name }}" readonly>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Телефон или Email для связи:</label>
+                            <input class="form-control" type="text" value="{{ order.client.contact }}" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="card-description mt-2 mb-1">
+                    <b>Управление:</b>
+                </p>
+
+
+                <div class="col-md-6  form-group row mb-1">
+                    <label class="col-5 col-form-label">Статус заказа:</label>
+                    <div class="col-7">
+                        {{ form_widget(form.status, {attr: {
+                            class: 'form-control',
+                            id: 'typeSalon'
+                        }}) }}
+                        {{ form_errors(form.status) }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form_widget(form.comment, {attr: {
+                        class: 'form-control',
+                        placeholder: 'Комментарий менеджера',
+                        rows:10
+                    }}) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-center mt-5 mb-4">
+        <input type="hidden" name="token_csrf" value="{{ csrf_token('any') }}"/>
+        <button type="submit" class="btn btn-primary">{{ name_sumbit }}</button>
+    </div>
+    {{ form_end(form) }}
+</div>

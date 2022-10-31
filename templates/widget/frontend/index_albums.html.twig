@@ -1,0 +1,25 @@
+{% if galleries|length > 0 %}
+    <section class="gallery-recent">
+        <div class="headline">
+            <h2 class="heading">
+                <a href="{{ path('galleries') }}">Галерея</a>
+            </h2>
+            <a class="headline__all" href="{{ path('galleries') }}">Перейти в раздел</a>
+        </div>
+        <ul class="gallery-recent__list">
+            {% for album in galleries %}
+                <li class="gallery-recent__item">
+                    <a class="gallery-recent__link" href="{{ path('gallery',{id:album.id}) }}">
+                        {% if album.cover is null %}
+                            <img class="gallery-recent__image" src="https://imgholder.ru/235/DDD/" width="235"
+                                 height="235" alt="{{ album.name }}"/>
+                        {% else %}
+                            <img class="gallery-recent__image" src="{{ album.cover|imagine_filter('gallery_index') }}"
+                                 width="235" height="235" alt="{{ album.name }}"/>
+                        {% endif %}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+{% endif %}

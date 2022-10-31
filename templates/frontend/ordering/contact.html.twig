@@ -1,0 +1,74 @@
+{% extends 'frontend/container.html.twig' %}
+
+{% block title %}{{ seo.title|default('Данные покупателя') }}{% endblock %}
+{% block keywords %}{{ seo.keywords|default('Оформление заказа') }}{% endblock %}
+{% block description %}{{ seo.description|default('Оформление заказа') }}{% endblock %}
+
+{% block contextSlider %}
+    {{ slider_context(2) }}
+{% endblock %}
+
+{% block main %}
+
+    <div class="breadcrumbs">
+        <a class="breadcrumbs__link" href="{{ path('index') }}">Главная</a>
+        <span class="breadcrumbs__separator"></span>
+        <a class="breadcrumbs__link" href="{{ path('basket') }}">Корзина</a>
+        <span class="breadcrumbs__separator"></span>
+    </div>
+
+
+    {{ form_start(form, {
+        attr: {
+            class:'ordering',
+        }
+    }) }}
+
+    <h1 class="page-title">Оформление заказа</h1>
+
+    <h2 class="ordering__heading"><span class="ordering__step">1</span> Данные покупателя</h2>
+
+    {% include 'frontend/_flashes.html.twig' %}
+
+    {% if app.user is not null %}
+        <p class="ordering__text">Для оформления заказа нужны Ваши контактные данные. Заполните поля ниже.</p>
+    {% else %}
+        <p class="ordering__text">Для оформления заказа нужны Ваши контактные данные.<br> Заполните поля ниже, или
+            <a
+                    href="javascript:void(0)" class="open-modal-auth help-open" data-popup="login">авторизуйтесь</a>,
+            если уже зарегистрированы на сайте.</p>
+    {% endif %}
+
+
+    <label class="ordering__label" for="name">Ф. И. О</label>
+    {{ form_widget(form.name, {attr: {
+        class: 'ordering__input',
+    }}) }}
+    {{ form_errors(form.name) }}
+
+    <label class="ordering__label" for="phone">Номер телефона</label>
+    {{ form_widget(form.phone, {attr: {
+        class: 'ordering__input',
+    }}) }}
+    {{ form_errors(form.phone) }}
+
+    <label class="ordering__label" for="email">E-mail</label>
+    {{ form_widget(form.email, {attr: {
+        class: 'ordering__input',
+    }}) }}
+    {{ form_errors(form.email) }}
+
+
+    <label class="radio  ordering__agree">
+        <input class="radio__input  visually-hidden" type="radio" checked="checked">
+        <span class="radio__indicator"></span>
+        Я даю согласие на обработку своих персональных данных. <a
+                href="{{ path('page',{slug:'personal'}) }}">Подробнее</a>
+    </label>
+
+    <button class="ordering__button" type="submit">Продолжить</button>
+
+    {{ form_end(form) }}
+
+
+{% endblock %}

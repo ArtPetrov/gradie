@@ -1,0 +1,13 @@
+{% block _form_images_entry_widget %}
+    <div class="image col-xl-3 col-lg-4 col-sm-6 col-12 mb-4 hover-cursor">
+        <div style="width: 215px;height: 320px; background-image: url('__src__'); background-repeat: no-repeat; background-position: center"></div>
+        <div class="form-check">
+            {{ form_widget(form.cover, {
+                label: 'Обложка новости'
+            }) }}
+        </div>
+        <button type="button" class="btn btn-danger btn-sm remove-image">Удалить фотографию</button>
+        {{ form_row(form.src) }}
+        {{ form_row(form.id) }}
+    </div>
+{% endblock %}

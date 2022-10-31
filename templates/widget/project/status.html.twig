@@ -1,0 +1,11 @@
+{% if status == 'NEW' %}
+    <span class="badge badge-info">Новая</span>
+{% elseif status == 'COMPLETED' %}
+    <span class="badge badge-success">Выполнена</span>
+{% elseif status == 'INWORK' %}
+    <span class="badge badge-primary">В работе</span>
+{% elseif status == 'CANCELED' %}
+    <span class="badge badge-danger">Отменена</span>
+{% elseif status == 'CLOSED' %}
+    <span class="badge badge-danger">Закрыта</span>
+{% endif %}

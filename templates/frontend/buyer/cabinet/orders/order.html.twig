@@ -1,0 +1,103 @@
+{% extends 'frontend/buyer/container.html.twig' %}
+
+{% block title %}Личный кабинет{% endblock %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a class="breadcrumbs__link" href="{{ path('index') }}">Главная</a>
+        <span class="breadcrumbs__separator"></span>
+        <a class="breadcrumbs__link" href="{{ path('buyer.index') }}">Кабинет</a>
+        <span class="breadcrumbs__separator"></span>
+        <a class="breadcrumbs__link" href="{{ path('buyer.orders') }}">Заказы</a>
+        <span class="breadcrumbs__separator"></span>
+    </div>
+{% endblock %}
+
+{% block headline %}
+    <h1 class="page-title">Кабинет</h1>
+{% endblock %}
+
+{% block sidebar %}
+    {% set current = app.request.pathinfo %}
+    {{ parent() }}
+{% endblock %}
+
+{% block sidebarContent %}
+    {% set current = app.request.pathinfo %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <div class="order">
+
+        <h2 class="order__heading">Заказ № {{ order.id }}</h2>
+
+        <table class="order__data">
+            <tbody>
+            <tr class="order__data-row">
+                <th class="order__data-caption">Итоговая стоимость заказа:</th>
+                <td class="order__data-value">
+                    {% if order.getTotalPrice() > 0 %}
+                        {{ order.getTotalPrice|number_format(2, '.',' ') }} ₽
+                    {% else %}
+                        Счет закрыт
+                    {% endif %}
+                </td>
+            </tr>
+            {% if order.getShippingPrice() > 0 %}
+                <tr class="order__data-row">
+                    <th class="order__data-caption">Стоимость доставки:</th>
+                    <td class="order__data-value">{{ order.getShippingPrice|number_format(2, '.',' ') }} ₽ (уже включено
+                        в итоговую стоимость)
+                    </td>
+                </tr>
+            {% endif %}
+            {% if order.hasPromocode() %}
+                <tr class="order__data-row">
+                    <th class="order__data-caption">Промокод:</th>
+                    <td class="order__data-value">{{ order.promocode.code }}</td>
+                </tr>
+            {% endif %}
+
+            </tbody>
+        </table>
+
+        <div class="order__buttons">
+            {% if order.invoicesForPay|length > 0 %}
+                <a href="{{ path('payment.order',{'uuid':order.uuid}) }}" class="order__button  order__button--pay">
+                    {% if order.getTotalPrice == order.getTotalWaitPay %}
+                        Оплатить заказ
+                    {% else %}
+                        Доплатить {{ order.getTotalWaitPay|number_format(2, '.',' ') }} ₽
+                    {% endif %}
+                </a>
+            {% endif %}
+            {% if order.inProcessing %}
+                <form
+                        action="{{ path('buyer.order.canceled', {'uuid': order.uuid}) }}"
+                        method="POST"
+                        onsubmit="return confirm('Вы уверены что хотите отменить заказ?')"
+                        style="display: inline-flex">
+                    <input type="hidden" name="token" value="{{ csrf_token('any') }}"/>
+                    <button type="submit" class="order__button  order__button--cancel">Отменить</button>
+                </form>
+            {% endif %}
+        </div>
+        <div class="order__items">
+            {% for product in order.products %}
+                <div class="order-item">
+                    <p class="order-item__title">{{ product.article }} <a
+                                href="{{ path('product',{id:product.productId}) }}">{{ product.name }}</a></p>
+                    <p class="order-item__price">{{ product.price|number_format(2, '.',' ') }} ₽</p>
+                    <p class="order-item__quantity">{{ product.count }} шт.</p>
+                </div>
+            {% else %}
+                <div>Товары не обнаружены в заказе</div>
+            {% endfor %}
+        </div>
+        {% if order.getTotalPrice() > 0 %}
+            <p class="order__total">Стоимость доставки: {{ order.getShippingPrice|number_format(2, '.',' ') }} ₽</p>
+            <p class="order__total">Итоговая стоимость: {{ order.getTotalPrice|number_format(2, '.',' ') }} ₽</p>
+        {% endif %}
+    </div>
+{% endblock %}

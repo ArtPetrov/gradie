@@ -1,0 +1,262 @@
+{% extends 'frontend/base.html.twig' %}
+{% block body %}
+    {% block header %}
+        <header class="header">
+            <div class="header__top">
+                <p class="header__city">В любой город!</p>
+                <button class="header__nav-toggle" type="button">Информация</button>
+                <nav class="header-nav">
+                    <button class="header-nav__close" type="button">Закрыть</button>
+                    <ul class="header-nav__list">
+                        <li class="header-nav__item">
+                            <a class="header-nav__link" href="/service">Доставка и установка</a>
+                        </li>
+                        <li class="header-nav__item">
+                            <a class="header-nav__link" href="/payment">Оплата</a>
+                        </li>
+                        <li class="header-nav__item">
+                            <a class="header-nav__link" href="/faq">Вопрос-ответ</a>
+                        </li>
+                        <li class="header-nav__item">
+                            <a class="header-nav__link" href="/video">Видео</a>
+                        </li>
+                        <li class="header-nav__item">
+                            <a class="header-nav__link" href="#">Партнерам</a>
+                            <button class="header-nav__toggle" type="button"></button>
+                            <ul class="header-nav__sub-menu">
+                                <li class="header-nav__item">
+                                    <a class="header-nav__link" href="{{ path('dealer.signup') }}">Заявка на
+                                        дилерство</a>
+                                </li>
+                                <li class="header-nav__item">
+                                    <a class="header-nav__link" href="{{ path('dealer.index') }}">Кабинет дилера</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="header-nav__item">
+                            <a class="header-nav__link" href="/about">О компании</a>
+                        </li>
+                        <li class="header-nav__item">
+                            <a class="header-nav__link" href="/contact">Контакты</a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <ul class="social">
+                    <li class="social__item">
+                        <a class="social__link  social__link--vk" href="https://vk.com/gardieofficial"
+                           aria-label="ВКонтакте"></a>
+                    </li>
+                    <li class="social__item">
+                        <a class="social__link  social__link--in" href="https://www.instagram.com/gardieofficial/"
+                           aria-label="Instagram"></a>
+                    </li>
+                </ul>
+
+            </div>
+
+            <div class="header__mid">
+
+                <a class="header__logo" href="{{ path('index') }}" aria-label="Gardie"></a>
+
+                {{ categories_header() }}
+
+                <button class="search-toggle" type="button"></button>
+                <div class="search">
+                    <div class="search__container">
+                        <form class="search__form" method="GET" action="{{ path('search') }}">
+                            <label class="visually-hidden" for="search">Поиск</label>
+                            <input class="search__input search-products" id="search" type="text" placeholder="Поиск"
+                                   data-path="{{ path('search.json') }}"
+                                   autocomplete="off" name="q"/>
+                            <button class="search__button" type="submit" aria-label="Искать"></button>
+                        </form>
+                        <div class="search__inner">
+                            <p class="search__text">Введите поисковый запрос</p>
+                            <ul class="search__items">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <a class="header__buy" href="{{ path('salons') }}"><span class="header__buy-accent">Где купить?</span>
+                    <span
+                            class="header__buy-info">Gardie рядом с вами</span></a>
+
+                <div class="header__phone">
+                    <a class="header__phone-number" href="tel:74997551212">+ 7 (499) 755-1212</a>
+                    <p class="header__phone-time">Пн – Чт с 9:30 до18:00. Пт – до 17:30</p>
+                </div>
+
+                {% if app.user is not null %}
+                    <a class="header__user-area" href="{{ path('buyer.index') }}">Кабинет</a>
+                {% else %}
+                    {% if app.request.get('_route') == 'buyer.login' %}
+                        <a class="header__user-area" href="javascript:void(0)">Кабинет <span
+                                    class="header__user-area-logout">(Войти)</span></a>
+                    {% else %}
+                        <a class="header__user-area open-modal-auth help-open" href="javascript:void(0)"
+                           data-popup="login">Кабинет <span class="header__user-area-logout">(Войти)</span></a>
+                    {% endif %}
+                {% endif %}
+
+                <div class="header__cart">
+                    <input type="hidden" value="{{ path('basket.items') }}" id="path-basket">
+                    <a class="header__cart-link" href="{{ path('basket') }}">Корзина <span
+                                class="header__cart-counter basket-count-items">0</span></a>
+
+                    <div class="header__cart-inner">
+
+                        <div class="header__cart-container basket-has-items" style="display: none">
+                            <table class="header__cart-items basket-table-items" data-template='
+                                <tr class="header__cart-item">
+                                    <td class="header__cart-cell"><a href="__link__">
+                                        <img class="header__cart-image" src="__cover__" width="48" height="48" alt=""/></a>
+                                    </td>
+                                    <td class="header__cart-cell  header__cart-title"><a href="__link__">__name__</a></td>
+                                    <td class="header__cart-cell  header__cart-quantity">х__count__</td>
+                                    <td class="header__cart-cell  header__cart-price">__price__</td>
+                                </tr>
+'>
+                            </table>
+                        </div>
+
+                        <p class="header__cart-total basket-has-items" style="display: none">Итого <span class="header__cart-total-amount basket-total-sum"></span>
+                        </p>
+
+                        <a class="header__cart-button basket-has-items" style="display: none" href="{{ path('basket') }}">Перейти в корзину</a>
+                        <a class="header__cart-button basket-none-items" href="{{ path('catalog') }}">Вперед за покупками!</a>
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% block contextSlider %}
+            {% endblock %}
+        </header>
+    {% endblock %}
+
+    {% block main %}
+
+    {% endblock %}
+
+    {% if app.user is null %}
+        {{ login_popup() }}
+    {% endif %}
+
+    {% block footer %}
+        <footer class="footer">
+
+            <div class="footer__top">
+
+                <nav class="footer-nav">
+
+                    <div class="footer-nav__section">
+                        <h2 class="footer-nav__heading">Компания</h2>
+                        <ul class="footer-nav__list">
+                            <li class="footer-nav__item">
+                                <a class="footer-nav__link" href="/about">О компании</a>
+                            </li>
+                            <li class="footer-nav__item">
+                                <a class="footer-nav__link" href="/vacancies">Вакансии</a>
+                            </li>
+                            <li class="footer-nav__item">
+                                <a class="footer-nav__link" href="/contact">Контакты</a>
+                            </li>
+                            <li class="footer-nav__item">
+                                <a class="footer-nav__link" href="/privacy">Политика конфиденциальности</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-nav__section">
+                        <h2 class="footer-nav__heading">Покупателю</h2>
+                        <ul class="footer-nav__list">
+                            <li class="footer-nav__item">
+                                <a class="footer-nav__link" href="/service">Доставка и установка</a>
+                            </li>
+                            <li class="footer-nav__item">
+                                <a class="footer-nav__link" href="{{ path('design.project') }}">Дизайн-проект</a>
+                            </li>
+                            <li class="footer-nav__item">
+                                <a class="footer-nav__link" href="/payment">Способы оплаты</a>
+                            </li>
+                            <li class="footer-nav__item">
+                                <a class="footer-nav__link" href="/faq">Вопрос-ответ</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-nav__section">
+                        <h2 class="footer-nav__heading">Партнерам</h2>
+                        <ul class="footer-nav__list">
+                            <li class="footer-nav__item">
+                                <a class="footer-nav__link" href="{{ path('dealer.signup') }}">Как стать дилером</a>
+                            </li>
+                            <li class="footer-nav__item">
+                                <a class="footer-nav__link" href="{{ path('dealer.index') }}">Кабинет дилера</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-nav__section">
+                        <h2 class="footer-nav__heading">Скачать</h2>
+                        <ul class="footer-nav__list">
+                            <li class="footer-nav__item">
+                                <a class="footer-nav__link" href="/price">Прайс-лист</a>
+                            </li>
+                            <li class="footer-nav__item">
+                                <a class="footer-nav__link" href="/scheme">Схемы сборки</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-nav__section">
+                        <h2 class="footer-nav__heading">Мы в соцсетях</h2>
+                        <ul class="footer-nav__soc">
+                            <li class="footer-nav__soc-item">
+                                <a class="footer-nav__soc-link  footer-nav__soc-link--in"
+                                   href="https://www.instagram.com/gardieofficial/"
+                                   aria-label="Instagram"></a>
+                            </li>
+                            <li class="footer-nav__soc-item">
+                                <a class="footer-nav__soc-link  footer-nav__soc-link--vk"
+                                   href="https://vk.com/gardieofficial"
+                                   aria-label="ВКонтакте"></a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-nav__section">
+                        <h2 class="footer-nav__heading">Мы принимаем</h2>
+                        <ul class="footer-nav__payment">
+                            <li class="footer-nav__payment-item">
+                                <img class="footer-nav__payment-image" src="{{ asset('img/mir-logo.svg') }}" width="60"
+                                     height="17"
+                                     alt=""/>
+                            </li>
+                            <li class="footer-nav__payment-item">
+                                <img class="footer-nav__payment-image" src="{{ asset('img/visa-logo.svg') }}" width="60"
+                                     height="20"
+                                     alt=""/>
+                            <li class="footer-nav__payment-item">
+                                <img class="footer-nav__payment-image" src="{{ asset('img/mastercard-logo.svg') }}"
+                                     width="60"
+                                     height="47" alt=""/>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+            <div class="footer__bottom">
+                <p><span class="footer__company">ООО «Парус и К»</span><br/>
+                    Фактический адрес: 141865, МО, п. Некрасовский, ул. Парковая, д. 1 (ж/д станция Катуар, Дмитровское
+                    ш.)<br/>
+                    Юридический адрес: 125371, Москва г, Волоколамское ш, дом № 116, строение 4, комнаты 5,33,35<br/>
+                    Тел.: +7 (499) 755-12-12. Email: parus@parus-k.ru</p>
+                <p>Сделано в «<a href="http://promologia.ru/">Промологии</a>»</p>
+            </div>
+        </footer>
+    {% endblock %}
+{% endblock %}

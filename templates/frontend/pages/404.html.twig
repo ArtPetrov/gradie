@@ -1,0 +1,45 @@
+{% extends 'frontend/pages/container.html.twig' %}
+
+{% block title %}{{ seo.title|default('Заголовок страницы') }}{% endblock %}
+{% block keywords %}{{ seo.keywords|default('Ключевые слова') }}{% endblock %}
+{% block description %}{{ seo.description|default('Описание') }}{% endblock %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a class="breadcrumbs__link" href="{{ path('index') }}">Главная</a>
+        <span class="breadcrumbs__separator"></span>
+    </div>
+{% endblock %}
+
+{% block headline %}
+{% endblock %}
+
+ {% block sidebar %}
+     {{ sidebar_category() }}
+ {% endblock %}
+
+{% block content %}
+    <div class="content  catalog">
+
+        <div class="error-404">
+
+            <h1 class="page-title">Страница не найдена :(</h1>
+
+            <p class="error-404__text">Уважаемый клиент, по какой-то причине данная страница больше недоступна. Возможно, Вы найдете интересующую страницу, воспользовавшись поиском по каталогу. Желаем Вам приятных покупок!</p>
+
+            <div class="search">
+                <form class="search__form" method="GET" action="{{ path('search') }}">
+                    <label class="visually-hidden" for="search">Поиск</label>
+                    <input class="search__input" id="search" name="q" type="text" placeholder="Поиск" />
+                    <button class="search__button" type="submit" aria-label="Искать"></button>
+                </form>
+            </div>
+
+        </div>
+
+        <div class="description">
+            {{ content|default('')|raw }}
+        </div>
+
+    </div>
+{% endblock %}

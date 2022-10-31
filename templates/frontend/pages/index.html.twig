@@ -1,0 +1,51 @@
+{% extends 'frontend/container.html.twig' %}
+
+{% block title %}{{ seo.title|default('Заголовок страницы') }}{% endblock %}
+{% block keywords %}{{ seo.keywords|default('Ключевые слова') }}{% endblock %}
+{% block description %}{{ seo.description|default('Описание') }}{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('frontend.salons') }}
+{% endblock %}
+
+{% block bodyClass %}class="homepage"{% endblock %}
+
+{% block main %}
+    <main>
+
+        {{ slider_index() }}
+
+        {{ slider_index_context() }}
+
+        {{ popular_products(6) }}
+
+        {{ index_products(12) }}
+
+        {{ index_works(4) }}
+
+        <section class="where-to-buy">
+            <h2 class="heading  heading__where-to-buy">Где купить Gardie в вашем городе</h2>
+            <p class="where-to-buy__text">Город определен автоматически. Чтобы сменить город, введите его название в поле:</p>
+
+            <div class="addresses">
+                <div class="addresses__inner">
+                    <div class="addresses__search">
+                        <input id="search_city" class="addresses__search-input" type="text" placeholder="Введите город" />
+                        <input type="hidden" class="path-for-salons" value="{{ path('salons.json') }}">
+                    </div>
+                    <ul class="addresses__list cities-list">
+                    </ul>
+                </div>
+                <div id="map" class="addresses__map"></div>
+            </div>
+
+        </section>
+
+        {{ index_news(5) }}
+
+{#        {{ index_gallery(10) }}#}
+
+
+    </main>
+{% endblock %}

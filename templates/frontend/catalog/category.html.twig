@@ -1,0 +1,224 @@
+{% extends 'frontend/container.html.twig' %}
+
+{% block title %}{{ seo.title|default('Заголовок страницы') }}{% endblock %}
+{% block keywords %}{{ seo.keywords|default('Ключевые слова') }}{% endblock %}
+{% block description %}{{ seo.description|default('Описание') }}{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('frontend.catalog') }}
+{% endblock %}
+
+{% block main %}
+
+    <main>
+
+        <div class="breadcrumbs">
+            <a class="breadcrumbs__link" href="{{ path('index') }}">Главная</a>
+            <span class="breadcrumbs__separator"></span>
+            <a class="breadcrumbs__link" href="{{ path('catalog') }}">Каталог</a>
+
+            {% macro breadcrumbs(category) %}
+                {% import _self as tree %}
+                {% if category.parent %}
+                    {{ tree.breadcrumbs(category.parent) }}
+                {% endif %}
+                <span class="breadcrumbs__separator"></span>
+                <a class="breadcrumbs__link"
+                   href="{{ path('catalog.categorie',{slug:category.path}) }}">{{ category.name }}</a>
+            {% endmacro %}
+            {% import _self as tree %}
+            {% if category.parent %}
+                {{ tree.breadcrumbs(category.parent) }}
+            {% endif %}
+        </div>
+
+        <h1 class="page-title">{{ header|default('Каталог товаров') }}</h1>
+
+        <div class="wrap">
+
+            <aside class="sidebar">
+
+                <div class="filter">
+
+                    {{ sidebar_for_category(category.path) }}
+                    {% if filters|length >0 %}
+
+                        {% for slug, filter in filters %}
+                            {% if 'tsvet'== slug %}
+                                <filedset class="filter__filedset">
+                                    <legend class="sidebar__heading  filter__heading">Цвет</legend>
+                                    {% for selector in filter %}
+                                        {{ filter_selector_color(selector) }}
+                                    {% endfor %}
+                                </filedset>
+                            {% else %}
+                                {{ filter_default(filter) }}
+                            {% endif %}
+                        {% endfor %}
+
+                        <button class="filter__button action-clear-filters" type="button">Очистить</button>
+
+                    {% endif %}
+                </div>
+
+            </aside>
+
+            <div class="content">
+
+                <div class="items-options">
+
+                    <div class="sort">
+                    </div>
+
+                    {% if category.type.type=='BUY' %}
+                        <div class="layout">
+                            <button class="layout__button  layout__button--cards {% if style_visible=='cards' %}layout__button--active{% endif %}"
+                                    type="button"></button>
+                            <button class="layout__button  layout__button--list {% if style_visible=='list' %}layout__button--active{% endif %}"
+                                    type="button"></button>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <button class="filter-toggle" type="button">Фильтры</button>
+
+                <div class="filter">
+
+                    {{ sidebar_for_category(category.path) }}
+                    <form>
+                        {% if filters|length >0 %}
+                            {% for slug, filter in filters %}
+                                {% if 'tsvet'== slug %}
+                                    <filedset class="filter__filedset">
+                                        <legend class="sidebar__heading  filter__heading">Цвет</legend>
+                                        {% for selector in filter %}
+                                            {{ filter_selector_color(selector) }}
+                                        {% endfor %}
+                                    </filedset>
+                                {% else %}
+                                    {{ filter_default(filter) }}
+                                {% endif %}
+                            {% endfor %}
+                            <button class="filter__button action-clear-filters" type="button">Очистить</button>
+                        {% endif %}
+                    </form>
+                </div>
+
+                <div class="picked-filter">
+                </div>
+
+                {% if category.type.type=='BUY' %}
+                    <div class="items-accessory product-container{% if style_visible=='list' %} items-accessory--list{% endif %}"
+                         data-start-count="24"
+                         data-load-step="24"
+                         data-path="{{ path('catalog.products') }}"
+                         data-category="{{ category.path }}"
+                         data-properties="cover,name,id,cost,old_cost,link"
+                         data-nocover='<img class="item-accessory__image" src="https://imgholder.ru/185/DDD/&text=Нет фото&font=kelson" width="185" height="185" alt="" />'
+                         data-cover='<img class="item-accessory__image" src="__cover__" width="185" height="185" alt="" />'
+                         data-cost='<p class="item-accessory__price">__cost__ ₽</p>'
+                         data-old-cost='<p class="item-accessory__price"><span class="item-accessory__price-new">__cost__ ₽</span><span class="item-accessory__price-old">__old_cost__ ₽</span></p>'
+                         data-template='
+<div class="item-accessory product">
+    <a href="__link__">
+    __cover__
+    </a>
+    <a class="item-accessory__title" href="__link__">__name__</a>
+    <div class="item-accessory__inner">
+        __cost__
+        <input class="item-accessory__quantity basket-add-count" type="number" value="1"/>
+        <button class="item-accessory__button basket-adding" type="button"  data-id="__id__">В корзину</button>
+    </div>
+</div>
+'>
+                        {% for product in products %}
+                            <div class="item-accessory product">
+                                <a href="{{ path('product',{id:product.id}) }}">
+                                    <img class="item-accessory__image"
+                                         src="{% if product.cover %}{{ product.cover }}{% else %}https://imgholder.ru/185/DDD/&text=Нет фото&font=kelson{% endif %}"
+                                         width="185" height="185" alt="{{ product.name }}"/>
+                                </a>
+                                <a class="item-accessory__title"
+                                   href="{{ path('product',{id:product.id}) }}">{{ product.name }}</a>
+                                <div class="item-accessory__inner">
+                                    {% if product.old_cost > 0 %}
+                                        <p class="item-accessory__price">
+                                            <span class="item-accessory__price-new">{{ product.cost }} ₽</span>
+                                            <span class="item-accessory__price-old">{{ product.old_cost }} ₽</span>
+                                        </p>
+                                    {% else %}
+                                        <p class="item-accessory__price">{{ product.cost }} ₽</p>
+                                    {% endif %}
+                                    <input class="item-accessory__quantity basket-add-count" type="number" value="1"/>
+                                    <button class="item-accessory__button basket-adding" type="button"
+                                            data-id="{{ product.id }}">В корзину
+                                    </button>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="items-solution product-container"
+                         data-start-count="24"
+                         data-load-step="24"
+                         data-path="{{ path('catalog.products') }}"
+                         data-category="{{ category.path }}"
+                         data-properties="cover,name,id,cost,old_cost,link"
+                         data-nocover='<img class="item-solution__image" src="https://imgholder.ru/297/DDD/&text=Нет фото&font=kelson" width="297" height="297" alt="" />'
+                         data-cover='<img class="item-solution__image" src="__cover__" width="297" height="297" alt="" />'
+                         data-cost='<p class="item-solution__price">__cost__ ₽</p>'
+                         data-old-cost='<p class="item-solution__price"><span class="item-solution__price-new">__cost__ ₽</span><span class="item-solution__price-old">__old_cost__ ₽</span></p>'
+                         data-template='
+<div class="item-solution product">
+    <a href="__link__">
+    __cover__
+    </a>
+    <div class="item-solution__inner">
+        <a class="item-solution__title item-accessory__title" href="__link__">__name__</a>
+        __cost__
+        <a class="item-solution__button" href="__link__">Подробнее</a>
+    </div>
+</div>
+'>
+                        {% for product in products %}
+                            <div class="item-solution product">
+                                <a href="{{ path('product',{id:product.id}) }}">
+                                    <img class="item-solution__image"
+                                         src="{% if product.cover %}{{ product.cover }}{% else %}https://imgholder.ru/297/DDD/&text=Нет фото&font=kelson{% endif %}"
+                                         width="297" height="297" alt="{{ product.name }}"/>
+                                </a>
+                                <div class="item-solution__inner">
+                                    <a class="item-solution__title item-accessory__title"
+                                       href="{{ path('product',{id:product.id}) }}">{{ product.name }}</a>
+                                    {% if product.old_cost > 0 %}
+                                        <p class="item-solution__price">
+                                            <span class="item-solution__price-new">{{ product.cost }} ₽</span>
+                                            <span class="item-solution__price-old">{{ product.old_cost }} ₽</span>
+                                        </p>
+                                    {% else %}
+                                        <p class="item-solution__price">{{ product.cost }} ₽</p>
+                                    {% endif %}
+                                    <a class="item-solution__button" href="{{ path('product',{id:product.id}) }}">Подробнее</a>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                    </div>
+                {% endif %}
+
+
+                <button class="more button-loading" type="button" aria-label="Показать еще"></button>
+
+                <div class="description">
+                    <h3 class="search-none" style="display: none">Ничего не найдено :-( Измените критерии отбора.</h3>
+                    <h4 class="search-load" style="display: none">Идет загрузка товара.</h4>
+                    {{ content|raw }}
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+{% endblock %}

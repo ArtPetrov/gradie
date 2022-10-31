@@ -1,0 +1,47 @@
+{% if pageCount > 1 %}
+    <nav>
+        <div class="orders__td" style="text-align: center; margin-top: 20px;border-bottom: 0px;">
+
+            {% if previous is defined %}
+                    <a class="orders__button" rel="prev" href="{{ path(route, query|merge({(pageParameterName): previous})) }}">&laquo;&nbsp;{{ 'label_previous'|trans({}, 'KnpPaginatorBundle') }}</a>
+            {% else %}
+                    <span class="orders__button  orders__button--cancel">&laquo;&nbsp;{{ 'label_previous'|trans({}, 'KnpPaginatorBundle') }}</span>
+            {% endif %}
+
+            {% if startPage > 1 %}
+                    <a class="orders__button" href="{{ path(route, query|merge({(pageParameterName): 1})) }}">1</a>
+                {% if startPage == 3 %}
+                        <a class="orders__button" href="{{ path(route, query|merge({(pageParameterName): 2})) }}">2</a>
+                {% elseif startPage != 2 %}
+                        <span class="orders__button  orders__button--cancel">&hellip;</span>
+                {% endif %}
+            {% endif %}
+
+            {% for page in pagesInRange %}
+                {% if page != current %}
+                        <a class="orders__button" href="{{ path(route, query|merge({(pageParameterName): page})) }}">{{ page }}</a>
+                {% else %}
+                        <span class="orders__button orders__button--cancel">{{ page }}</span>
+                {% endif %}
+
+            {% endfor %}
+
+            {% if pageCount > endPage %}
+                {% if pageCount > (endPage + 1) %}
+                    {% if pageCount > (endPage + 2) %}
+                            <span class="orders__button  orders__button--cancel">&hellip;</span>
+                    {% else %}
+                            <a class="orders__button" href="{{ path(route, query|merge({(pageParameterName): (pageCount - 1)})) }}">{{ pageCount -1 }}</a>
+                    {% endif %}
+                {% endif %}
+                    <a class="orders__button" href="{{ path(route, query|merge({(pageParameterName): pageCount})) }}">{{ pageCount }}</a>
+            {% endif %}
+
+            {% if next is defined %}
+                    <a class="orders__button" rel="next" href="{{ path(route, query|merge({(pageParameterName): next})) }}">{{ 'label_next'|trans({}, 'KnpPaginatorBundle') }}&nbsp;&raquo;</a>
+            {% else %}
+                    <span class="orders__button orders__button--cancel">{{ 'label_next'|trans({}, 'KnpPaginatorBundle') }}&nbsp;&raquo;</span>
+            {% endif %}
+        </div>
+    </nav>
+{% endif %}

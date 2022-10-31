@@ -1,0 +1,8 @@
+{%- block radio_label -%}{%- endblock radio_label -%}
+{%- block radio_widget -%}
+    <label class="checkbox  ordering__option">
+        <input type="radio" class="checkbox__input  visually-hidden" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+        <span class="checkbox__indicator"></span>
+        {{ label|raw }}
+    </label>
+{%- endblock radio_widget -%}

@@ -1,0 +1,27 @@
+{% if products|length > 0 %}
+    <section class="solutions">
+        <div class="headline">
+            <h2 class="heading">
+                <a href="{{ path('catalog.categorie',{slug:'/gotovye-resheniia/'}) }}">Готовые решения</a>
+            </h2>
+            <a class="headline__all" href="{{ path('catalog.categorie',{slug:'/gotovye-resheniia/'}) }}">Все товары
+                раздела</a>
+        </div>
+        <div class="solutions__items">
+            <div class="swiper-wrapper">
+                {% for product in products %}
+                    <div class="solutions__item  swiper-slide">
+                        <img class="solutions__image"
+                             src="{% if product.cover %}{{ product.cover|imagine_filter('product_295_295') }}{% else %}https://imgholder.ru/295/DDD/&text=Нет фото&font=kelson{% endif %}"
+                             width="295" height="295" alt="{{ product.name }}"/>
+                        <a class="solutions__title" href="{{ path('product',{id:product.id}) }}">{{ product.name }}</a>
+                        <p class="solutions__price">{{ product.cost|number_format(0, '.',' ') }} ₽</p>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="solutions__arrow  solutions__arrow--prev"></div>
+            <div class="solutions__arrow  solutions__arrow--next"></div>
+        </div>
+        <div class="solutions__pagination"></div>
+    </section>
+{% endif %}

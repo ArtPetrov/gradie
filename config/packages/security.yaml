@@ -1,0 +1,98 @@
+security:
+
+  encoders:
+    App\Model\Cpanel\Entity\Administrator:
+      algorithm: auto
+    App\Model\Dealer\Entity\Dealer:
+      algorithm: auto
+    App\Model\Buyer\Entity\Buyer:
+      algorithm: auto
+
+  # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+  providers:
+    app_cpanel_provider:
+      entity:
+        class: App\Model\Cpanel\Entity\Administrator
+        property: email
+    app_dealer_provider:
+      entity:
+        class: App\Model\Dealer\Entity\Dealer
+        property: email
+    app_buyer_provider:
+      entity:
+        class: App\Model\Buyer\Entity\Buyer
+        property: id
+
+  firewalls:
+
+    dev:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      security: false
+
+    dealer:
+      pattern: ^/dealer
+      anonymous: true
+      provider: app_dealer_provider
+      user_checker: App\Security\DealerChecker
+      guard:
+        authenticators:
+          - App\Security\DealerAuthenticator
+        entry_point: App\Security\DealerAuthenticator
+      logout:
+        path: dealer.logout
+        target: dealer.login
+      remember_me:
+        secret: '%kernel.secret%'
+        lifetime: 604800
+        name: REMEMBER_DEALER
+        remember_me_parameter: _remember_me
+        path: /dealer
+
+    cpanel:
+      pattern: ^/cpanel
+      anonymous: true
+      provider: app_cpanel_provider
+      guard:
+        authenticators:
+          - App\Security\AdministratorAuthenticator
+        entry_point: App\Security\AdministratorAuthenticator
+      logout:
+        path: cpanel.logout
+        target: cpanel.login
+      remember_me:
+        secret: '%kernel.secret%'
+        lifetime: 604800
+        name: REMEMBER_CPANEL
+        remember_me_parameter: _remember_me
+        path: /cpanel
+
+    buyer:
+      pattern: ^/
+      anonymous: true
+      provider: app_buyer_provider
+      guard:
+        authenticators:
+          - App\Security\BuyerAuthenticator
+          - App\Security\OAuth\FacebookAuthenticator
+          - App\Security\OAuth\OkAuthenticator
+          - App\Security\OAuth\VkAuthenticator
+          - App\Security\OAuth\YandexAuthenticator
+        entry_point: App\Security\BuyerAuthenticator
+      logout:
+        path: buyer.logout
+        target: index
+      remember_me:
+        secret: '%kernel.secret%'
+        lifetime: 604800
+        name: REMEMBER_BUYER
+        remember_me_parameter: _remember_me
+        path: /
+
+  access_control:
+    - { path: ^/cpanel/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/cpanel, roles: ROLE_ROOT }
+
+    - { path: ^/dealer/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/dealer/registration$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/dealer/reset, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/dealer, roles: ROLE_DEALER }

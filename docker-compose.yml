@@ -1,0 +1,76 @@
+version: '3.7'
+
+services:
+
+  gardie-postgres:
+    image: postgres:12
+    volumes:
+      - gardie-database:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=gardie
+      - POSTGRES_USER=gardie
+      - POSTGRES_DB=gardie
+    ports:
+      - "5432:5432"
+
+  gardie-redis:
+    image: redis:5.0-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - gardie-redis:/data
+    command:
+      - 'redis-server'
+      - '--databases 2'
+      - '--save 900 1'
+      - '--save 300 10'
+      - '--save 60 10000'
+      - '--requirepass secret'
+
+  gardie-mailer:
+    image: mailhog/mailhog
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+  
+  gardie-nginx:
+    build:
+      context: ./docker/development
+      dockerfile: nginx.docker
+    volumes:
+      - .:/app
+    depends_on:
+      - gardie-php-fpm
+    ports:
+      - "80:80"
+
+  gardie-php-fpm:
+    build:
+      context: ./docker/development
+      dockerfile: php-fpm.docker
+    volumes:
+      - .:/app
+    depends_on:
+      - gardie-postgres
+      - gardie-redis
+      - gardie-mailer
+
+  gardie-php-cli:
+    build:
+      context: ./docker/development
+      dockerfile: php-cli.docker
+    volumes:
+      - .:/app
+      - composer:/root/.composer/cache
+    depends_on:
+      - gardie-postgres
+      - gardie-redis
+      - gardie-mailer
+
+
+
+volumes:
+  gardie-redis:
+  gardie-database:
+  composer:
+

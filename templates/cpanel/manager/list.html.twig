@@ -1,0 +1,82 @@
+{% extends 'cpanel/content.html.twig' %}
+
+{% block title %}{{ parent() }} - Менеджеры{% endblock %}
+
+{% block content %}
+    <div class="content-wrapper">
+        {% block breadcrumbs %}
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ path('cpanel.index') }}">Главная</a></li>
+                <li class="breadcrumb-item active">Менеджеры</li>
+            </ol>
+        {% endblock %}
+        <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card ">
+                <a href="{{ path('cpanel.manager.add') }}" class="btn btn-success btn-rounded btn-fw">
+                    Добавить менеджера
+                </a>
+            </div>
+        </div>
+        {% include 'cpanel/_flashes.html.twig' %}
+        <div class="row">
+
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Список менеджеров</h4>
+                        <div class="table-responsive pt-3">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Имя</th>
+                                    <th>Email</th>
+                                    <th>Телефон</th>
+                                    <th class="text-right" style="width: 20%">Действие</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for manager in pagination %}
+                                    <tr>
+                                        <td>
+                                            {{ manager.name }}
+                                        </td>
+                                        <td>
+                                            {{ manager.email }}
+                                        </td>
+                                        <td>
+                                            {{ manager.phone }}
+                                        </td>
+                                        <td class="text-right">
+                                            <a href="{{ path('cpanel.manager',{id:manager.id}) }}"
+                                               class="btn btn-sm btn-info">Редактировать</a>
+                                            <button data-path="{{ path('cpanel.manager.delete', {id:manager.id}) }}"
+                                                    data-parent="tr"
+                                                    class="btn btn-sm btn-danger delete-element">
+                                                Удалить
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                {% else %}
+                                    <tr>
+                                        <td colspan="4" class="text-center">
+                                            Менеджеры не найдены.
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                <input type="hidden" name="token_csrf" value="{{ token_csrf }}"/>
+                                </tbody>
+                            </table>
+                            <div class="navigation" style="display:flex; margin-top: 30px">
+                                <div style="margin-left: auto;margin-right:auto">
+                                    {{ knp_pagination_render(pagination) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

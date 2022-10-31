@@ -1,0 +1,96 @@
+{% extends 'frontend/pages/container.html.twig' %}
+
+{% block title %}{{ work.seo.title|default('Заголовок страницы') }}{% endblock %}
+{% block keywords %}{{ work.seo.keywords|default('Ключевые слова') }}{% endblock %}
+{% block description %}{{ work.seo.description|default('Описание') }}{% endblock %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a class="breadcrumbs__link" href="{{ path('index') }}">Главная</a>
+        <span class="breadcrumbs__separator"></span>
+        <a class="breadcrumbs__link" href="{{ path('works') }}">Выполненные проекты</a>
+        <span class="breadcrumbs__separator"></span>
+    </div>
+{% endblock %}
+
+{% block headline %}
+    <div class="news-page__headline">
+        <h1 class="page-title news-page__title">{{ work.content.header }}</h1>
+    </div>
+{% endblock %}
+
+{%  block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('frontend.works') }}
+{% endblock %}
+
+{% block content %}
+    <div class="content">
+        <div class="project view-works">
+
+            {{slider_works(work.images,'photo-gallery')}}
+
+            <div class="project__cost  project__cost--top">
+                <p class="project__cost-text">
+                    {% if work.content.price is not null %}
+                        Стоимость аналогичного проекта под ключ: <span
+                            class="project__cost-price">{{ work.content.price }} ₽</span>
+                    {% endif %}
+                </p>
+                <a class="project__cost-button" href="{{ path('design.project') }}">Запросить бесплатный 3D-проект</a>
+            </div>
+
+            <ul class="toc">
+                <li class="toc__item">
+                    <a class="toc__link" href="#make">Как это создавалось</a>
+                </li>
+                {% if work.composition|length > 0 %}
+                <li class="toc__item">
+                    <a class="toc__link" href="#specification">Спецификация</a>
+                </li>
+                {% endif %}
+            </ul>
+
+            <div class="project__entry" id="make">
+
+                {{ content|default('')|raw }}
+
+                {% if work.composition|length > 0 %}
+                    <h2 id="specification">Спецификация</h2>
+                    <div class="table">
+                        <table>
+                            <tr>
+                                <th>Артикул</th>
+                                <th>Наименование</th>
+                                <th class="table__center">Кол-во</th>
+                            </tr>
+                            {% for product in work.composition %}
+                            <tr>
+                                <td>{{ product.product.info.article }}</td>
+                                <td>
+                                    {% if product.product.getEnableStatus %}
+                                        <a href="{{ path('product',{id:product.product.id}) }}">{{ product.product.info.name }}</a>
+                                    {% else %}
+                                        {{ product.product.info.name }}
+                                    {% endif %}
+                                </td>
+                                <td class="table__center">{{ product.count }}</td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                {% endif %}
+            </div>
+            <h2>Понравился проект? Закажите бесплатный 3D-проект для своего помещения!</h2>
+            <div class="project__cost">
+                <p class="project__cost-text">
+                    {% if work.content.price is not null %}
+                        Стоимость аналогичного проекта под ключ: <span
+                            class="project__cost-price">{{ work.content.price }} ₽</span>
+                    {% endif %}
+                </p>
+                <a class="project__cost-button" href="{{ path('design.project') }}">Запросить бесплатный 3D-проект</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

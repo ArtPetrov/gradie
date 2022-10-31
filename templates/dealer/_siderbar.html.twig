@@ -1,0 +1,44 @@
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+    <ul class="nav">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('dealer.index') }}">
+                <i class="mdi mdi-home menu-icon"></i>
+                <span class="menu-title">Главная</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('dealer.profile') }}">
+                <i class="mdi mdi-help-circle-outline menu-icon"></i>
+                <span class="menu-title">Профиль</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('dealer.files') }}">
+                <i class="mdi mdi-file-plus-outline menu-icon"></i>
+                <span class="menu-title">Файлы</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('dealer.salons') }}">
+                <i class="mdi mdi-map-marker menu-icon"></i>
+                <span class="menu-title">Салоны</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('dealer.tickets') }}">
+                <i class="mdi mdi-help-circle-outline menu-icon"></i>
+                <span class="menu-title">Служба поддержки {{ ticket_count_new_for_dealer(app.user) }}</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('dealer.logout') }}">
+                <i class="mdi mdi-power menu-icon"></i>
+                <span class="menu-title">Выход</span>
+            </a>
+        </li>
+    </ul>
+</nav>

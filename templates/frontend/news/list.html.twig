@@ -1,0 +1,74 @@
+{% extends 'frontend/pages/container.html.twig' %}
+
+{% block title %}{{ seo.title|default('Заголовок страницы') }}{% endblock %}
+{% block keywords %}{{ seo.keywords|default('Ключевые слова') }}{% endblock %}
+{% block description %}{{ seo.description|default('Описание') }}{% endblock %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a class="breadcrumbs__link" href="{{ path('index') }}">Главная</a>
+        <span class="breadcrumbs__separator"></span>
+    </div>
+{% endblock %}
+
+{%  block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('frontend.news') }}
+{% endblock %}
+
+{% block sidebar %}
+    {% set current = path('articles') %}
+    {{ parent() }}
+{% endblock %}
+
+{% block headline %}
+    <h1 class="page-title">{{ header|default() }}</h1>
+{% endblock %}
+
+{% block content %}
+
+    <div class="content">
+
+        <div class="layout">
+            <button class="layout__button  layout__button--cards  layout__button--active" type="button"></button>
+            <button class="layout__button  layout__button--list" type="button"></button>
+        </div>
+
+        <div class="items-news news-container jscroll-inner"
+             data-path="{{ path('articles.json') }}"
+             data-properties="cover,date,datetime,name,link"
+             data-nocover='<div class="item-news__no-image"></div>'
+             data-cover='<img class="item-news__image" src="__cover__" width="215" height="320" alt="" />'
+             data-template='
+    <div class="item-news">
+        __cover__
+        <div class="item-news__inner">
+            <time class="item-news__date" datetime="__datetime__">__date__</time>
+            <a class="item-news__title" href="__link__">__name__</a>
+        </div>
+    </div>
+'>
+
+            {% for one in news %}
+                <div class="item-news">
+                    {% if one.cover is null %}
+                        <div class="item-news__no-image"></div>
+                    {% else %}
+                        <img class="item-news__image" src="{{ one.cover|imagine_filter('article_215_320') }}"
+                             width="215" height="320" alt=""/>
+                    {% endif %}
+
+                    <div class="item-news__inner">
+                        <time class="item-news__date"
+                              datetime="{{ one.date|date('Y-m-d') }}">{{ one.date|date('d.m.Y') }}</time>
+                        <a class="item-news__title" href="{{ path('article',{id:one.id}) }}">{{ one.name }}</a>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+        <button class="show-more button-loading" type="button">Показать еще</button>
+    </div>
+
+    </div>
+{% endblock %}

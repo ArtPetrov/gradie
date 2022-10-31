@@ -1,0 +1,73 @@
+{% extends 'frontend/container.html.twig' %}
+
+{% block title %}{{ seo.title|default('Данные покупателя') }}{% endblock %}
+{% block keywords %}{{ seo.keywords|default('Оформление заказа') }}{% endblock %}
+{% block description %}{{ seo.description|default('Оформление заказа') }}{% endblock %}
+
+{% block contextSlider %}
+    {{ slider_context(2) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('frontend.ordering') }}
+{% endblock %}
+
+{% if form is defined %}
+    {% form_theme form with [
+        'frontend/ordering/_form_radio_second.html.twig',
+    ] %}
+{% endif %}
+
+{% block main %}
+
+    <div class="breadcrumbs">
+        <a class="breadcrumbs__link" href="{{ path('index') }}">Главная</a>
+        <span class="breadcrumbs__separator"></span>
+        <a class="breadcrumbs__link" href="{{ path('basket') }}">Корзина</a>
+        <span class="breadcrumbs__separator"></span>
+        <a class="breadcrumbs__link" href="{{ path('ordering.step1') }}">Контакты</a>
+        <span class="breadcrumbs__separator"></span>
+        <a class="breadcrumbs__link" href="{{ path('ordering.step2') }}">Адрес</a>
+        <span class="breadcrumbs__separator"></span>
+        <a class="breadcrumbs__link" href="{{ path('ordering.step3') }}">Помощь</a>
+        <span class="breadcrumbs__separator"></span>
+    </div>
+    {{ form_start(form, {
+        attr: {
+            class:'ordering',
+        }
+    }) }}
+
+    <h1 class="page-title">Оформление заказа</h1>
+
+    <h2 class="ordering__heading"><span class="ordering__step">4</span> Оплата</h2>
+
+    <div class="ordering__payment">
+
+        <label class="ordering__payment-item  ordering__payment-item--card" data-type="ONLINE">
+            <input class="ordering__payment-input  visually-hidden" type="radio" name="payment"
+                   {% if form.type.vars.value=='ONLINE' %}checked=""{% endif %}
+            >
+            <span class="ordering__payment-item-inner">Банковской картой</span>
+        </label>
+
+        {% if form.delivery.vars.value!='regions' %}
+            <label class="ordering__payment-item  ordering__payment-item--cash" data-type="CASH">
+                <input class="ordering__payment-input  visually-hidden" type="radio" name="payment"
+                       {% if form.type.vars.value=='CASH' %}checked=""{% endif %}
+                >
+                <span class="ordering__payment-item-inner">Наличными курьеру</span>
+            </label>
+        {% endif %}
+
+        {{ form_widget(form.type, {attr: {
+            class: 'visually-hidden payment-type',
+        }}) }}
+    </div>
+
+    <button class="ordering__button  ordering__button--pay" type="submit">Продолжить</button>
+
+    {{ form_end(form) }}
+
+{% endblock %}

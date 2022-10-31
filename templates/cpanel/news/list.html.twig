@@ -1,0 +1,65 @@
+{% extends 'cpanel/content.html.twig' %}
+
+{% block content %}
+    <div class="content-wrapper">
+        {% block breadcrumbs %}
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active">Главная</li>
+            </ol>
+        {% endblock %}
+        <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card mt-2">
+                <a href="{{ path('cpanel.news.add') }}" class="btn btn-success btn-rounded btn-fw">
+                    Опубликовать новость
+                </a>
+            </div>
+        </div>
+        {% include 'cpanel/_flashes.html.twig' %}
+        <div class="row">
+            {% for item in news %}
+                <div class="col-lg-12 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">{{ item.header }}</h3>
+                            <p class="card-description">
+                                {% if not item.published %}
+                                    <label class="badge badge-warning mr-3">Не опубликована</label>
+                                {% endif %}
+                                {{ item.publishedAt|date('d.m.Y H:i') }}
+                                <a href="{{ path('cpanel.news.edit',{id: item.id}) }}" class="ml-4">Редактировать</a> /
+                                <a href="#"
+                                   data-path="{{ path('cpanel.news.delete', {id:item.id}) }}"
+                                   data-parent="div.stretch-card"
+                                   class="delete-element">
+                                    Удалить</a>
+                            </p>
+                            <p>
+                                {{ item.content|raw }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-lg-12 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Новостей нет</h3>
+                            <p class="card-description">
+                                Попробуйте зайти позже, в настоящий момент, нет актуальных новостей.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+            <input type="hidden" name="token_csrf" value="{{ csrf_token('any') }}"/>
+
+            <div class="navigation d-flex mt-4 col-lg-12">
+                <div class="ml-auto mr-auto">
+                    {{ knp_pagination_render(news) }}
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

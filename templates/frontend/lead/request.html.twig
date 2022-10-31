@@ -1,0 +1,103 @@
+{% extends 'frontend/pages/container.html.twig' %}
+
+{% block title %}{{ seo.title|default('Заголовок страницы') }}{% endblock %}
+{% block keywords %}{{ seo.keywords|default('Ключевые слова') }}{% endblock %}
+{% block description %}{{ seo.description|default('Описание') }}{% endblock %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a class="breadcrumbs__link" href="{{ path('index') }}">Главная</a>
+        <span class="breadcrumbs__separator"></span>
+    </div>
+{% endblock %}
+
+{% block headline %}
+    <div class="news-page__headline">
+        <h1 class="page-title  news-page__title">{{ header|default('') }}
+        </h1>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    <div class="content">
+        {% if complete==false %}
+            {{ form_start(form,{
+                attr: {
+                    class:'dealer-form',
+                }
+            }) }}
+
+            <div class="dealer-form__text">
+                <p>{{ content|default('')|raw }}</p>
+            </div>
+
+            <h2 class="dealer-form__heading">{{ header|default('') }}</h2>
+
+            <div class="dealer-form__fields">
+
+                <div class="dealer-form__row">
+                    <div class="dealer-form__field{% if form_errors(form.name) is not empty %} dealer-form__field--error{% endif %}">
+                        <label class="dealer-form__label" for="name">Имя <span>(обязательно)</span></label>
+                        {{ form_widget(form.name, {attr: {
+                            class: 'dealer-form__input',
+                            id: 'name',
+                        }}) }}
+                    </div>
+                    <div class="dealer-form__field{% if form_errors(form.city) is not empty %} dealer-form__field--error{% endif %}">
+                        <label class="dealer-form__label" for="city">Город <span>(обязательно)</span></label>
+                        {{ form_widget(form.city, {attr: {
+                            class: 'dealer-form__input',
+                            id: 'city',
+                        }}) }}
+                    </div>
+                </div>
+
+                <div class="dealer-form__row">
+                    <div class="dealer-form__field{% if form_errors(form.phone) is not empty %} dealer-form__field--error{% endif %}">
+                        <label class="dealer-form__label" for="phone">Контактный телефон
+                            <span>(обязательно)</span></label>
+                        {{ form_widget(form.phone, {attr: {
+                            class: 'dealer-form__input',
+                            id: 'phone',
+                        }}) }}
+                    </div>
+                    <div class="dealer-form__field{% if form_errors(form.email) is not empty %} dealer-form__field--error{% endif %}">
+                        <label class="dealer-form__label" for="email">Контакный E-mail
+                            <span>(обязательно)</span></label>
+                        {{ form_widget(form.email, {attr: {
+                            class: 'dealer-form__input',
+                            id: 'email',
+                        }}) }}
+                    </div>
+                </div>
+
+                <div class="dealer-form__agree">
+                    <label class="radio">
+                        <input class="radio__input  visually-hidden" type="radio" checked/>
+                        <span class="radio__indicator"></span>
+                        Я даю согласие на обработку своих персональных данных. <a href=href="{{ path('page',{slug:'personal'}) }}">Подробнее</a>
+                    </label>
+                </div>
+
+                <button class="dealer-form__button" type="submit">Отправить</button>
+                <input type="hidden" name="token_csrf" value="{{ csrf_token('any') }}"/>
+                {% if not form.vars.valid %}
+                    <p class="d3-project__error-text">Необходимо заполнить поля, выделенные красным!</p>
+                {% endif %}
+            </div>
+            {{ form_end(form) }}
+        {% else %}
+            <div class="price">
+                <p class="price__text">Благодарим за предоставленные данные! Вы можете просмотреть и скачать прайс по
+                    ссылке:</p>
+                {% if type=='client' %}
+                    <a class="price__link" href="{{ asset('files/price/Price_GARDIE.pdf') }}">Скачать прайс 2019</a>
+                {% else %}
+                    <a class="price__link" href="{{ asset('files/price/Price_GARDIE_opt.pdf') }}">Скачать оптовый прайс 2019</a>
+                {% endif %}
+            </div>
+        {% endif %}
+
+    </div>
+{% endblock %}

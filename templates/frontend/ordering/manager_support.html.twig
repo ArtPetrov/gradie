@@ -1,0 +1,50 @@
+{% extends 'frontend/container.html.twig' %}
+
+{% block title %}{{ seo.title|default('Данные покупателя') }}{% endblock %}
+{% block keywords %}{{ seo.keywords|default('Оформление заказа') }}{% endblock %}
+{% block description %}{{ seo.description|default('Оформление заказа') }}{% endblock %}
+
+{% block contextSlider %}
+    {{ slider_context(2) }}
+{% endblock %}
+
+{% if form is defined %}
+    {% form_theme form with [
+        'frontend/ordering/_form_radio_second.html.twig',
+    ] %}
+{% endif %}
+
+{% block main %}
+
+    <div class="breadcrumbs">
+        <a class="breadcrumbs__link" href="{{ path('index') }}">Главная</a>
+        <span class="breadcrumbs__separator"></span>
+        <a class="breadcrumbs__link" href="{{ path('basket') }}">Корзина</a>
+        <span class="breadcrumbs__separator"></span>
+        <a class="breadcrumbs__link" href="{{ path('ordering.step1') }}">Контакты</a>
+        <span class="breadcrumbs__separator"></span>
+        <a class="breadcrumbs__link" href="{{ path('ordering.step2') }}">Адрес</a>
+        <span class="breadcrumbs__separator"></span>
+    </div>
+
+    {{ form_start(form, {
+        attr: {
+            class:'ordering',
+        }
+    }) }}
+
+    <h1 class="page-title">Оформление заказа</h1>
+
+    <h2 class="ordering__heading"><span class="ordering__step">3</span> Помощь менеджера</h2>
+
+    {% include 'frontend/_flashes.html.twig' %}
+
+    <p class="ordering__text">Прежде, чем завершить оформление заказа и перейти к оплате, Вы можете запросить помощь
+        менеджера для проверки Вашего заказа.</p>
+
+    {{ form_widget(form.help) }}
+    <button class="ordering__button" type="submit">Продолжить</button>
+
+    {{ form_end(form) }}
+
+{% endblock %}

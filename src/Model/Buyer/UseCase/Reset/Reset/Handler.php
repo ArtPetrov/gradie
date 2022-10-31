@@ -1,0 +1,41 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Model\Buyer\UseCase\Reset\Reset;
+
+use App\Model\Buyer\Repository\BuyerRepository;
+use App\Model\Flusher;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+
+class Handler
+{
+    private $buyers;
+    private $hasher;
+    private $flusher;
+
+    public function __construct(BuyerRepository $buyers, UserPasswordEncoderInterface $hasher, Flusher $flusher)
+    {
+        $this->buyers = $buyers;
+        $this->hasher = $hasher;
+        $this->flusher = $flusher;
+    }
+
+    public function handle(Command $command): void
+    {
+        if (!$buyer = $this->buyers->findByResetToken($command->token)) {
+            throw new \DomainException('buyer.error.token.reset');
+        }
+
+        if ($command->password !== $command->repeatPassword) {
+            throw new \DomainException('buyer.passwords.not.equal');
+        }
+
+        $buyer->passwordReset(
+            new \DateTimeImmutable(),
+            $this->hasher->encodePassword($buyer, $command->password)
+        );
+
+        $this->flusher->flush();
+    }
+}

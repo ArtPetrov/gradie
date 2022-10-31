@@ -1,0 +1,16 @@
+{{ form_start(form,{
+    attr: {
+        class:'forms-sample'
+    }
+}) }}
+<div class="form-group">
+    <label for="exampleInputName">Название:</label>
+    {{ form_widget(form.name, {attr: {
+        placeholder: 'Название категории',
+        id: 'exampleInputName',
+        class: 'form-control'
+    }}) }}
+</div>
+{{ form_errors(form.name) }}
+<button type="submit" class="btn btn-primary mr-2">{{ name_sumbit }}</button>
+{{ form_end(form) }}

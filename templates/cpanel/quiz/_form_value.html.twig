@@ -1,0 +1,88 @@
+{{ form_start(form,{
+    attr: {
+        class:'forms-sample'
+    }
+}) }}
+
+{% if quest.type.media %}
+
+    <div class="form-group">
+        <label>Подпись для картинки:</label>
+        {{ form_widget(form.name, {attr: {
+            placeholder: 'Например: Белый',
+            class: 'form-control'
+        }}) }}
+    </div>
+    {{ form_errors(form.name) }}
+
+    <div class="form-group" style="display: none">
+        <label>Вариант:</label>
+        {{ form_widget(form.value, {attr: {
+            placeholder: 'Например: В белых тонах',
+            class: 'form-control'
+        }}) }}
+    </div>
+    {{ form_errors(form.value) }}
+
+    <div class="form-group">
+        <label>Обложка слайдера</label>
+        {{ form_widget(form.cover, {attr: {
+            class: 'file-upload-default'
+        }}) }}
+        <div class="input-group col-xs-12">
+            <input type="text" class="form-control file-upload-info" disabled="" placeholder="Обязательный размер: 1600x900px">
+            <span class="input-group-append">
+                          <button class="file-upload-browse btn btn-primary" type="button">{{name_load}}</button>
+                        </span>
+        </div>
+    </div>
+    {{ form_errors(form.cover) }}
+
+{% else %}
+
+    <div class="form-group">
+        <label>Название варианта:</label>
+        {{ form_widget(form.name, {attr: {
+            placeholder: 'Например: Белый',
+            class: 'form-control'
+        }}) }}
+    </div>
+    {{ form_errors(form.name) }}
+    <div class="form-group">
+        <label>Вариант:</label>
+        {{ form_widget(form.value, {attr: {
+            placeholder: 'Например: В белых тонах',
+            class: 'form-control'
+        }}) }}
+    </div>
+    {{ form_errors(form.value) }}
+
+    <div class="form-group" style="display: none">
+        <label>Обложка слайдера</label>
+        {{ form_widget(form.cover, {attr: {
+            class: 'file-upload-default'
+        }}) }}
+        <div class="input-group col-xs-12">
+            <input type="text" class="form-control file-upload-info" disabled="" placeholder="Обязательный размер: 1600x900px">
+            <span class="input-group-append">
+                          <button class="file-upload-browse btn btn-primary" type="button">name_load</button>
+                        </span>
+        </div>
+    </div>
+    {{ form_errors(form.cover) }}
+
+{% endif %}
+
+
+<div class="form-group">
+    <label>CSS Style:</label>
+    {{ form_widget(form.style, {attr: {
+        class: 'form-control',
+        placeholder: 'width: 100px;'
+
+    }}) }}
+</div>
+{{ form_errors(form.style) }}
+
+<button type="submit" class="btn btn-primary mr-2">{{ name_sumbit }}</button>
+{{ form_end(form) }}

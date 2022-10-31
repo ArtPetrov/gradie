@@ -1,0 +1,14 @@
+{% block form_errors %}
+        {% if errors|length > 0 %}
+            <div class="alert alert-danger alert-danger-valid mb-5">
+                {% for error in errors %}
+                    <div class="d-flex">
+                        <i class="mdi mdi-alert-octagon icon-sm text-danger"></i>
+                        <p class="mb-0 ml-1">
+                            {{ error.message }}
+                        </p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+{% endblock form_errors %}

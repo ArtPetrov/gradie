@@ -1,0 +1,38 @@
+"Username could not be found.": "Нет дилера с таким email адресом."
+"Invalid CSRF token.": "Ошибка безопасности - подделка запроса."
+"Invalid credentials.": "Неверный пароль."
+"dealer.moderation.wait": "Ваша заявка на модерации."
+"Account is disabled.": "Ваш аккаунт заблокирован."
+"javascript.not.support": "Включите поддержку JavaScript."
+
+"passwords.not.equal": "Пароли не совпадают. Укажите одинаковые пароли."
+"email.duplicate": "Email адрес уже занят другим дилером."
+"dealer.request.accepted": "Ваша заявка принята в обработку, ждите письмо."
+"administrator.updated": "Информация обновлена!"
+
+"manager.created": "Менеджер добавлен!"
+"manager.updated": "Информация о менджера обновлена!"
+
+"category.dealer.created": "Категория дилеров создана!"
+"category.dealer.updated": "Инфомарция о категории дилеров обновлена!"
+
+"dealer.moderation": "Ваша заявка ещё на модерации, мы не можем выслать пароль."
+"dealer.blocked": "Ваша аккаунт заблокирован, пароль Вам больше не нужен."
+
+"reset.request.repeat": "Вы уже отправляли заявку на восстановления пароля, проверьте почту."
+"reset.not.request": "Нет заявки на смену пароля."
+"reset.token.expired": "Действие ссылки на смену пароля закончилось, создайте новую заявку."
+"reset.token.invalid": "Ошибка токена, создайте новую заявку."
+"reset.complete": "Пароль обноволен."
+"reset.send.mail": "Вам отправлено письмо со ссылкой на новый пароль."
+
+"profile.edit.password": "Пароль изменен."
+"profile.edit": "Информация обновлена."
+
+"ticket.created": "Ваше обращение принято."
+"ticket.closed.no.ask": "Обращение уже закрыто, Вы не можете здесь писать."
+"ticket.closed": "Обращение уже закрыто."
+"error.csrf": "Ошибка CSRF. Повторите позже."
+
+"salon.updated": "Информация о салоне отправлена на модерацию."
+"salon.moderation.not.diff": "Новая информация не отличается от текущий информации."

@@ -1,0 +1,96 @@
+{% extends 'frontend/pages/container.html.twig' %}
+
+{% block title %}Регистрация{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('frontend.check-spam') }}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a class="breadcrumbs__link" href="{{ path('index') }}">Главная</a>
+        <span class="breadcrumbs__separator"></span>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="content">
+        <div class="authoriz">
+
+            {% include 'frontend/_flashes.html.twig' %}
+
+            <h2 class="modal__heading">Регистрация</h2>
+            {{ form_start(form) }}
+            <label class="modal__label" for="form_email">Ваше имя и фамилия</label>
+            {{ form_widget(form.name, {attr: {
+                placeholder: 'Введите ФИО',
+                class: 'modal__input',
+            }}) }}
+            {{  form_errors(form.name) }}
+
+            <label class="modal__label" for="form_phone">Ваше номер телефона</label>
+            {{ form_widget(form.phone, {attr: {
+                placeholder: 'Введите свой мобильный телефон',
+                class: 'modal__input',
+            }}) }}
+            {{  form_errors(form.phone) }}
+
+            <label class="modal__label" for="form_email">Email</label>
+            {{ form_widget(form.email, {attr: {
+                placeholder: 'Введите Email',
+                class: 'modal__input',
+            }}) }}
+            {{  form_errors(form.password) }}
+
+            <label class="modal__label" for="form_password">Пароль</label>
+            {{ form_widget(form.password, {attr: {
+                placeholder: 'Введите свой пароль',
+                class: 'modal__input'
+            }}) }}
+            {{  form_errors(form.password) }}
+
+            <label class="modal__label" for="form_repeatPassword">Повторите пароль</label>
+            {{ form_widget(form.repeatPassword, {attr: {
+                placeholder: 'Ещё раз пароль',
+                class: 'modal__input'
+            }}) }}
+            {{  form_errors(form.repeatPassword) }}
+
+            <label class="radio  modal__agree">
+                <input class="radio__input  visually-hidden" type="radio" checked="">
+                <span class="radio__indicator"></span>
+                Я даю согласие на обработку своих персональных данных. <a href="{{ path('page',{slug:'personal'}) }}">Подробнее</a>
+            </label>
+
+            {{ form_widget(form.a, {attr: { class: 'math_a'}}) }}
+            {{ form_widget(form.b, {attr: { class: 'math_b'}}) }}
+            {{ form_widget(form.c, {attr: { class: 'math_c'}})  }}
+
+            <div class="modal__action">
+                <button class="modal__button" type="submit">Зарегистрироваться</button>
+                <a class="modal__reg" href="{{ path('buyer.login') }}">У меня есть аккаунт</a>
+            </div>
+            {{ form_end(form) }}
+
+            <h2 class="modal__heading">Войти с помощью</h2>
+
+            <ul class="social-login">
+                <li class="social-login__item">
+                    <a class="social-login__link  social-login__link--vk" href="{{ path('oauth.connect',{network:'vk'}) }}" aria-label="ВКонтакте"></a>
+                </li>
+                <li class="social-login__item">
+                    <a class="social-login__link  social-login__link--ya" href="{{ path('oauth.connect',{network:'yandex'}) }}" aria-label="Yandex"></a>
+                </li>
+                <li class="social-login__item">
+                    <a class="social-login__link  social-login__link--fb" href="{{ path('oauth.connect',{network:'facebook'}) }}" aria-label="Facebook"></a>
+                </li>
+                <li class="social-login__item">
+                    <a class="social-login__link  social-login__link--ok" href="{{ path('oauth.connect',{network:'ok'}) }}" aria-label="Одноклассники"></a>
+                </li>
+
+            </ul>
+
+        </div>
+    </div>
+{% endblock %}

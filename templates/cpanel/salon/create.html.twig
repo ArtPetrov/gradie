@@ -1,0 +1,43 @@
+{% extends 'cpanel/content.html.twig' %}
+
+{% block title %}{{ parent() }} - Добавить салон{% endblock %}
+
+{% if form is defined %}
+    {% form_theme form with [
+        'cpanel/_form_errors.html.twig'
+    ] %}
+{% endif %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('cpanel.salon') }}
+{% endblock %}
+
+{% block content %}
+    <div class="content-wrapper">
+        {% block breadcrumbs %}
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ path('cpanel.index') }}">Главная</a></li>
+                <li class="breadcrumb-item"><a href="{{ path('cpanel.salons') }}">Салоны</a></li>
+                <li class="breadcrumb-item active">Добавить салон</li>
+            </ol>
+        {% endblock %}
+        {% include 'cpanel/_flashes.html.twig' %}
+
+        <div class="row">
+
+            <div class="col-lg-12 grid-margin stretch-card">
+
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title">Добавить салон</h2>
+                        <p class="card-description"></p>
+                        {{ include('cpanel/salon/_form.html.twig',{
+                            name_sumbit:'Добавить салон'
+                        }) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

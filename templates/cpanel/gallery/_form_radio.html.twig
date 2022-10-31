@@ -1,0 +1,9 @@
+{%- block radio_label -%}{%- endblock radio_label -%}
+{%- block radio_widget -%}
+    <span class="form-check form-check-flat form-check-primary">
+        <label class="form-check-label d-inline-block hover-cursor">
+            <input type="radio" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+            {{ label }}
+            <i class="input-helper"></i></label>
+    </span>
+{%- endblock radio_widget -%}

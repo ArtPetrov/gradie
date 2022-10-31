@@ -1,0 +1,45 @@
+{{ form_start(form,{
+    attr: {
+        class:'forms-sample'
+    }
+}) }}
+<div class="form-group">
+    <label for="exampleInputName">ФИО:</label>
+    {{ form_widget(form.name, {attr: {
+        placeholder: 'Имя Фамилия',
+        id: 'exampleInputName',
+        class: 'form-control'
+    }}) }}
+</div>
+{{ form_errors(form.name) }}
+<div class="form-group">
+    <label for="exampleInputEmail">Email адрес:</label>
+    {{ form_widget(form.email, {attr: {
+        placeholder: 'Email',
+        id: 'exampleInputEmail',
+        class: 'form-control'
+    }}) }}
+</div>
+{{ form_errors(form.email) }}
+<div class="form-group">
+    <label for="exampleInputPassword">Пароль:</label>
+    {{ form_widget(form.password, {attr: {
+        placeholder: 'Пароль',
+        id: 'exampleInputPassword',
+        class: 'form-control'
+    }}) }}
+
+</div>
+{{ form_errors(form.password) }}
+<div class="form-group">
+    <label for="exampleInputPasswordRepeat">Повторите пароль:</label>
+    {{ form_widget(form.repeatPassword, {attr: {
+        placeholder: 'Повторите пароль',
+        id: 'exampleInputPasswordRepeat',
+        class: 'form-control'
+    }}) }}
+
+</div>
+{{ form_errors(form.repeatPassword) }}
+<button type="submit" class="btn btn-primary mr-2">{{ name_sumbit }}</button>
+{{ form_end(form) }}

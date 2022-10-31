@@ -1,0 +1,22 @@
+<aside class="sidebar">
+    {% if categories|length > 0 %}
+        {% for category in categories %}
+        <nav class="sidebar-nav">
+            <h2 class="sidebar__heading">{{ category.name }}</h2>
+            <ul class="sidebar-nav__list">
+                {% for child in category.childs %}
+                    <li class="sidebar-nav__item">
+                        <a class="sidebar-nav__link"
+                           href="{{ path('catalog.categorie',{slug:child.path}) }}">{{ child.name }}</a>
+                    </li>
+                {% else %}
+                    <li class="sidebar-nav__item">
+                        <a class="sidebar-nav__link"
+                           href="{{ path('catalog.categorie',{slug:category.path}) }}">{{ category.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </nav>
+        {% endfor %}
+    {% endif %}
+</aside>

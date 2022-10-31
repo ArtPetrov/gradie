@@ -1,0 +1,8 @@
+{% block _form_diy_entry_widget %}
+    <div class="image col-xl-3 col-lg-4 col-sm-6 col-12 mb-4 hover-cursor">
+        <div style="width: 148px;height: 105px; background-image: url('__src__'); background-repeat: no-repeat; background-position: center"></div>
+        <button type="button" class="btn btn-danger btn-sm remove-image">Удалить</button>
+        {{ form_row(form.src) }}
+        {{ form_row(form.id) }}
+    </div>
+{% endblock %}

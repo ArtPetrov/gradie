@@ -1,0 +1,20 @@
+{% block _form_recommended_entry_widget %}
+    <li class="d-flex flex-nowrap mt-3">
+        <div class="col-sm-10">
+            {{ form_widget(form.name, {attr: {
+                placeholder: 'Название товара',
+                readonly: true,
+                class: 'form-control name-recommended'
+            }}) }}
+            {{ form_row(form.id) }}
+        </div>
+        <div class="col-sm-2 flex-nowrap">
+            <button type="button" class="btn btn-inverse-success btn-icon move-recommended">
+                <i class="mdi mdi-priority-high"></i>
+            </button>
+            <button type="button" class="btn btn-inverse-danger btn-icon ml-2 remove-recommended">
+                <i class="mdi mdi-delete-forever"></i>
+            </button>
+        </div>
+    </li>
+{% endblock %}

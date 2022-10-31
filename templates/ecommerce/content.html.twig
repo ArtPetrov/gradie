@@ -1,0 +1,23 @@
+{% extends 'cpanel/content.html.twig' %}
+{% block title %}{{ parent() }} | Продукция{% endblock %}
+
+{% if form is defined %}
+{% form_theme form with [
+    'ecommerce/_form_errors.html.twig',
+    'ecommerce/_form_checkbox.html.twig',
+    'ecommerce/_form_radio.html.twig',
+    'ecommerce/group/_form_products_entry.html.twig',
+    'ecommerce/group/_form_selectors_entry.html.twig',
+    'ecommerce/category/_form_filters_entry.html.twig',
+    'ecommerce/product/_form_recommended_entry.html.twig',
+    'ecommerce/product/_form_composition_entry.html.twig',
+    'ecommerce/product/_form_images_entry.html.twig',
+    'ecommerce/product/_form_categories_categories_choice.html.twig',
+    'ecommerce/product/_form_attributes_entry.html.twig'
+] %}
+{% endif %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('ecommerce') }}
+{% endblock %}

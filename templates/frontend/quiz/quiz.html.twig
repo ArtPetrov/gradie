@@ -1,0 +1,51 @@
+{% extends 'frontend/pages/container.html.twig' %}
+
+{% block title %}{{ quiz.name|default('Заголовок страницы') }}{% endblock %}
+{% block keywords %}{{ quiz.name|default('Ключевые слова') }}{% endblock %}
+{% block description %}{{ quiz.name|default('Описание') }}{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('frontend.quiz') }}
+{% endblock %}
+
+{% block sidebar %}
+    {% set current = 'quiz' %}
+    {{ parent() }}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a class="breadcrumbs__link" href="{{ path('index') }}">Главная</a>
+        <span class="breadcrumbs__separator"></span>
+    </div>
+{% endblock %}
+
+{% block headline %}
+    <h1 class="page-title">{{ quiz.name }}</h1>
+{% endblock %}
+
+{% block content %}
+    <div class="content">
+        <div class="test">
+            <p class="test__text">{{ content|default('')|raw }}</p>
+            <div class="test__inner"
+                 id="quiz-zone"
+                 data-text-end="{{ quiz.getTextEnd|raw }}"
+                 data-path-source="{{ path('quiz.data', {id:quiz.id}) }}"
+                 data-path-next="{{ path('works') }}"
+                 data-title-next="Перейти в выполненные работы"
+                 data-path-save="{{ path('quiz.save', {id:quiz.id}) }}"
+            >
+                <div class="test__start"
+                     {% if  quiz.cover is not null%}
+                     style="background:url('{{ asset('/files/'~quiz.cover.path)}}') no-repeat 50% 110px;"
+                    {% endif %}>
+                    <p class="test__start-text">{{ quiz.getTextBegin|raw }}</p>
+                    <a class="test__start-button quiz-start" href="javascript:void(0)"
+                       style="display: none;">Поехали!</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

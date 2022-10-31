@@ -1,0 +1,64 @@
+{% extends 'frontend/container.html.twig' %}
+
+{% block title %}{{ seo.title|default('Заголовок страницы') }}{% endblock %}
+{% block keywords %}{{ seo.keywords|default('Ключевые слова') }}{% endblock %}
+{% block description %}{{ seo.description|default('Описание') }}{% endblock %}
+
+{% block main %}
+    <main>
+
+        <div class="breadcrumbs">
+            <a class="breadcrumbs__link" href="{{ path('index') }}">Главная</a>
+            <span class="breadcrumbs__separator"></span>
+            <a class="breadcrumbs__link" href="{{ path('catalog') }}">Каталог</a>
+            <span class="breadcrumbs__separator"></span>
+        </div>
+
+        <h1 class="page-title">Результаты поиска</h1>
+
+        {% if products|length>0 %}
+            <p class="search-results">По запросу <span class="search-results__query">{{ query|default('') }}</span>
+                найдено:
+            </p>
+        {% else %}
+            <p class="search-results">По запросу <span class="search-results__query">{{ query|default('') }}</span>
+                ничего не найдено :-(
+            </p>
+        {% endif %}
+        <div class="wrap">
+
+            {{ sidebar_category() }}
+
+            <div class="content">
+                <div class="items-accessory">
+                    {% for product in products %}
+                        <div class="item-accessory">
+                            <a href="{{ path('product',{id:product.id}) }}">
+                            <img class="item-accessory__image" src="{% if product.cover %}{{ product.cover|imagine_filter('product_185_185') }}{% else %}https://imgholder.ru/185/DDD/&text=Нет фото&font=kelson{% endif %}" width="185"
+                                 height="185"
+                                 alt=""/>
+                            </a>
+                            <a class="item-accessory__title" href="{{ path('product',{id:product.id}) }}">{{product.name}}</a>
+                            <div class="item-accessory__inner">
+                                {% if product.old_cost >0 %}
+                                <p class="item-accessory__price">
+                                    <span class="item-accessory__price-new">{{product.cost|number_format(0, '.',' ')}} ₽</span>
+                                    <span class="item-accessory__price-old">{{product.old_cost|number_format(0, '.',' ')}} ₽</span>
+                                </p>
+                                {% else %}
+                                <p class="item-accessory__price">{{product.cost|number_format(0, '.',' ')}} ₽</p>
+                                {% endif %}
+                                <input class="item-accessory__quantity basket-add-count" type="number" value="1"/>
+                                <button class="item-accessory__button basket-adding" type="button" data-id="{{ product.id }}">В корзину</button>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="description">
+                    {{ content|raw }}
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

@@ -1,0 +1,6 @@
+{% for message in app.flashes('success') %}
+    <p  style="margin-bottom: 30px;  text-align: center; color: green">{{ message|trans([],'frontend') }}</p>
+{% endfor %}
+{% for message in app.flashes('error') %}
+    <p style="margin-bottom: 30px;  text-align: center; color: red"><b>{{ message|trans([],'frontend') }}</b></p>
+{% endfor %}

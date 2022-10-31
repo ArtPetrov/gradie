@@ -1,0 +1,12 @@
+{% extends 'mail.html.twig' %}
+
+{% block body %}
+    <div>
+    {{ content|raw }}
+    </div>
+
+    {% set url = url('dealer.profile') %}
+    <div style="margin-top: 50px;">
+        <a href="http://gardie-design.com/dealer/profile">Отписаться от рассылки</a>
+    </div>
+{% endblock %}

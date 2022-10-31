@@ -1,0 +1,128 @@
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+    <ul class="nav">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('cpanel.index') }}">
+                <i class="mdi mdi-home menu-icon"></i>
+                <span class="menu-title">Главная</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#leads" aria-expanded="false" aria-controls="ui-basic">
+                <i class="mdi mdi-bullhorn menu-icon"></i>
+                <span class="menu-title">Заявки {{ all_notifications() }}</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse show" id="leads">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"><a class="nav-link"
+                                            href="{{ path('cpanel.orders') }}">Заказы {{ orders_new() }}</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link"
+                                            href="{{ path('cpanel.design.projects') }}">Дизайн-проекты {{ design_project_new() }}</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="{{ path('cpanel.quick.orders') }}">Быстрые заказы {{ quick_order_new() }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ path('cpanel.leads') }}">Клиенты с
+                            лендингов {{ lead_new() }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ path('cpanel.quiz.results') }}">Опросы {{ quiz_new() }}</a></li>
+                </ul>
+            </div>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#content" aria-expanded="false" aria-controls="ui-basic">
+                <i class="mdi mdi-library-books menu-icon"></i>
+                <span class="menu-title">Контент</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="content">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"><a class="nav-link" href="{{ path('cpanel.pages') }}">Страницы</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ path('cpanel.articles') }}">Новости</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ path('cpanel.gallery') }}">Галерея</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ path('cpanel.works') }}">Наши работы</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ path('cpanel.quizs') }}">Опросы</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ path('cpanel.sliders',{type:'context'}) }}">Слайдеры</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="{{ path('cpanel.popular.products') }}">Популярные</a></li>
+                </ul>
+            </div>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#ecommerce" aria-expanded="false" aria-controls="ui-basic">
+                <i class="mdi mdi-dropbox menu-icon"></i>
+                <span class="menu-title">Продукция</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="ecommerce">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"><a class="nav-link" href="{{ path('ecommerce.products') }}">Товары</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ path('ecommerce.categories') }}">Категории</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="{{ path('ecommerce.attributes') }}">Атрибуты</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ path('ecommerce.groups') }}">Группы товаров</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ path('cpanel.reviews') }}">Отзывы</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ path('cpanel.promocodes') }}">Промокоды</a></li>
+                </ul>
+            </div>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#dealers" aria-expanded="false" aria-controls="ui-basic">
+                <i class="mdi mdi-account-supervisor menu-icon"></i>
+                <span class="menu-title">Дилеры {{ dealer_count_all() }}</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="dealers">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"><a class="nav-link"
+                                            href="{{ path('cpanel.dealers') }}">Дилеры {{ dealer_count_moderation() }}</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="{{ path('cpanel.dealer.news') }}">Новости</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ path('cpanel.salons') }}">Салоны {{ salon_count_moderation() }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ path('cpanel.files') }}">Файлы</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ path('cpanel.mailers') }}">Рассылка</a></li>
+                </ul>
+            </div>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('cpanel.buyers') }}">
+                <i class="mdi mdi-comment-account menu-icon"></i>
+                <span class="menu-title">Покупатели</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('cpanel.tickets') }}">
+                <i class="mdi mdi-help-circle-outline menu-icon"></i>
+                <span class="menu-title">Служба поддержки{{ ticket_count_new() }}</span>
+            </a>
+        </li>
+
+
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#systems" aria-expanded="false" aria-controls="ui-basic">
+                <i class="mdi mdi-settings-outline menu-icon"></i>
+                <span class="menu-title">Системное</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="systems">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"><a class="nav-link" href="{{ path('cpanel.categories.dealer') }}">Категории
+                            дилеров</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ path('cpanel.profiles') }}">Администраторы</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="{{ path('cpanel.managers') }}">Менеджеры</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('cpanel.logout') }}">
+                <i class="mdi mdi-power menu-icon"></i>
+                <span class="menu-title">Выход</span>
+            </a>
+        </li>
+    </ul>
+</nav>

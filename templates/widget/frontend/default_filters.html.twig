@@ -1,0 +1,28 @@
+{% if filter.type=='NUMBER' %}
+    <filedset class="filter__filedset" data-type="{{ filter.type }}" data-slug="{{ filter.slug }}"
+              data-label="{{ filter.label }}">
+        <legend class="sidebar__heading  filter__heading">{{ filter.label }}</legend>
+        <div class="range">
+            <input class="range__slider" type="text"
+                    {% if filter.choose is not null %}
+                        data-from="{{ filter.choose.from|default(0) }}" data-to="{{ filter.choose.to|default(2000) }}"
+                    {% else %}
+                        data-from="{{ filter.from|default(0) }}" data-to="{{ filter.to|default(2000) }}"
+                    {% endif %}
+                   data-step="50"
+                   data-min="{{ filter.from|default(0) }}" data-max="{{ filter.to|default(2000) }}"/>
+            <div class="range__fields">
+                <div class="range__field">
+                    <label class="range__label" for="price-from">От</label>
+                    <input class="range__input field-value-number range__from"
+                           type="text"/>
+                </div>
+                <div class="range__field">
+                    <label class="range__label" for="price-to">До</label>
+                    <input class="range__input field-value-number  range__to"
+                           type="text"/>
+                </div>
+            </div>
+        </div>
+    </filedset>
+{% endif %}

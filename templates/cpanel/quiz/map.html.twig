@@ -1,0 +1,69 @@
+{% extends 'cpanel/content.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('cpanel.quiz') }}
+{% endblock %}
+
+{% block content %}
+    <div class="content-wrapper">
+        {% block breadcrumbs %}
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active"><a href="{{ path('cpanel.index') }}">Главная</a></li>
+                <li class="breadcrumb-item"><a href="{{ path('cpanel.quizs') }}">Опросы</a></li>
+                <li class="breadcrumb-item"><a
+                            href="{{ path('cpanel.quiz.questions',{'id':quiz.id}) }}">{{ quiz.name }}</a></li>
+                <li class="breadcrumb-item active">Карта опроса</li>
+            </ol>
+        {% endblock %}
+        {% include 'cpanel/_flashes.html.twig' %}
+        <div class="row">
+            <div class="grid-margin stretch-card col-6">
+                <div id="map-quest" class="p-0 m-0"
+                     style="width: 100%; height: 750px; border: 1px solid lightgray; background-color: #e9ecef">
+
+                </div>
+            </div>
+            <div class="card grid-margin stretch-card col-6">
+                <a href="#" class="btn btn-success btn-fw mt-4 ml-4 save-map" style="width: 200px;"
+                   data-path-source="{{ path('quiz.data', {id:quiz.id}) }}"
+                   data-path-save="{{ path('cpanel.quiz.map.save', {id:quiz.id}) }}"
+                >
+                    Обновить карту
+                </a>
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <td colspan="2" class="text-center"><b>Список вопросов</b></td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for quest in questions %}
+                                <tr>
+                                    <td>
+                                        <span class="form-check form-check-flat form-check-primary mt-0 mb-0 p-0 list-quest">
+                                            <label class="form-check-label d-inline-block hover-cursor">
+                                            <input type="checkbox" name="quest-{{ quest.id }}" />
+                                            {{ quest.name }} {% if quest.type.supportVariable %}/\{% endif %}
+                                            <i class="input-helper"></i></label>
+                                        </span>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="2" class="text-center">Вопросы не найдены.</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+{% endblock %}

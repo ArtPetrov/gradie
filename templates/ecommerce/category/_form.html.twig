@@ -1,0 +1,146 @@
+<div class="card-body dashboard-tabs p-0">
+    <ul class="nav nav-tabs px-4" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="main-tab" data-toggle="tab" href="#main" role="tab" aria-controls="main"
+               aria-selected="true">Основное</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="filters-tab" data-toggle="tab" href="#filters" role="tab"
+               aria-controls="attribute" aria-selected="false">Фильтры</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="seo-tab" data-toggle="tab" href="#seo" role="tab" aria-controls="seo"
+               aria-selected="false">SEO</a>
+        </li>
+    </ul>
+    {{ form_start(form,{
+        attr: {
+            class:'forms-sample',
+            novalidate:'',
+        }
+    }) }}
+    <div class="tab-content py-0 px-0">
+        <div class="tab-pane fade active show" id="main" role="tabpanel" aria-labelledby="main-tab">
+            <div class=" m-5">
+
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="exampleInputName">Название категории:</label>
+                            {{ form_widget(form.name, {attr: {
+                                placeholder: 'Например: Гардеробные комнаты',
+                                id: 'exampleInputName',
+                                class: 'form-control'
+                            }}) }}
+                            {{ form_errors(form.name) }}
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="exampleInputType">Тип отображения в каталоге:</label>
+                            {{ form_widget(form.type, {attr: {
+                                class: 'form-control',
+                                id: 'exampleInputType',
+
+                            }}) }}
+                            {{ form_errors(form.type) }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInputParent">Родительская категория:</label>
+                    {{ form_widget(form.parent, {attr: {
+                        class: 'form-control',
+                        id: 'exampleInputParent',
+                        placeholder: 'Корневая категория',
+                    }}) }}
+                </div>
+                {{ form_errors(form.parent) }}
+            </div>
+        </div>
+        <div class="tab-pane fade" id="filters" role="tabpanel" aria-labelledby="filters-tab">
+
+            <p class="card-description mt-4 ml-5 mr-5">
+                Список атрибутов для добавления фильтров:
+            </p>
+
+            <div class="d-flex m-4 flex-wrap container-attributes ml-5 mr-5"
+                 data-path="{{ path('ecommerce.attributes.json') }}"
+                 data-checkbox='
+                <div class="form-check form-check-flat form-check-primary m-2 ml-3">
+                    <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input select-attribute" data-slug="__slug__">
+                        __name__
+                        <i class="input-helper"></i></label>
+                </div>'
+            >
+
+            </div>
+            <p class="card-description mt-4 ml-5 mr-5">
+                Примененные фильтры к текущей категории:
+            </p>
+
+            <ul class="ml-5 mr-5 container-filters"
+                data-path="{{ path('ecommerce.attributes.json') }}"
+                data-prototype="{{ form_widget(form.filters.vars.prototype)|e('html_attr') }}">
+                {% for filter in form.filters %}
+                        {{ form_widget(filter) }}
+                {% else %}
+                    {{ form_widget(form.filters) }}
+                {% endfor %}
+            </ul>
+
+        </div>
+
+
+        <div class="tab-pane fade" id="seo" role="tabpanel" aria-labelledby="seo-tab">
+            <div class=" m-5">
+                <div class="form-group">
+                    <label for="exampleInputTitle">Title:</label>
+                    {{ form_widget(form.seo.title, {attr: {
+                        placeholder: 'Заголовок страницы в браузере',
+                        id: 'exampleInputTitle',
+                        class: 'form-control'
+                    }}) }}
+                </div>
+                {{ form_errors(form.seo.title) }}
+                <div class="form-group">
+                    <label for="exampleInputKeyword">Keywords:</label>
+                    {{ form_widget(form.seo.keywords, {attr: {
+                        placeholder: 'Ключевые слова через запятую.',
+                        id: 'exampleInputKeyword',
+                        rows:3,
+                        class: 'form-control'
+                    }}) }}
+                </div>
+                {{ form_errors(form.seo.keywords) }}
+                <div class="form-group">
+                    <label for="exampleInputDescription">Description:</label>
+                    {{ form_widget(form.seo.description, {attr: {
+                        placeholder: 'Краткое описание страницы',
+                        id: 'exampleInputDescription',
+                        rows:3,
+                        class: 'form-control'
+                    }}) }}
+                </div>
+                {{ form_errors(form.seo.description) }}
+                <div class="form-group">
+                    <label for="exampleInputContent">Контент на странице категории:</label>
+                    {{ form_widget(form.seo.content, {attr: {
+                        placeholder: 'Вспомогательная страница для продвижения',
+                        id: 'exampleInputContent',
+                        class: 'form-control tinymce',
+                        rows:10
+                    }}) }}
+                </div>
+                {{ form_errors(form.seo.content) }}
+            </div>
+        </div>
+    </div>
+    <div class="text-center mt-5 mb-4">
+        <button type="submit" class="btn btn-primary">{{ name_sumbit }}</button>
+    </div>
+    {{ form_end(form) }}
+</div>

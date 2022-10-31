@@ -1,0 +1,52 @@
+{{ form_start(form,{
+    attr: {
+        class:'forms-sample'
+    }
+}) }}
+
+<div class="form-group">
+    <label>Заголовок:</label>
+    {{ form_widget(form.info.header, {attr: {
+        class: 'form-control'
+    }}) }}
+</div>
+{{ form_errors(form.info.header) }}
+
+<div class="form-group">
+    <label>Цена:</label>
+    {{ form_widget(form.info.price, {attr: {
+        class: 'form-control'
+    }}) }}
+</div>
+{{ form_errors(form.info.price) }}
+
+<div class="form-group">
+    <label>Ссылка:</label>
+    {{ form_widget(form.info.link, {attr: {
+        class: 'form-control'
+    }}) }}
+</div>
+{{ form_errors(form.info.link) }}
+
+<div class="form-group">
+    <label>Обложка</label>
+    {{ form_widget(form.cover, {attr: {
+        class: 'file-upload-default'
+    }}) }}
+    <div class="input-group col-xs-12">
+        <input type="text" class="form-control file-upload-info" disabled="">
+        <span class="input-group-append">
+          <button class="file-upload-browse btn btn-primary" type="button">Загрузить обложку</button>
+        </span>
+    </div>
+</div>
+{{ form_errors(form.cover) }}
+
+{% if popular is defined %}
+    <div class="text-center">
+    <img src="{{ popular.cover.path|imagine_filter('product_500_500') }}" width="174" height="174">
+    </div>
+{% endif %}
+
+<button type="submit" class="btn btn-primary mr-2">{{ name_sumbit }}</button>
+{{ form_end(form) }}

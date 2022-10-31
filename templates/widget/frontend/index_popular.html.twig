@@ -1,0 +1,22 @@
+{% if products|length > 0 %}
+    <section class="parts">
+        <div class="headline">
+            <h2 class="heading">
+                <a href="{{ path('catalog.categorie',{slug:'/komplektuiushchie/'}) }}">Комплектующие</a>
+            </h2>
+            <a class="headline__all" href="{{ path('catalog.categorie',{slug:'/komplektuiushchie/'}) }}">Все товары
+                раздела</a>
+        </div>
+        <ul class="parts__list">
+            {% for product in products %}
+                <li class="parts__item">
+                    <img class="parts__image" src="{{ product.cover.path|imagine_filter('product_500_500') }}"
+                         width="174"
+                         height="174" alt="{{product.header}}"/>
+                    <a class="parts__title" href="{{ product.link }}">{{ product.header }}</a>
+                    <p class="parts__price">от {{ product.price }} ₽</p>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+{% endif %}

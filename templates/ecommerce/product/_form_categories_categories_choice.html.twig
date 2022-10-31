@@ -1,0 +1,23 @@
+{%- block _form_categories_categories_widget -%}
+    <div {{ block('widget_attributes') }}>
+        {%- set options = choices -%}
+        {% for group_label, choice in options %}
+            {%- set label = choice_translation_domain is same as(false) ? choice.label : choice.label|trans({}, choice_translation_domain) -%}
+            {%- set label_length = choice.label|length -%}
+            {%- set label_clear = choice.label|replace({'--':''}) -%}
+            {%- set label_clear_length = label_clear|length -%}
+            {% set ml = (label_length|number_format  - label_clear_length|number_format)*5 %}
+            <div style="margin-left: {{ ml }}px;">
+            <span class="form-check form-check-flat form-check-primary m-3 ">
+            <label class="form-check-label d-inline-block hover-cursor">
+                <input
+                        {{ block('widget_attributes') }}{% if multiple %} multiple="multiple" data-customforms="disabled"{% endif %}
+                        type="checkbox" {% if choice.attr %}{% with { attr: choice.attr } %}{{ block('attributes') }}{% endwith %}{% endif %}{% if choice.value is defined %} value="{{ choice.value }}"{% endif %}{% if choice is selectedchoice(value) %} checked="checked"{% endif %} />
+                {{ label_clear }}
+                <i class="input-helper"></i>
+            </label>
+        </span>
+            </div>
+        {% endfor %}
+    </div>
+{%- endblock _form_categories_categories_widget -%}

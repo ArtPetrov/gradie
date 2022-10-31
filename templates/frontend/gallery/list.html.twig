@@ -1,0 +1,62 @@
+{% extends 'frontend/pages/container.html.twig' %}
+
+{% block title %}{{ seo.title|default('Заголовок страницы') }}{% endblock %}
+{% block keywords %}{{ seo.keywords|default('Ключевые слова') }}{% endblock %}
+{% block description %}{{ seo.description|default('Описание') }}{% endblock %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a class="breadcrumbs__link" href="{{ path('index') }}">Главная</a>
+        <span class="breadcrumbs__separator"></span>
+    </div>
+{% endblock %}
+
+{%  block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('frontend.gallery') }}
+{% endblock %}
+
+{% block sidebar %}
+    {% set current = path('galleries') %}
+    {{ parent() }}
+{% endblock %}
+
+{% block headline %}
+    <h1 class="page-title">{{ header|default() }}</h1>
+{% endblock %}
+
+{% block content %}
+
+    <div class="content">
+
+        <ul class="gallery gallery-container"
+            data-path="{{ path('galleries.json') }}"
+            data-properties="cover,count,name,link"
+            data-nocover='<img class="gallery__image" src="https://imgholder.ru/215/EEE/" width="215" height="215" alt="" />'
+            data-cover='<img class="gallery__image" src="__cover__" width="215" height="215" alt="" />'
+            data-template='
+<li class="gallery__item">
+    __cover__
+    <a class="gallery__title" href="__link__">__name__</a>
+    <p class="gallery__counter">(__count__ фото)</p>
+</li>
+'>
+            {% for album in gallery %}
+                <li class="gallery__item">
+                    {% if album.cover is null %}
+                        <div class="item-news__no-image"></div><img class="gallery__image" src="https://imgholder.ru/215/EEE/" width="215" height="215" alt="" />
+                    {% else %}
+                        <img class="gallery__image" src="{{ album.cover|imagine_filter('gallery_215_215') }}" width="215" height="215" alt="" />
+                    {% endif %}
+                    <a class="gallery__title" href="{{ path('gallery',{id:album.id}) }}">{{ album.name }}</a>
+                    <p class="gallery__counter">({{ album.count }} фото)</p>
+                </li>
+            {% endfor %}
+
+        </ul>
+
+        <button class="show-more button-loading" type="button">Показать еще</button>
+
+    </div>
+
+{% endblock %}

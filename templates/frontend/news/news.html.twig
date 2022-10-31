@@ -1,0 +1,62 @@
+{% extends 'frontend/pages/container.html.twig' %}
+
+{% block title %}{{ news.seo.title|default('Заголовок страницы') }}{% endblock %}
+{% block keywords %}{{ news.seo.keywords|default('Ключевые слова') }}{% endblock %}
+{% block description %}{{ news.seo.description|default('Описание') }}{% endblock %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a class="breadcrumbs__link" href="{{ path('index') }}">Главная</a>
+        <span class="breadcrumbs__separator"></span>
+        <a class="breadcrumbs__link" href="{{ path('articles') }}">Новости</a>
+        <span class="breadcrumbs__separator"></span>
+    </div>
+{% endblock %}
+
+{% block headline %}
+    <div class="news-page__headline">
+        <h1 class="page-title news-page__title">{{ news.name.full }}</h1>
+        <time class="news-page__date" datetime="{{ news.publishedAt|date('Y-m-d') }}">{{ news.publishedAt|date('d.m.Y') }}</time>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="content">
+        <div class="news-page__entry">
+
+            {{ news.content|default('')|raw }}
+
+            {% if news.images|length > 1 %}
+
+                <p></p>
+                <div class="photo-gallery">
+                    <div class="photo-gallery__images">
+                        <div class="swiper-wrapper">
+                            {% for image in news.images %}
+                            <div class="swiper-slide">
+                                <img class="photo-gallery__image" src="{{image.file.path|imagine_filter('article_940_560')}}" alt="" />
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="photo-gallery__arrow  photo-gallery__arrow--prev"></div>
+                        <div class="photo-gallery__arrow  photo-gallery__arrow--next"></div>
+                    </div>
+
+                    <div class="photo-gallery__thumbs-wrap">
+                        <div class="photo-gallery__thumbs">
+                            <div class="swiper-wrapper">
+                                {% for image in news.images %}
+                                <div class="swiper-slide">
+                                    <img class="photo-gallery__thumb" src="{{image.file.path|imagine_filter('article_148_105')}}" width="148" height="105" alt="" />
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="photo-gallery__arrow  photo-gallery__arrow--prev"></div>
+                        <div class="photo-gallery__arrow  photo-gallery__arrow--next"></div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'ecommerce/content.html.twig' %}
+
+{% block title %}{{ parent() }} - Редактировать категорию{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('ecommerce.category.tinymce') }}
+{% endblock %}
+
+{% block content %}
+    <div class="content-wrapper">
+
+        {% block breadcrumbs %}
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ path('cpanel.index') }}">Главная</a></li>
+                <li class="breadcrumb-item"><a href="{{ path('ecommerce.index') }}">Магазин</a></li>
+                <li class="breadcrumb-item"><a href="{{ path('ecommerce.categories') }}">Категории</a></li>
+                <li class="breadcrumb-item active">Редактировать категорию</li>
+            </ol>
+        {% endblock %}
+
+        {% include 'ecommerce/_flashes.html.twig' %}
+
+        <div class="row">
+
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    {{ include('ecommerce/category/_form.html.twig',{
+                        name_sumbit:'Редактировать категорию'
+                    }) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

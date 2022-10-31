@@ -1,0 +1,11 @@
+{% extends 'mail.html.twig' %}
+
+{% block body %}
+
+    <p>Зайдите в личный кабинет, чтобы прочитать ответ на свой вопрос по теме "<i>{{ ticket.header }}</i>"</p>
+
+    {% set url = url('dealer.ticket', {'id': ticket.id}) %}
+
+    <p><a href="{{ url }}#new">{{ url }}</a></p>
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'frontend/buyer/container.html.twig' %}
+
+{% block title %}Личный кабинет - Помощь{% endblock %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a class="breadcrumbs__link" href="{{ path('index') }}">Главная</a>
+        <span class="breadcrumbs__separator"></span>
+    </div>
+{% endblock %}
+
+{% block headline %}
+    <h1 class="page-title">Кабинет</h1>
+{% endblock %}
+
+{% block sidebar %}
+    {% set current = app.request.pathinfo %}
+    {{ parent() }}
+{% endblock %}
+
+{% block sidebarContent %}
+    {% set current = app.request.pathinfo %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+<form class="help" method="post" action="/">
+    <p class="help__text">По всем вопросам вы можете обращаться к нашим менеджерам по телефону: <span class="help__phone">+ 7 (499) 755-1212</span></p>
+    <p class="help__text">Или напишите нам на почту: <span class="help__phone">parus@parus-k.ru</span></p>
+</form>
+{% endblock %}

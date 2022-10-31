@@ -1,0 +1,22 @@
+{% if works|length > 0 %}
+<section class="recent-projects">
+    <div class="headline">
+        <h2 class="heading">
+            <a href="{{ path('works') }}">Выполненные проекты</a>
+        </h2>
+        <a class="headline__all" href="{{ path('works') }}">Все проекты</a>
+    </div>
+    <ul class="recent-projects__list">
+        {% for work in works %}
+        <li class="recent-projects__item">
+            {% if work.cover is null %}
+                <img class="recent-projects__image" src="https://imgholder.ru/277x403/EEE/" width="277" height="403" alt="{{work.name}}" />
+            {% else %}
+                <img class="recent-projects__image" src="{{work.cover|imagine_filter('work_index')}}" width="277" height="403" alt="{{work.name}}" />
+            {% endif %}
+            <a class="recent-projects__title" href="{{ path('work',{id:work.id}) }}">{{work.name}}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</section>
+{% endif %}

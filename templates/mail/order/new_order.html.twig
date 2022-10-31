@@ -1,0 +1,51 @@
+{% extends 'mail.html.twig' %}
+
+{% block body %}
+
+    <p><b>{{ order.contact.name }}</b>, для Вас сформирован заказ: <b>№{{ order.id }}</b></p>
+
+    <table style="width: 100%; border-spacing: 8px 16px; ">
+        <tr>
+            <td><b>Артикул</b></td>
+            <td><b>Название товар</b></td>
+            <td style="text-align: center"><b>Количество</b></td>
+            <td style="text-align: center"><b>Стоимость за ед.</b></td>
+            <td style="text-align: right"><b>Итого</b></td>
+        </tr>
+        {% for product in order.products %}
+            <tr>
+                <td><a href="{{ url('product',{id:product.productId}) }}">{{ product.article }}</a></td>
+                <td><a href="{{ url('product',{id:product.productId}) }}">{{ product.name }}</a></td>
+                <td style="text-align: center">{{ product.count }} шт.</td>
+                <td style="text-align: center">{{ product.price|number_format(2, '.',' ') }} ₽</td>
+                <td style="text-align: right">{{ (product.price*product.count)|number_format(2, '.',' ') }} ₽</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5" style="text-align: center">
+                    Товары не обнаружены не найдены.
+                </td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td colspan="5" style="text-align: right">
+                Стоимость доставки: <b>{{ order.getShippingPrice|number_format(2, '.',' ') }}</b> ₽
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5" style="text-align: right">
+                Итоговая стоимость: <b>{{ order.getTotalPrice|number_format(2, '.',' ') }}</b> ₽
+            </td>
+        </tr>
+    </table>
+    <br>
+    <div>
+        <b>Для оплаты заказа, Вы можете воспользоваться следующией ссылкой:</b>
+        <a href="{{ url('payment.order', {'uuid': order.uuid}) }}">оплатить онлайн.</a>
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,109 @@
+{% extends 'cpanel/content.html.twig' %}
+
+{% block title %}{{ parent() }} - Список рассылок{% endblock %}
+
+{% block content %}
+    <div class="content-wrapper">
+        {% block breadcrumbs %}
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ path('cpanel.index') }}">Главная</a></li>
+                <li class="breadcrumb-item active">Рассылки</li>
+            </ol>
+        {% endblock %}
+        <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card ">
+                <a href="{{ path('cpanel.mailer.create') }}" class="btn btn-success btn-rounded btn-fw">
+                    Создать рассылку
+                </a>
+            </div>
+        </div>
+        {% include 'cpanel/_flashes.html.twig' %}
+        <div class="row">
+
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Список рассылок</h4>
+                        <div class="table-responsive pt-1">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <td class="w-50"><b>Название рассылки</b></td>
+                                    <td class="text-center"><b>Отправлено / Всего</b></td>
+                                    <td class="text-center"><b>Статус</b></td>
+                                    <td class="text-right" style="width: 20%"><b>Действие</b></td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for mailer in mailers %}
+                                    <tr>
+                                        <td>
+                                            {% if mailer.isMailType %}
+                                                <span class="badge badge-success">Письмо</span>
+                                            {% endif %}
+                                            {% if mailer.isMailingType %}
+                                                <span class="badge badge-warning">Рассылка</span>
+                                            {% endif %}
+                                            <a href="{{ path('cpanel.mailer', {'id': mailer.id}) }}">{{ mailer.name }}</a>
+                                        </td>
+                                        <td class="text-center">
+                                            {{ mailer_statistics(mailer.id) }}
+                                        </td>
+                                        <td class="text-center">
+                                            {{ mailer_status(mailer.process.status) }}
+                                        </td>
+                                        <td class="text-right">
+                                            <div class="d-flex d-inline float-right">
+                                                {% if mailer.process.isStop %}
+                                                    <form action="{{ path('cpanel.mailer.run', {'id': mailer.id}) }}"
+                                                          method="post"
+                                                          onsubmit="return confirm('Вы уверены, что хотите запустить рассылку?')">
+                                                        <input type="hidden" name="token_csrf"
+                                                               value="{{ csrf_token('any') }}"/>
+                                                        <button type="submit" class="btn btn-sm btn-success">Запустить
+                                                        </button>
+                                                    </form>
+                                                {% endif %}
+                                                {% if mailer.process.isWork %}
+                                                    <form action="{{ path('cpanel.mailer.stop', {'id': mailer.id}) }}"
+                                                          method="post"
+                                                          onsubmit="return confirm('Вы уверены, что хотите остановить рассылку?')">
+                                                        <input type="hidden" name="token_csrf"
+                                                               value="{{ csrf_token('any') }}"/>
+                                                        <button type="submit" class="btn btn-sm btn-secondary">
+                                                            Остановить
+                                                        </button>
+                                                    </form>
+                                                {% endif %}
+                                                <button data-path="{{ path('cpanel.mailer.delete', {id:mailer.id}) }}"
+                                                        data-parent="tr"
+                                                        class="btn btn-sm btn-danger delete-element ml-2">
+                                                    Удалить
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                {% else %}
+                                    <tr>
+                                        <td colspan="4" class="text-center">
+                                            <b>Рассылки не найдены.</b>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                <input type="hidden" name="token_csrf" value="{{ csrf_token('any') }}"/>
+                                </tbody>
+                            </table>
+                            <div class="navigation" style="display:flex; margin-top: 30px">
+                                <div style="margin-left: auto;margin-right:auto">
+                                    {{ knp_pagination_render(mailers) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

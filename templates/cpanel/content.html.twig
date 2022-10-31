@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<body>
+<div class="container-scroller">
+    {% include 'cpanel/_navbar.html.twig' %}
+    <div class="container-fluid page-body-wrapper">
+        {% include 'cpanel/_siderbar.html.twig' %}
+        <div class="main-panel">
+            {% block content %}{% endblock %}
+            <footer class="footer">
+                <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                    <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">© {{ "now"|date("Y") }}. Разработано в "<a
+                                href="http://promologia.ru/" target="_blank">Промологии</a>".</span>
+                </div>
+            </footer>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,111 @@
+{% extends 'dealer/auth/_content.html.twig' %}
+{% block title %}Заявка на дилерство.{% endblock %}
+{% block content_photo %}register-half-bg{% endblock %}
+{% block content %}
+    <div class="auth-form-transparent text-left p-3">
+        <div class="brand-logo">
+        </div>
+        <h4>Подать заявку</h4>
+        <h6 class="font-weight-light">на регистрацию в дилерской сети</h6>
+        <div class="mt-3">
+            {% include 'dealer/_flashes.html.twig' %}
+        </div>
+        {{ form_start(form,{
+            attr: {
+                class:'pt-3'
+            }
+        }) }}
+
+        <div class="form-group">
+            <label for="exampleInputName">Контактное лицо</label>
+            <div class="input-group">
+                <div class="input-group-prepend bg-transparent">
+                                      <span class="input-group-text bg-transparent border-right-0">
+                                        <i class="mdi mdi-account-outline text-primary"></i>
+                                      </span>
+                </div>
+                {{ form_widget(form.name, {attr: {
+                    placeholder: 'ФИО',
+                    class: 'form-control form-control-lg border-left-0',
+                    id: 'exampleInputName'
+                }}) }}
+            </div>
+            {{ form_errors(form.name) }}
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputEmail">Email</label>
+            <div class="input-group">
+                <div class="input-group-prepend bg-transparent">
+                                      <span class="input-group-text bg-transparent border-right-0">
+                                        <i class="mdi mdi-email-outline text-primary"></i>
+                                      </span>
+                </div>
+                {{ form_widget(form.email, {attr: {
+                    placeholder: 'Email',
+                    class: 'form-control form-control-lg border-left-0',
+                    id: 'exampleInputEmail'
+                }}) }}
+            </div>
+            {{ form_errors(form.email) }}
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputSite">Веб-сайт</label>
+            <div class="input-group">
+                <div class="input-group-prepend bg-transparent">
+                                      <span class="input-group-text bg-transparent border-right-0">
+                                        <i class="mdi mdi-web text-primary"></i>
+                                      </span>
+                </div>
+                {{ form_widget(form.site, {attr: {
+                    placeholder: 'Адрес сайта',
+                    class: 'form-control form-control-lg border-left-0',
+                    id: 'exampleInputSite'
+                }}) }}
+            </div>
+            {{ form_errors(form.site) }}
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputPhone">Контактный телефон</label>
+            <div class="input-group">
+                <div class="input-group-prepend bg-transparent">
+                                      <span class="input-group-text bg-transparent border-right-0">
+                                        <i class="mdi mdi-phone-outline text-primary"></i>
+                                      </span>
+                </div>
+                {{ form_widget(form.phone, {attr: {
+                    placeholder: 'Телефон',
+                    class: 'form-control form-control-lg border-left-0',
+                    id: 'exampleInputPhone'
+                }}) }}
+            </div>
+            {{ form_errors(form.phone) }}
+        </div>
+        <div class="mb-4">
+            <div class="form-check">
+                <label class="form-check-label text-muted">
+                    {{ form_widget(form.acceptPolicy, {attr: {
+                        checked: 'true',
+                        class: 'form-check-input',
+                    }}) }}
+                    Даю согласие на обработку персональных данных.
+                </label>
+            </div>
+            {{ form_errors(form.acceptPolicy) }}
+        </div>
+
+
+        <div class="mt-3">
+            <button class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
+                    type="submit">Подать заявку
+            </button>
+        </div>
+
+        <div class="text-center mt-4 font-weight-light">
+            Уже есть аккаунт? <a href="{{ path('dealer.login') }}" class="text-primary">Войти!</a>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

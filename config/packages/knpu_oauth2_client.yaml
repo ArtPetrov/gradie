@@ -1,0 +1,62 @@
+knpu_oauth2_client:
+  clients:
+
+    facebook:
+      type: facebook
+      client_id: '%env(OAUTH_FACEBOOK_ID)%'
+      client_secret: '%env(OAUTH_FACEBOOK_SECRET)%'
+      redirect_route: oauth.check
+      redirect_params: {network: 'facebook'}
+      graph_api_version: v2.12
+    facebook_attach:
+      type: facebook
+      client_id: '%env(OAUTH_FACEBOOK_ID)%'
+      client_secret: '%env(OAUTH_FACEBOOK_SECRET)%'
+      redirect_route: buyer.oauth.check
+      redirect_params: {network: 'facebook', client: 'facebook_attach'}
+      graph_api_version: v2.12
+
+    vk:
+      type: vkontakte
+      client_id: '%env(OAUTH_VK_ID)%'
+      client_secret: '%env(OAUTH_VK_SECRET)%'
+      redirect_route: oauth.check
+      redirect_params: {network: 'vk'}
+    vk_attach:
+      type: vkontakte
+      client_id: '%env(OAUTH_VK_ID)%'
+      client_secret: '%env(OAUTH_VK_SECRET)%'
+      redirect_route: buyer.oauth.check
+      redirect_params: {network: 'vk', client: 'vk_attach'}
+
+    ok:
+      type: generic
+      client_id: '%env(OAUTH_OK_ID)%'
+      client_secret: '%env(OAUTH_OK_SECRET)%'
+      provider_class: 'App\Helper\OAuth\OdnoklassnikiProvider'
+      client_class: 'KnpU\OAuth2ClientBundle\Client\Provider\OdnoklassnikiClient'
+      provider_options: {clientPublic: '%env(OAUTH_OK_PUBLIC)%'}
+      redirect_route: oauth.check
+      redirect_params: {network: 'ok'}
+    ok_attach:
+      type: generic
+      client_id: '%env(OAUTH_OK_ID)%'
+      client_secret: '%env(OAUTH_OK_SECRET)%'
+      provider_class: 'App\Helper\OAuth\OdnoklassnikiProvider'
+      client_class: 'KnpU\OAuth2ClientBundle\Client\Provider\OdnoklassnikiClient'
+      provider_options: {clientPublic: '%env(OAUTH_OK_PUBLIC)%'}
+      redirect_route: buyer.oauth.check
+      redirect_params: {network: 'ok', client: 'ok_attach'}
+
+    yandex:
+      type: yandex
+      client_id: '%env(OAUTH_YANDEX_ID)%'
+      client_secret: '%env(OAUTH_YANDEX_SECRET)%'
+      redirect_route: oauth.check
+      redirect_params: {network: 'yandex'}
+    yandex_attach:
+      type: yandex
+      client_id: '%env(OAUTH_YANDEX_ID)%'
+      client_secret: '%env(OAUTH_YANDEX_SECRET)%'
+      redirect_route: buyer.oauth.check
+      redirect_params: {network: 'yandex', client: 'yandex_attach'}

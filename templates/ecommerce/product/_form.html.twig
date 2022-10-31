@@ -1,0 +1,475 @@
+<div class="card-body dashboard-tabs p-0">
+    <ul class="nav nav-tabs px-4" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="main-tab" data-toggle="tab" href="#main" role="tab" aria-controls="main"
+               aria-selected="true">Основное</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="attribute-tab" data-toggle="tab" href="#attribute" role="tab"
+               aria-controls="attribute" aria-selected="false">Атрибуты</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="category-tab" data-toggle="tab" href="#category" role="tab"
+               aria-controls="category" aria-selected="false">Категории</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="images-tab" data-toggle="tab" href="#images" role="tab" aria-controls="images"
+               aria-selected="false">Фотографии</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="composition-tab" data-toggle="tab" href="#composition" role="tab"
+               aria-controls="composition"
+               aria-selected="false">Состав</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="content-text-tab" data-toggle="tab" href="#content-text" role="tab"
+               aria-controls="content-text"
+               aria-selected="false">Контент</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="seo-tab" data-toggle="tab" href="#seo" role="tab" aria-controls="seo"
+               aria-selected="false">SEO</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="recommend-tab" data-toggle="tab" href="#recommend" role="tab"
+               aria-controls="recommend"
+               aria-selected="false">Рекомендуемые</a>
+        </li>
+        {% if form_review is defined %}
+            <li class="nav-item">
+                <a class="nav-link" id="review-tab" data-toggle="tab" href="#review" role="tab"
+                   aria-controls="review"
+                   aria-selected="false">Отзывы</a>
+            </li>
+        {% endif %}
+    </ul>
+    {{ form_start(form,{
+        attr: {
+            id:'productForm',
+            class:'forms-sample',
+            novalidate:'',
+        }
+    }) }}
+    <div class="tab-content py-0 px-0">
+
+        <div class="tab-pane fade active show" id="main" role="tabpanel" aria-labelledby="main-tab">
+            <div class="m-5">
+
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        {{ form_widget(form.information.enable, {label: 'Товар отображается на сайте'}) }}
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label for="inputPopular" class="pt-2 pr-3 ml-3">Вес расположения:</label>
+                            {{ form_widget(form.popular, {attr: {
+                                placeholder: 'Вес позиции. Чем больше, тем ниже',
+                                id: 'inputPopular',
+                                class: 'form-control mb-2 col-2 text-center'
+                            }}) }}
+                            {{ form_errors(form.popular) }}
+                        </div>
+                    </div>
+                </div>
+                {{ form_errors(form.information.enable) }}
+
+
+                <div class="form-group col-md-12 d-flex  mb-0 pl-0 pr-0">
+                    <div class="form-group col-md-3">
+                        <label for="exampleInputArticle">Артикул:</label>
+                        {{ form_widget(form.information.article, {attr: {
+                            placeholder: 'Например: АВБ123-23',
+                            id: 'exampleInputArticle',
+                            class: 'form-control mb-2'
+                        }}) }}
+                        {{ form_errors(form.information.article) }}
+                    </div>
+                    <div class="form-group col-md-8">
+                        <label for="exampleInputName">Название товара:</label>
+                        {{ form_widget(form.information.name, {attr: {
+                            placeholder: 'Например: Полка проволочная',
+                            id: 'exampleInputName',
+                            class: 'form-control mb-2'
+                        }}) }}
+                        {{ form_errors(form.information.name) }}
+                    </div>
+                </div>
+
+                <div class="form-group col-md-12 d-flex mb-0 pl-0 pr-0">
+                    <div class="form-group col-md-6">
+                        <label for="exampleInputPrice">Цена:</label>
+                        {{ form_widget(form.information.price, {attr: {
+                            placeholder: 'Например: 2234.00',
+                            id: 'exampleInputPrice',
+                            class: 'form-control'
+                        }}) }}
+                    </div>
+                    <div class="form-group col-md-6 mt-auto mb-auto pt-2">
+                        {{ form_widget(form.information.priceFinal, {label: 'Итоговая стоимость товара'}) }}
+                    </div>
+                </div>
+                {{ form_errors(form.information.price) }}
+                {{ form_errors(form.information.priceFinal) }}
+                <div class="form-group col-md-6">
+                    <label for="exampleInputPrice">Старая цена:</label>
+                    {{ form_widget(form.information.priceOld, {attr: {
+                        placeholder: 'Например: 2234.00',
+                        id: 'exampleInputPrice',
+                        class: 'form-control'
+                    }}) }}
+                </div>
+                {{ form_errors(form.information.priceOld) }}
+
+                <div class="form-group col-md-12 d-flex mb-0 pl-0 pr-0">
+                    <div class="form-group col-md-6">
+                        <label for="exampleInputWeight">Вес (кг):</label>
+                        {{ form_widget(form.information.weight, {attr: {
+                            placeholder: 'Например: 0.200',
+                            id: 'exampleInputWeight',
+                            class: 'form-control'
+                        }}) }}
+                    </div>
+                    <div class="form-group col-md-6 mt-auto mb-auto pt-2">
+                        {{ form_widget(form.information.weightIsFinal, {label: 'Итоговый вес товара'}) }}
+                    </div>
+                </div>
+                {{ form_errors(form.information.weight) }}
+                {{ form_errors(form.information.weightIsFinal) }}
+
+                <div class="form-group col-md-12 d-flex mb-0 pl-0 pr-0">
+                    <div class="form-group col-md-6">
+                        <label for="exampleInputVolume">Объем (м3):</label>
+                        {{ form_widget(form.information.volume, {attr: {
+                            placeholder: 'Например: 0.050',
+                            id: 'exampleInputVolume',
+                            class: 'form-control'
+                        }}) }}
+                    </div>
+                    <div class="form-group col-md-6 mt-auto mb-auto pt-2">
+                        {{ form_widget(form.information.volumeIsFinal, {label: 'Итоговый объем товара'}) }}
+                    </div>
+                </div>
+                {{ form_errors(form.information.volume) }}
+                {{ form_errors(form.information.volumeIsFinal) }}
+
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="content-text" role="tabpanel" aria-labelledby="content-text-tab">
+            <div class="m-5">
+                <div class="form-group">
+                    <label for="exampleInputContent">Описание товара:</label>
+                    {{ form_widget(form.information.content, {attr: {
+                        id: 'exampleInputContent',
+                        class: 'form-control tinymce',
+                        rows:20
+                    }}) }}
+                </div>
+                {{ form_errors(form.information.content) }}
+
+                <div class="form-group">
+                    <label for="exampleInputTitle">Ссылка на Youtube:</label>
+                    {{ form_widget(form.information.youtube, {attr: {
+                        placeholder: 'Формат: https://youtu.be/{hash} или https://www.youtube.com/watch?v={hash}',
+                        class: 'form-control'
+                    }}) }}
+                </div>
+                {{ form_errors(form.information.youtube) }}
+            </div>
+
+        </div>
+
+        <div class="tab-pane fade" id="seo" role="tabpanel" aria-labelledby="seo-tab">
+            <div class=" m-5">
+                <div class="form-group">
+                    <label for="exampleInputTitle">Title:</label>
+                    {{ form_widget(form.seo.title, {attr: {
+                        placeholder: 'Заголовок страницы в браузере',
+                        id: 'exampleInputTitle',
+                        class: 'form-control'
+                    }}) }}
+                </div>
+                {{ form_errors(form.seo.title) }}
+                <div class="form-group">
+                    <label for="exampleInputKeyword">Keywords:</label>
+                    {{ form_widget(form.seo.keywords, {attr: {
+                        placeholder: 'Ключевые слова через запятую.',
+                        id: 'exampleInputKeyword',
+                        rows:4,
+                        class: 'form-control'
+                    }}) }}
+                </div>
+                {{ form_errors(form.seo.keywords) }}
+                <div class="form-group">
+                    <label for="exampleInputDescription">Description:</label>
+                    {{ form_widget(form.seo.description, {attr: {
+                        placeholder: 'Краткое описание страницы',
+                        id: 'exampleInputDescription',
+                        rows:4,
+                        class: 'form-control'
+                    }}) }}
+                </div>
+                {{ form_errors(form.seo.description) }}
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="recommend" role="tabpanel" aria-labelledby="recommend-tab">
+            <div class="m-5">
+                <div class="form-group">
+                    <input id='recommended-search' class="form-control col-12"
+                           placeholder="Введите название или артикул товара, который хотите добавить."
+                           autocomplete="off">
+                </div>
+            </div>
+
+            <hr>
+
+            <p class="card-description mt-4 ml-5 mr-5">
+                Рекомендуемые товары к этому товару:
+            </p>
+
+            <ul class="recommended-box"
+                data-path="{{ path('ecommerce.products.recomended.json') }}"
+                data-prototype="{{ form_widget(form.recommended.vars.prototype)|e('html_attr') }}">
+                {% for recommend in form.recommended %}
+                    {{ form_widget(recommend) }}
+                {% else %}
+                    {{ form_widget(form.recommended) }}
+                {% endfor %}
+            </ul>
+
+        </div>
+
+        <div class="tab-pane fade" id="composition" role="tabpanel" aria-labelledby="composition-tab">
+            <div class="m-5">
+                <div class="form-group">
+                    <input id='composition-search' class="form-control col-12"
+                           placeholder="Введите название или артикул товара, который хотите добавить."
+                           autocomplete="off">
+                </div>
+            </div>
+            <hr>
+            <p class="card-description mt-4 ml-5 mr-5">
+                <b>Состав товара:</b>
+            </p>
+            <ul class="composition-box"
+                data-path="{{ path('ecommerce.products.composition.json') }}"
+                data-prototype="{{ form_widget(form.composition.vars.prototype)|e('html_attr') }}">
+                {% for composition in form.composition %}
+                    {{ form_widget(composition) }}
+                {% else %}
+                    {{ form_widget(form.composition) }}
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="images-tab">
+            <div class="m-5">
+                <div class="btn btn-inverse-info upload-file p-3 w-100 text-center hover-cursor">
+                    Загрузка фотографий<br><br>
+                    Перетащите на меня файлы или просто нажмите тут!
+                </div>
+                <div id="previews" class="mt-4">
+                    <h4 class="card-title">Очередь загрузки фотографий:</h4>
+                </div>
+            </div>
+
+            <div class="images-box row  m-5"
+                 data-path-upload="{{ path('ecommerce.products.image.upload') }}"
+                 data-prototype="{{ form_widget(form.images.vars.prototype)|e('html_attr') }}">
+                {% for image in form.images %}
+                    {{ form_widget(image) }}
+                {% else %}
+                    {{ form_widget(form.images) }}
+                {% endfor %}
+            </div>
+
+            <div id="template" class="d-none">
+                <div class="d-flex flex-row mt-5">
+                    <div class="col-6">
+                        Файл: <b data-dz-name></b> (<span data-dz-size></span>)
+                    </div>
+                    <div class="col-6">
+                        <div class="progress mt-1">
+                            <div class="progress-bar bg-success" role="progressbar" aria-valuenow="0"
+                                 aria-valuemin="0" aria-valuemax="100" data-dz-uploadprogress></div>
+                        </div>
+                        <strong class="error text-danger" data-dz-errormessage></strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="attribute" role="tabpanel" aria-labelledby="attribute-tab">
+
+            <p class="card-description mt-4 ml-5 mr-5">
+                Выберите атрибут:
+            </p>
+
+            <div class="d-flex m-4 flex-wrap ml-5 mr-5 container-property"
+                 data-path="{{ path('ecommerce.attributes.json') }}"
+                 data-checkbox='
+                <div class="form-check form-check-flat form-check-primary m-2 ml-3">
+                    <label class="form-check-label hover-cursor">
+                        <input type="checkbox" class="form-check-input select-attribute" data-slug="__slug__">
+                        __name__
+                        <i class="input-helper"></i></label>
+                </div>'
+            >
+            </div>
+            <p class="card-description mt-4 ml-5 mr-5">
+                Добавленные атрибуты:
+            </p>
+            <ul class="container-attributes"
+                data-prototype="{{ form_widget(form.attributes.vars.prototype)|e('html_attr') }}">
+                {% for attr in form.attributes %}
+                    {{ form_widget(attr) }}
+                {% else %}
+                    {{ form_widget(form.attributes) }}
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="tab-pane fade" id="category" role="tabpanel" aria-labelledby="category-tab">
+            <div class=" m-5">
+                <div class="form-group">
+                    <label for="exampleInputParent">Основная категория:</label>
+                    {{ form_widget(form.categories.main, {attr: {
+                        class: 'form-control',
+                        id: 'exampleInputParent',
+                        placeholder: 'Корневая категория',
+                    }}) }}
+                </div>
+                {{ form_errors(form.categories.main) }}
+            </div>
+
+            <p class="card-description mt-4 ml-5 mr-5">
+                Дополнительные категории:
+            </p>
+            <div class=" ml-5 mr-5 mt-4">
+                {{ form_widget(form.categories.categories) }}
+            </div>
+
+        </div>
+        <input type="hidden" name="token_csrf" value="{{ csrf_token('any') }}"/>
+        {{ form_end(form) }}
+
+        {% if form_review is defined %}
+            <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
+                {{ form_start(form_review,{
+                    attr: {
+                        class:'forms-sample',
+                        id: 'reviews'
+                    }
+                }) }}
+                <div class="m-5 row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="exampleInputParent">Рейтинг отзыва:</label>
+                            {{ form_widget(form_review.rating, {attr: {
+                                class: 'form-control',
+                            }}) }}
+                        </div>
+                        {{ form_errors(form_review.rating) }}
+                        <div class="form-group">
+                            <label for="form_createAt">Дата публикации:</label>
+                            {{ form_widget(form_review.createAt, {attr: {
+                                class: 'form-control datetime'
+                            }}) }}
+                        </div>
+                        {{ form_errors(form_review.createAt) }}
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <label for="form_createAt"> &nbsp;</label>
+                            {{ form_widget(form_review.name, {attr: {
+                                class: 'form-control',
+                                placeholder: 'Введите ФИО автора',
+                            }}) }}
+                        </div>
+                        {{ form_errors(form_review.name) }}
+                        <div class="form-group">
+                            {{ form_widget(form_review.message, {attr: {
+                                class: 'form-control',
+                                placeholder: 'Напишите отзыв о товаре',
+                                rows:4
+                            }}) }}
+                        </div>
+                        {{ form_errors(form_review.message) }}
+                    </div>
+                    <div class="d-flex ml-auto">
+                        <input type="submit" form="reviews" class="btn btn-info" value="Добавить отзыв"/>
+                    </div>
+                </div>
+                {{ form_end(form_review) }}
+
+                <hr>
+
+                <p class="card-description mt-4 ml-5 mr-5">
+                    Отзывы к этому товару:
+                </p>
+                {% if product.reviews|length>0 %}
+                    <table class="table table-striped">
+                        <tr>
+                            <td><b>Автор</b></td>
+                            <td><b>Комментарий</b></td>
+                            <td class="text-center"><b>Дата</b></td>
+                            <td class="text-center"><b>Статус</b></td>
+                            <td class="text-right"><b>Действие</b></td>
+                        </tr>
+                        {% for review in product.reviews %}
+                            <tr>
+                                <td>
+                                    {% if review.buyer is not null %}
+                                        <a href="{{ path('cpanel.buyer.edit',{id: review.buyer.id}) }}">{{ review.name }}</a>
+                                    {% else %}
+                                        {{ review.name }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {{ review.message }}
+                                </td>
+                                <td class="text-center">
+                                    <span class="badge badge-light">{{ review.createdAt|date("d.m.Y H:s") }}</span>
+                                </td>
+
+                                <td class="text-center">
+                                    {{ review_status(review.status.status) }}
+                                </td>
+
+                                <td class="text-right">
+
+                                    {% if review.status.isWait %}
+                                        <a href="{{ path('review.active.product',{id:review.id}) }}" class="btn btn-sm btn-success">Одобрить</a>
+                                    {% endif %}
+
+                                    <a href="{{ path('cpanel.review',{id:review.id}) }}"
+                                       class="btn btn-sm btn-info">Редактировать</a>
+
+                                    <button type="button" data-path="{{ path('cpanel.review.remove', {id:review.id}) }}"
+                                            data-parent="tr"
+                                            class="btn btn-sm btn-danger delete-element">
+                                        Удалить
+                                    </button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                {% else %}
+                    <div class="text-center m-5">
+                        Отзывы не найдены :-(
+                    </div>
+                {% endif %}
+
+
+            </div>
+        {% endif %}
+
+    </div>
+    <div class="text-center mt-5 mb-4">
+        <input form="productForm" type="submit" class="btn btn-primary" value="{{ name_sumbit }}">
+    </div>
+
+</div>
+
+

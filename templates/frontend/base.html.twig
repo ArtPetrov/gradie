@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="description" content="{% block description %}{% endblock %}">
+    <meta name="keywords" content="{% block keywords %}{% endblock %}">
+    <link rel="shortcut icon" href="{{ asset('img/favicon.png') }}" type="image/x-icon"/>
+    {% block stylesheets %}
+        <link rel="preload" href="{{ asset('fonts/FuturaPT-Book.woff2') }}" as="font" type="font/woff2" crossorigin/>
+        <link rel="preload" href="{{ asset('fonts/FuturaPT-Light.woff2') }}" as="font" type="font/woff2" crossorigin/>
+        <link rel="preload" href="{{ asset('fonts/FuturaPT-Medium.woff2') }}" as="font" type="font/woff2" crossorigin/>
+        <link rel="preload" href="{{ asset('fonts/FuturaPT-Demi.woff2') }}" as="font" type="font/woff2" crossorigin/>
+        <link href="{{ asset('css/style.css?v=1.6.5') }}" rel="stylesheet"/>
+    {% endblock %}
+</head>
+<body {% block bodyClass %}{% endblock %}>
+<div class="container">
+    <div class="wrapper">
+        {% block body %}
+        {% endblock %}
+    </div>
+</div>
+{% block javascripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="{{ asset('js/swiper.min.js') }}"></script>
+    <script src="{{ asset('js/magnific-popup.min.js') }}"></script>
+    <script src="{{ asset('js/ion-rangeslider.min.js') }}"></script>
+    <script src="{{ asset('js/scripts.js?v=1.6.5') }}"></script>
+    {{ encore_entry_link_tags('frontend') }}
+    {{ encore_entry_script_tags('frontend') }}
+
+    {% if app.environment != 'dev' %}
+    <script type="text/javascript">!function () {
+            var t = document.createElement("script");
+            t.type = "text/javascript", t.async = !0, t.src = "https://vk.com/js/api/openapi.js?162", t.onload = function () {
+                VK.Retargeting.Init("VK-RTRG-427682-1UA6W"), VK.Retargeting.Hit()
+            }, document.head.appendChild(t)
+        }();</script>
+    <noscript><img src="https://vk.com/rtrg?p=VK-RTRG-427682-1UA6W" style="position:fixed; left:-999px;" alt=""/>
+    </noscript>
+    <noscript><img height="1" width="1" src="https://www.facebook.com/tr?id=2445981082181052&ev=PageView&noscript=1"/>
+    </noscript>
+    <script type="text/javascript">
+        (function (m, e, t, r, i, k, a) {
+            m[i] = m[i] || function () {
+                (m[i].a = m[i].a || []).push(arguments)
+            };
+            m[i].l = 1 * new Date();
+            k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+        })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+        ym(57714619, "init", {
+            clickmap: true,
+            trackLinks: true,
+            accurateTrackBounce: true,
+            webvisor: true,
+            ecommerce: "dataLayer"
+        });
+    </script>
+    <noscript>
+        <div><img src="https://mc.yandex.ru/watch/57714619" style="position:absolute; left:-9999px;" alt=""/></div>
+    </noscript>
+    {% endif %}
+{% endblock %}
+</body>
+</html>

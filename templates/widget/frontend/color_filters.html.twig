@@ -1,0 +1,110 @@
+{% if filter=='tsvet-metalla' %}
+    <div class="filter__color" data-type="SELECT" data-slug="tsvet-metalla" data-label="{{ label }}">
+        <p class="filter__color-caption">{{ label }}</p>
+        <div class="filter__color-options">
+            <label class="filter__color-option">
+                <input class="filter__color-input  visually-hidden field-value-select-color" type="radio"
+                       name="tsvet-metalla" value="white" data-label="Белый"
+                       {% if 'white'== choose %} checked{% endif %}
+                />
+                <span class="filter__color-indicator" title="Белый">
+                      <span class="filter__color-white"></span>
+                    </span>
+            </label>
+            <label class="filter__color-option">
+                <input class="filter__color-input  visually-hidden field-value-select-color" type="radio"
+                       name="tsvet-metalla" value="grey" data-label="Серый"
+                        {% if 'grey'== choose %} checked{% endif %}
+                />
+                <span class="filter__color-indicator" title="Серый">
+                      <img class="filter__color-image" src="{{ asset('img/filter-color-1.svg') }}" width="36"
+                           height="36" alt=""/>
+                    </span>
+            </label>
+        </div>
+    </div>
+{% endif %}
+
+{% if filter=='tsvet-dereva' %}
+    <div class="filter__color" data-type="SELECT" data-slug="tsvet-dereva" data-label="{{ label }}">
+        <p class="filter__color-caption">{{ label }}</p>
+        <div class="filter__color-options">
+            <label class="filter__color-option">
+                <input class="filter__color-input  visually-hidden field-value-select-color" type="radio"
+                       name="tsvet-dereva" value="bereza" data-label="Берёза"
+                        {% if 'bereza'== choose %} checked{% endif %}
+                />
+                <span class="filter__color-indicator" title="Берёза">
+                      <img class="filter__color-image" src="{{ asset('img/filter-color-2.png') }}" width="36"
+                           height="36" alt=""/>
+                    </span>
+            </label>
+            <label class="filter__color-option">
+                <input class="filter__color-input  visually-hidden field-value-select-color" type="radio"
+                       name="tsvet-dereva" value="venge" data-label="Венге"
+                        {% if 'venge'== choose %} checked{% endif %}
+                />
+                <span class="filter__color-indicator" title="Венге">
+                      <img class="filter__color-image" src="{{ asset('img/filter-color-3.png') }}" width="36"
+                           height="36" alt=""/>
+                    </span>
+            </label>
+        </div>
+    </div>
+{% endif %}
+
+{% if filter=='tsvet-dsp-garderob' %}
+    <div class="filter__color" data-type="SELECT" data-slug="tsvet-dsp-garderob" data-label="{{ label }}">
+        <p class="filter__color-caption">{{ label }}</p>
+        <div class="filter__color-options">
+            <label class="filter__color-option">
+                <input class="filter__color-input  visually-hidden field-value-select-color" type="radio"
+                       name="tsvet-dsp-garderob" value="dub" data-label="Дуб"
+                        {% if 'dub'== choose %} checked{% endif %}
+                />
+                <span class="filter__color-indicator" title="Дуб">
+                      <img class="filter__color-image" src="{{ asset('img/filter-color-4.png') }}" width="36"
+                           height="36" alt=""/>
+                    </span>
+            </label>
+            <label class="filter__color-option">
+                <input class="filter__color-input  visually-hidden field-value-select-color" type="radio"
+                       name="tsvet-dsp-garderob" value="karbon" data-label="Карбон"
+                        {% if 'karbon'== choose %} checked{% endif %}
+                />
+                <span class="filter__color-indicator" title="Карбон">
+                      <img class="filter__color-image" src="{{ asset('img/filter-color-5.png') }}" width="36"
+                           height="36" alt=""/>
+                    </span>
+            </label>
+        </div>
+    </div>
+{% endif %}
+
+{% if filter=='tsvet-dsp-garazh' %}
+    <div class="filter__color" data-type="SELECT" data-slug="tsvet-dsp-garazh" data-label="{{ label }}">
+        <p class="filter__color-caption">{{ label }}</p>
+        <div class="filter__color-options">
+            <label class="filter__color-option">
+                <input class="filter__color-input  visually-hidden field-value-select-color" type="radio"
+                       name="tsvet-dsp-garazh" value="klen" data-label="Клен"
+                        {% if 'klen'== choose %} checked{% endif %}
+                />
+                <span class="filter__color-indicator" title="Клен">
+                      <img class="filter__color-image" src="{{ asset('img/filter-color-6.png') }}" width="36"
+                           height="36" alt=""/>
+                    </span>
+            </label>
+            <label class="filter__color-option">
+                <input class="filter__color-input  visually-hidden field-value-select-color" type="radio"
+                       name="tsvet-dsp-garazh" value="grey" data-label="Серый"
+                        {% if 'grey'== choose %} checked{% endif %}
+                />
+                <span class="filter__color-indicator" title="Серый">
+                      <img class="filter__color-image" src="{{ asset('img/filter-color-7.png') }}" width="36"
+                           height="36" alt=""/>
+                    </span>
+            </label>
+        </div>
+    </div>
+{% endif %}

@@ -1,0 +1,35 @@
+"attribute.created": "Атрибут добавлен в базу данных."
+"attribute.updated": "Атрибут обновлен."
+"attribute.not.found": "Атрибут не найден!"
+
+"attribute.type.change.disable": "Нельзя менять тип атрибута."
+"attributes.select.zero": "Добавьте варианты для выбора."
+"attributes.select.null": "Название надписи/Значения должны быть указаны для всех варинтов выбора."
+"attributes.select.duplication": "Информация в вариантах выбора дублируется."
+"attributes.select.value.error.validation": "Значение варианта выбора может состоять только из [A-z0-9._-] символов."
+"attribute.fields.not.collection": "Ошибка записи в базу. Варианты выбора должны быть ArrayCollection."
+
+"element.attributes.not.collection": "Ошибка записи атрибутов. Атрибуты должны быть 'ArrayCollection'."
+"element.images.not.collection": "Ошибка сохранения фотографий. Фотографии должны быть 'ArrayCollection'."
+
+"category.created": "Категория добавлена."
+"category.updated": "Категория обновлена."
+"category.incorrect.hierarchy.parent": "Категория не может иметь такого родителя."
+
+"product.created": "Товар добавлен в базу данных."
+"product.updated": "Товар обновлен."
+"product.error.for.composition": "Товар должен иметь \"Итоговые\" значения: веса, объема и цены. Он является составным элементом других товаров"
+"product.error.for.recommended": "Товар не может быть отключен, т.к. отображается в рекомендуемых других товаров"
+"product.error.composition.myself": "В состав товара не может входить этот же товар."
+"product.attribute.select.null": "У атрибутов заполнены не все поля. Проверьте надписи/значения добавленных атрибутов."
+"product.not.set.cover": "Установите обложку товара"
+"product.not.set.main.category": "Выберите основную категорию для товара."
+"product.error.youtube.link": "Ссылка на YouTube указана неправильно."
+
+"review.append": "Отзыв добавлен к товару."
+"review.name.incorrectly": "Имя автора должно быть минимум 2 символа."
+"review.message.incorrectly": "Коментарий должен быть минимум 10 символов."
+
+"group.not.found": "Товарная группа не найдена!"
+"product.group.created": "Группа товаров создана!"
+"product.group.updated": "Группа товаров обновлена!"

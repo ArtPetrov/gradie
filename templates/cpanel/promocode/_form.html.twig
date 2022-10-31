@@ -1,0 +1,154 @@
+<div class="card-body dashboard-tabs p-0">
+    <ul class="nav nav-tabs px-4" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="main-tab" data-toggle="tab" href="#main" role="tab" aria-controls="main"
+               aria-selected="true">Промокод</a>
+        </li>
+    </ul>
+
+    {{ form_start(form,{
+        attr: {
+            class:'forms-sample',
+        }
+    }) }}
+
+
+    <div class="tab-content py-0 px-0">
+
+        <div class="tab-pane fade active show" id="main" role="tabpanel" aria-labelledby="main-tab">
+            <div class=" m-5">
+
+                <div class="row">
+                    <div class="col-6  form-group row">
+                        <label class="col-4 col-form-label">Тип промокода:</label>
+                        <div class="col-8">
+                            {{ form_widget(form.type, {attr: {
+                                class: 'form-control',
+                            }}) }}
+                            {{ form_errors(form.type) }}
+                        </div>
+                    </div>
+                    <div class="col-3 form-group row">
+                        <label class="col-6 col-form-label text-right">Скидка:</label>
+                        <div class="col-6">
+                            {{ form_widget(form.value, {attr: {
+                                class: 'form-control text-center',
+                            }}) }}
+                            {{ form_errors(form.value) }}
+                        </div>
+                    </div>
+                    <div class="col-2  form-group row">
+                        <div class="form-check form-check-flat form-check-primary ml-5">
+                            <label class="form-check-label">
+                                {{ form_widget(form.enable, {attr: {
+                                    class: 'form-check-input'
+                                }}) }}
+                                Включен
+                                <i class="input-helper"></i></label>
+                            {{ form_errors(form.enable) }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6  form-group col">
+                        <div class=" form-group row">
+                            <label class="col-6 col-form-label">Название промокода:</label>
+                            <div class="col-6">
+                                {{ form_widget(form.information.name, {attr: {
+                                    class: 'form-control',
+                                }}) }}
+                                {{ form_errors(form.information.name) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-6 col-form-label">Код для применения:</label>
+                            <div class="col-6">
+                                {{ form_widget(form.information.code, {attr: {
+                                    class: 'form-control',
+                                }}) }}
+                                {{ form_errors(form.information.code) }}
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-6  form-group row">
+                        <div class="form-group col-12">
+                            {{ form_widget(form.information.description, {attr: {
+                                class: 'form-control',
+                                placeholder: 'Заметка для менеджера',
+                                rows:7
+                            }}) }}
+                        </div>
+                        {{ form_errors(form.information.description) }}
+                    </div>
+                </div>
+
+
+                <p class="card-description mb-4">
+                    <b>Ограничения промокода (0 = нет ограничений):</b>
+                </p>
+
+                <div class=" form-group row">
+                    <label class="col-form-label">Количество промокодов:</label>
+                    <div>
+                        {{ form_widget(form.restrictions.countLimit, {attr: {
+                            class: 'form-control',
+                        }}) }}
+                        {{ form_errors(form.restrictions.countLimit) }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6  form-group row">
+                        <label class="col-8 col-form-label">Минимальная сумма заказа:</label>
+                        <div class="col-4">
+                            {{ form_widget(form.restrictions.minSumOrder, {attr: {
+                                class: 'form-control',
+                            }}) }}
+                            {{ form_errors(form.restrictions.minSumOrder) }}
+                        </div>
+                    </div>
+                    <div class="col-6 form-group row">
+                        <label class="col-8 col-form-label text-right">Максимальная сумма заказа:</label>
+                        <div class="col-4">
+                            {{ form_widget(form.restrictions.maxSumOrder, {attr: {
+                                class: 'form-control',
+                            }}) }}
+                            {{ form_errors(form.restrictions.maxSumOrder) }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6  form-group row">
+                        <label class="col-6 col-form-label">Дата начала действия:</label>
+                        <div class="col-6">
+                            {{ form_widget(form.restrictions.dateStart, {attr: {
+                                class: 'form-control  datetime',
+                                placeholder: 'Необязательно'
+                            }}) }}
+                            {{ form_errors(form.restrictions.dateStart) }}
+                        </div>
+                    </div>
+                    <div class="col-6 form-group row">
+                        <label class="col-6 col-form-label text-right">Дата окончания:</label>
+                        <div class="col-6">
+                            {{ form_widget(form.restrictions.dateEnd, {attr: {
+                                class: 'form-control datetime',
+                                placeholder: 'Необязательно'
+                            }}) }}
+                            {{ form_errors(form.restrictions.dateEnd) }}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="text-center mt-3 mb-5">
+        <input type="hidden" name="token_csrf" value="{{ csrf_token('any') }}"/>
+        <button type="submit" class="btn btn-primary">{{ name_sumbit }}</button>
+    </div>
+    {{ form_end(form) }}
+</div>

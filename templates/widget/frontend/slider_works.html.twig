@@ -1,0 +1,34 @@
+{% if images|length > 0 %}
+    <div class="photo-gallery {{ tag }}">
+
+        <div class="{{ tag }}__images">
+            <div class="swiper-wrapper">
+                {% for image in images %}
+                    <div class="swiper-slide">
+                        <img class="photo-gallery__image"
+                             src="{{ image.file.path|imagine_filter('work_940_560') }}"/>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="photo-gallery__arrow {{ tag }}__arrow--prev"></div>
+            <div class="photo-gallery__arrow {{ tag }}__arrow--next"></div>
+        </div>
+
+        <div class="{{ tag }}__thumbs-wrap">
+            <div class="{{ tag }}__thumbs">
+                <div class="swiper-wrapper">
+                    {% for image in images %}
+                        <div class="swiper-slide">
+                            <img class="photo-gallery__thumb"
+                                 src="{{ image.file.path|imagine_filter('work_148_105') }}" width="148"
+                                 height="105"/>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="photo-gallery__arrow  {{ tag }}__arrow--prev"></div>
+            <div class="photo-gallery__arrow  {{ tag }}__arrow--next"></div>
+        </div>
+
+    </div>
+{% endif %}

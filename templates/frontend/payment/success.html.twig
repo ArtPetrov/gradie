@@ -1,0 +1,27 @@
+{% extends 'frontend/container.html.twig' %}
+
+{% block title %}{{ seo.title|default('Благодарим за оплату') }}{% endblock %}
+{% block keywords %}{{ seo.keywords|default('Оформление заказа') }}{% endblock %}
+{% block description %}{{ seo.description|default('Оформление заказа') }}{% endblock %}
+
+{% block contextSlider %}
+    {{ slider_context(2) }}
+{% endblock %}
+
+{% block main %}
+    <div class="breadcrumbs">
+        <a class="breadcrumbs__link" href="{{ path('index') }}">Главная</a>
+        <span class="breadcrumbs__separator"></span>
+    </div>
+
+        <h1 class="page-title">Счет оплачен!</h1>
+
+{#        <h2 class="ordering__heading">Номер Вашего заказа: {{ orderId }}</h2>#}
+
+        <p class="ordering__thanks">Благодарим за оплату счета!</p>
+
+        <div class="ordering__buttons">
+            <a  class="ordering__button"  href="{{ path('index') }}">На главную</a>
+            <a class="ordering__user-area" href="{{ path('buyer.index') }}">Личный кабинет</a>
+        </div>
+{% endblock %}

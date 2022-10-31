@@ -1,0 +1,60 @@
+{% extends 'frontend/pages/container.html.twig' %}
+
+{% block title %}{{ seo.title|default('Заголовок страницы') }}{% endblock %}
+{% block keywords %}{{ seo.keywords|default('Ключевые слова') }}{% endblock %}
+{% block description %}{{ seo.description|default('Описание') }}{% endblock %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a class="breadcrumbs__link" href="{{ path('index') }}">Главная</a>
+        <span class="breadcrumbs__separator"></span>
+    </div>
+{% endblock %}
+
+{%  block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('frontend.works') }}
+{% endblock %}
+
+{% block sidebar %}
+    {% set current = path('works') %}
+    {{ parent() }}
+{% endblock %}
+
+{% block headline %}
+    <h1 class="page-title">{{ header|default() }}</h1>
+{% endblock %}
+
+{% block content %}
+
+    <div class="content">
+
+        <ul class="projects projects-container"
+            data-path="{{ path('works.json') }}"
+            data-properties="cover,name,link"
+            data-nocover='<img class="projects__image" src="https://imgholder.ru/297/EEE/" width="297" height="297" alt="" />'
+            data-cover='<img class="projects__image" src="__cover__" width="297" height="297" alt="" />'
+            data-template='
+<li class="projects__item">
+    __cover__
+    <a class="projects__title" href="__link__">__name__</a>
+</li>
+'>
+            {% for work in works %}
+                <li class="projects__item">
+                    {% if work.cover is null %}
+                        <img class="projects__image" src="https://imgholder.ru/297/EEE/" width="297" height="297" alt="" />
+                    {% else %}
+                        <img class="projects__image" src="{{ work.cover|imagine_filter('work_297_297') }}" width="297" height="297" alt="" />
+                    {% endif %}
+                    <a class="projects__title" href="{{ path('work',{id:work.id}) }}">{{ work.name }}</a>
+                </li>
+            {% endfor %}
+
+        </ul>
+
+        <button class="show-more button-loading" type="button">Показать еще</button>
+
+    </div>
+
+{% endblock %}

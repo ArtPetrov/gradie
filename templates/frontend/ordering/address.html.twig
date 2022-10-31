@@ -1,0 +1,193 @@
+{% extends 'frontend/container.html.twig' %}
+
+{% block title %}{{ seo.title|default('Адрес доставки') }}{% endblock %}
+{% block keywords %}{{ seo.keywords|default('Оформление заказа') }}{% endblock %}
+{% block description %}{{ seo.description|default('Оформление заказа') }}{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('frontend.ordering') }}
+{% endblock %}
+
+{% block contextSlider %}
+    {{ slider_context(2) }}
+{% endblock %}
+
+{% if form is defined %}
+    {% form_theme form with [
+        'frontend/ordering/_form_radio.html.twig',
+    ] %}
+{% endif %}
+
+{% block main %}
+
+    <div class="breadcrumbs">
+        <a class="breadcrumbs__link" href="{{ path('index') }}">Главная</a>
+        <span class="breadcrumbs__separator"></span>
+        <a class="breadcrumbs__link" href="{{ path('basket') }}">Корзина</a>
+        <span class="breadcrumbs__separator"></span>
+        <a class="breadcrumbs__link" href="{{ path('ordering.step1') }}">Контакты</a>
+        <span class="breadcrumbs__separator"></span>
+    </div>
+
+    {{ form_start(form, {
+        attr: {
+            class:'ordering',
+        }
+    }) }}
+
+    <h1 class="page-title">Оформление заказа</h1>
+
+    <h2 class="ordering__heading"><span class="ordering__step">2</span> Доставка</h2>
+
+    {% include 'frontend/_flashes.html.twig' %}
+
+    <div class="tabs  ordering__tabs">
+
+        <ul class="ordering__tabs-captions" role="tablist">
+            <li class="ordering__tabs-caption" role="presentation">
+                <a class="ordering__tabs-link choices-type-shipping" href="#tab1" role="tab" id="tab1" tabindex="-1"
+                        {% if form.type.vars.value=='moscow' %}aria-selected="true"{% endif %}
+                   data-city="moscow">Москва и Московская область</a>
+            </li>
+            <li class="ordering__tabs-caption" role="presentation">
+                <a class="ordering__tabs-link choices-type-shipping" href="#tab2" role="tab" id="tab2" tabindex="-1"
+                   {% if form.type.vars.value=='regions' %}aria-selected="true"{% endif %}
+                   data-city="regions">Регионы</a>
+            </li>
+            <li class="ordering__tabs-caption" role="presentation">
+                <a class="ordering__tabs-link choices-type-shipping" href="#tab3" role="tab" id="tab3" tabindex="-1"
+                   {% if form.type.vars.value=='pickup' %}aria-selected="true"{% endif %}
+                   data-city="pickup">Самовывоз</a>
+            </li>
+        </ul>
+
+        {{ form_widget(form.type, {attr: {
+            class: 'visually-hidden choise-type',
+        }}) }}
+
+        <section class="ordering__tabs-content" id="tab1" role="tabpanel" tabindex="-1" aria-labelledby="tab1"
+                 hidden="">
+
+            {{ form_widget(form.moscow.deliveryTo) }}
+
+            <div class="ordering__calc">Расчет: 500 + <span class="price-km">30</span>х {{ form_widget(form.moscow.howManyKm, {attr: {
+                    class: 'ordering__calc-input count-km',
+                    style: 'width: 70px'
+                }}) }}
+                {{ form_errors(form.moscow.howManyKm) }} = <span class="finish-shipped">0</span> ₽</div>
+
+
+            <label class="ordering__label" for="city-1">Город</label>
+            {{ form_widget(form.moscow.city, {attr: {
+                class: 'ordering__input',
+            }}) }}
+            {{ form_errors(form.moscow.city) }}
+
+            <label class="ordering__label" for="address-1">Адрес</label>
+            {{ form_widget(form.moscow.address, {attr: {
+                class: 'ordering__input',
+            }}) }}
+            {{ form_errors(form.moscow.address) }}
+            {{ form_widget(form.moscow.freeShippingLimit) }}
+            {{ form_widget(form.moscow.baseCostShipping) }}
+            {{ form_widget(form.moscow.costKmShipping) }}
+        </section>
+
+        <section class="ordering__tabs-content" id="tab2" role="tabpanel" tabindex="-1" aria-labelledby="tab2"
+                 hidden="">
+
+            <p class="ordering__text">Доставка транспортной компанией осуществляется во все города России только после
+                оплаты заказанного товара.</p>
+
+            <p class="ordering__text">Стоимость доставки до транспортной компании:</p>
+
+            <ul class="ordering__list">
+                <li class="ordering__list-item">при заказе от 30000 ₽ бесплатно в пределах МКАД.<br> <span
+                            class="ordering__list-note">За МКАД – 30₽ каждый км.</span></li>
+                <li class="ordering__list-item">при заказе менее 30000 ₽ – 500₽.<br> <span class="ordering__list-note">За МКАД – 30₽ каждый км.</span>
+                </li>
+            </ul>
+
+            {{ form_widget(form.regions.deliveryTo) }}
+
+            <label class="ordering__label" for="company">Транспортная компания</label>
+            {{ form_widget(form.regions.transportCompany, {attr: {
+                class: 'ordering__input',
+            }}) }}
+            {{ form_errors(form.regions.transportCompany) }}
+
+            <label class="ordering__label" for="city-2">Город</label>
+            {{ form_widget(form.regions.city, {attr: {
+                class: 'ordering__input',
+            }}) }}
+            {{ form_errors(form.regions.city) }}
+
+            <label class="ordering__label" for="address-2">Адрес</label>
+            {{ form_widget(form.regions.address, {attr: {
+                class: 'ordering__input',
+            }}) }}
+            {{ form_errors(form.regions.address) }}
+
+            <label class="checkbox  ordering__option">
+                {{ form_widget(form.regions.tightPacking, {attr: {
+                    class: 'checkbox__input  visually-hidden',
+                }}) }}
+                <span class="checkbox__indicator"></span>
+                Жесткая упаковка (обрешетка, паллетный борт и т. д)
+            </label>
+
+            <label class="checkbox  ordering__option">
+                {{ form_widget(form.regions.insurance, {attr: {
+                    class: 'checkbox__input  visually-hidden',
+                }}) }}
+                <span class="checkbox__indicator"></span>
+                Страхование груза
+            </label>
+
+            <p class="ordering__note">Обращаем ваше внимание, что за данные услуги, транспортные компании могу брать
+                дополнительную плату.</p>
+            {{ form_widget(form.regions.freeShippingLimit) }}
+            {{ form_widget(form.regions.baseCostShipping) }}
+        </section>
+
+
+        <section class="ordering__tabs-content" id="tab3" role="tabpanel" tabindex="-1" aria-labelledby="tab3"
+                 hidden="">
+            <p class="ordering__text">Выдача товара производится по адресу:</p>
+
+            <ul class="ordering__list">
+                <li class="ordering__list-item">Московская область, Дмитровский район, посёлок Некрасовский, ул. Парковая, д. 1, база «АБЧ». (Платформа Катуар).
+                    <br>
+                    <strong>C 10:00 до 17:00 по рабочим дням.</strong>
+                </li>
+            </ul>
+<div>
+    <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A675c82a9946697dce04001eca332063a595cd1005eb0c719b7e0e2e708797618&amp;width=100%&amp;height=313&amp;lang=ru_RU&amp;scroll=true"></script>
+</div>
+            <br>
+
+            <p class="ordering__note">Дополнительну информацию Вы можете получить у наших менеджеров по телефону указанному выше.</p>
+            {{ form_widget(form.pickup.freeShippingLimit) }}
+            {{ form_widget(form.pickup.baseCostShipping) }}
+        </section>
+
+    </div>
+
+    <p class="ordering__delivery-cost">Стоимость доставки: <span class="shipping-cost">0</span> ₽</p>
+    <p class="ordering__note region-note" style="display: none">До транспортной компании по Москве.</p>
+    <p class="ordering__total">Итого к оплате: <span class="total-price-with-shipping">0</span> ₽</p>
+
+    {{ form_widget(form.orderPrice, {attr: {
+        class: 'total-price',
+    }}) }}
+
+    {{ form_widget(form.orderPriceWithPromo, {attr: {
+        class: 'total-price-with-promo',
+    }}) }}
+
+    <button class="ordering__button" type="submit">Продолжить</button>
+
+    {{ form_end(form) }}
+
+{% endblock %}

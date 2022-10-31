@@ -1,0 +1,43 @@
+{% extends 'cpanel/content.html.twig' %}
+
+{% block title %}{{ parent() }} - Добавить работу{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('cpanel.alert.error') }}
+    {{ encore_entry_script_tags('cpanel.works') }}
+    {{ encore_entry_script_tags('cpanel.works.tinymce') }}
+{% endblock %}
+
+{% if form is defined %}
+    {% form_theme form with [
+        'cpanel/_form_errors.html.twig',
+        'cpanel/works/_form_images_entry.html.twig',
+        'cpanel/works/_form_diy_entry.html.twig',
+        'cpanel/works/_form_composition_entry.html.twig',
+        'cpanel/works/_form_radio.html.twig'
+    ] %}
+{% endif %}
+
+{% block content %}
+    <div class="content-wrapper">
+        {% block breadcrumbs %}
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ path('cpanel.index') }}">Главная</a></li>
+                <li class="breadcrumb-item"><a href="{{ path('cpanel.works') }}">Список работ</a></li>
+                <li class="breadcrumb-item active">Добавить работу</li>
+            </ol>
+        {% endblock %}
+
+        {% include 'cpanel/_flashes.html.twig' %}
+
+        <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    {{ include('cpanel/works/_form.html.twig',{
+                        name_sumbit:'Добавить работу'
+                    }) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

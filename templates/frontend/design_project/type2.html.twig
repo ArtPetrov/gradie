@@ -1,0 +1,279 @@
+{% extends 'frontend/pages/container.html.twig' %}
+
+{% block title %}{{ seo.title|default('Заголовок страницы') }}{% endblock %}
+{% block keywords %}{{ seo.keywords|default('Ключевые слова') }}{% endblock %}
+{% block description %}{{ seo.description|default('Описание') }}{% endblock %}
+
+{% block sidebar %}
+    {% set current = path('design.project') %}
+    {{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('frontend.design.project') }}
+{% endblock %}
+
+{% if form is defined %}
+    {% form_theme form with [
+        'frontend/design_project/_form_files_entry.html.twig'
+    ] %}
+{% endif %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a class="breadcrumbs__link" href="{{ path('index') }}">Главная</a>
+        <span class="breadcrumbs__separator"></span>
+    </div>
+{% endblock %}
+
+{% block headline %}
+    <div class="news-page__headline">
+        <h1 class="page-title  news-page__title">{{ header|default('') }}
+        </h1>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    <div class="content">
+        {% if complete==false %}
+            {{ form_start(form,{
+                attr: {
+                    class:'d3-project',
+                }
+            }) }}
+
+            <p class="d3-project__text">{{ content|default('')|raw }}</p>
+            <h2 class="d3-project__heading">1. Форма помещения</h2>
+
+            <ul class="d3-project__shape">
+                <li class="d3-project__shape-item  d3-project__shape-item--1">
+                    <label class="d3-project__shape-label">
+                        <a href="{{ path('design.project') }}">
+                            <input class="d3-project__shape-input  visually-hidden" type="radio" name="room-shape"/>
+                            <span class="d3-project__shape-value">Прямоугольная С-образная 5&nbsp;стен</span>
+                        </a>
+                    </label>
+                </li>
+                <li class="d3-project__shape-item  d3-project__shape-item--2">
+                    <label class="d3-project__shape-label">
+                        <input class="d3-project__shape-input  visually-hidden" type="radio" name="room-shape" checked/>
+                        <span class="d3-project__shape-value">Прямоугольная П-образная 3&nbsp;стены</span>
+                    </label>
+                </li>
+                <li class="d3-project__shape-item  d3-project__shape-item--3">
+                    <label class="d3-project__shape-label">
+                        <a href="{{ path('design.project.type3') }}">
+                            <input class="d3-project__shape-input  visually-hidden" type="radio" name="room-shape"/>
+                            <span class="d3-project__shape-value">Прямоугольная Г-образная 2&nbsp;стены</span>
+                        </a>
+                    </label>
+                </li>
+                <li class="d3-project__shape-item  d3-project__shape-item--4">
+                    <label class="d3-project__shape-label">
+                        <a href="{{ path('design.project.customize') }}">
+                            <input class="d3-project__shape-input  visually-hidden" type="radio" name="room-shape"/>
+                            <span class="d3-project__shape-value">Другая форма</span>
+                        </a>
+                    </label>
+                </li>
+            </ul>
+
+            <h2 class="d3-project__heading">2. Параметры помещения</h2>
+
+            <div class="d3-project__params">
+
+                <div class="d3-project__scheme">
+                    <img class="d3-project__scheme-image" src="{{ asset('img/3d-project-scheme-2.svg') }}" width="335"
+                         height="351" alt=""/>
+                </div>
+
+                <div class="d3-project__fields">
+
+                    <h3 class="d3-project__caption">Размеры, мм</h3>
+
+                    <div class="d3-project__row">
+
+                        <div class="d3-project__field{% if form_errors(form.size.a) is not empty %} d3-project__field--error{% endif %}">
+                            <label class="d3-project__label" for="wall-a">Стена А</label>
+                            {{ form_widget(form.size.a, {attr: {
+                                class: 'd3-project__input  d3-project__input--size',
+                                id: 'wall-a',
+                            }}) }}
+                        </div>
+
+                        <div class="d3-project__field{% if form_errors(form.size.b) is not empty %} d3-project__field--error{% endif %}">
+                            <label class="d3-project__label" for="wall-b">Стена B</label>
+                            {{ form_widget(form.size.b, {attr: {
+                                class: 'd3-project__input  d3-project__input--size',
+                                id: 'wall-b',
+                            }}) }}
+                        </div>
+
+                        <div class="d3-project__field{% if form_errors(form.size.c) is not empty %} d3-project__field--error{% endif %}">
+                            <label class="d3-project__label" for="wall-c">Стена C</label>
+                            {{ form_widget(form.size.c, {attr: {
+                                class: 'd3-project__input  d3-project__input--size',
+                                id: 'wall-c',
+                            }}) }}
+                        </div>
+                    </div>
+
+                    <div class="d3-project__row">
+
+                        <div class="d3-project__field{% if form_errors(form.size.hp) is not empty %} d3-project__field--error{% endif %}">
+                            <label class="d3-project__label" for="ceiling-height">Высота потолка</label>
+                            {{ form_widget(form.size.hp, {attr: {
+                                class: 'd3-project__input  d3-project__input--size',
+                                id: 'ceiling-height',
+                            }}) }}
+                        </div>
+
+                        <div class="d3-project__field{% if form_errors(form.size.hd) is not empty %} d3-project__field--error{% endif %}">
+                            <label class="d3-project__label" for="door-height">Высота двери</label>
+                            {{ form_widget(form.size.hd, {attr: {
+                                class: 'd3-project__input  d3-project__input--size',
+                                id: 'door-height',
+                            }}) }}
+                        </div>
+
+                        <div class="d3-project__field{% if form_errors(form.size.wd) is not empty %} d3-project__field--error{% endif %}">
+                            <label class="d3-project__label" for="door-width">Ширина двери</label>
+                            {{ form_widget(form.size.wd, {attr: {
+                                class: 'd3-project__input  d3-project__input--size',
+                                id: 'door-width',
+                            }}) }}
+                        </div>
+
+                    </div>
+
+                    <h3 class="d3-project__caption">Вид дизайн-проекта</h3>
+
+                    <div class="d3-project__type">
+                        <label class="visually-hidden" for="d3-project-type">Вид дизайн-проекта</label>
+                        {% if form_errors(form.project.name) is not empty %}
+                            {{ form_widget(form.project.name, {attr: {
+                                class: 'd3-project__input  d3-project__input--type d3-project__input--error',
+                                id: 'd3-project-type'
+                            }}) }}
+                        {% else %}
+                            {{ form_widget(form.project.name, {attr: {
+                                class: 'd3-project__input  d3-project__input--type',
+                                id: 'd3-project-type'
+                            }}) }}
+                        {% endif %}
+                        <p class="d3-project__note">Гардеробная, прихожая, детская, гараж и пр.</p>
+                    </div>
+
+                    <div class="d3-project__additional">
+                        <h3 class="d3-project__caption">Дополнительно <span>(по желанию)</span></h3>
+
+                        <label class="visually-hidden" for="d3-project-additional">Вид дизайн-проекта</label>
+                        {{ form_widget(form.project.description, {attr: {
+                            class: 'd3-project__input  d3-project__input--textarea',
+                            id: 'd3-project-additional',
+                            rows: '5'
+                        }}) }}
+                        <p class="d3-project__note">Планируемый бюджет, особенности помещения (например, наличие окон),
+                            другие комментарии</p>
+                    </div>
+
+                    <p class="d3-project__error-text files-upload-error"></p>
+                    <div class="d3-project__files">
+
+                        <ul class="d3-project__files-list"
+                            data-path-upload="{{ path('design.project.file.upload') }}"
+                            data-prototype="{{ form_widget(form.files.vars.prototype)|e('html_attr') }}">
+                            {% for file in form.files %}
+                                {{ form_widget(file) }}
+                            {% else %}
+                                {{ form_widget(form.files) }}
+                            {% endfor %}
+                        </ul>
+
+                        <div class="add-file  d3-project__add-file upload-file ">
+                            <input class="add-file__input ">
+                            <div class="add-file__name " data-text="Добавить файл">Добавить файл</div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="d3-project__contacts">
+
+                <h2 class="d3-project__heading">3. Ваши контактные данные</h2>
+
+                <div class="d3-project__fields">
+
+                    <div class="d3-project__row">
+
+                        <div class="d3-project__field{% if form_errors(form.client.name) is not empty %} d3-project__field--error{% endif %}">
+                            <label class="d3-project__label" for="name">Ф. И. О</label>
+                            {{ form_widget(form.client.name, {attr: {
+                                class: 'd3-project__input  d3-project__input--contact',
+                                id: 'name',
+                            }}) }}
+                        </div>
+
+                        <div class="d3-project__field{% if form_errors(form.client.phone) is not empty %} d3-project__field--error{% endif %}">
+                            <label class="d3-project__label" for="phone">Номер телефона</label>
+                            {{ form_widget(form.client.phone, {attr: {
+                                class: 'd3-project__input  d3-project__input--contact',
+                                id: 'phone',
+                            }}) }}
+                        </div>
+
+                    </div>
+
+                    <div class="d3-project__row">
+
+                        <div class="d3-project__field{% if form_errors(form.client.email) is not empty %} d3-project__field--error{% endif %}">
+                            <label class="d3-project__label" for="email">E-mail</label>
+                            {{ form_widget(form.client.email, {attr: {
+                                class: 'd3-project__input  d3-project__input--contact',
+                                id: 'email',
+                            }}) }}
+                        </div>
+
+                        <div class="d3-project__field{% if form_errors(form.client.city) is not empty %} d3-project__field--error{% endif %}">
+                            <label class="d3-project__label" for="city">Город, населенный пункт</label>
+                            {{ form_widget(form.client.city, {attr: {
+                                class: 'd3-project__input  d3-project__input--contact',
+                                id: 'city',
+                            }}) }}
+                        </div>
+
+                    </div>
+
+                    <div class="d3-project__agree">
+                        <label class="radio">
+                            <input class="radio__input  visually-hidden" type="radio" checked/>
+                            <span class="radio__indicator"></span>
+                            Я даю согласие на обработку своих персональных данных. <a href="{{ path('page',{slug:'personal'}) }}">Подробнее</a>
+                        </label>
+                    </div>
+
+                    <div class="d3-project__bottom">
+                        <input type="hidden" name="token_csrf" value="{{ csrf_token('any') }}"/>
+                        <button class="d3-project__button" type="submit">Отправить</button>
+                        {% if not form.vars.valid %}
+                            <p class="d3-project__error-text">Необходимо заполнить поля, выделенные красным!</p>
+                        {% endif %}
+                    </div>
+
+                </div>
+
+            </div>
+
+            {{ form_end(form) }}
+        {% else %}
+            <p class="d3-project__sent view-completed-lead">Спасибо! Данные отправлены. Наш менеджер свяжется с вами в ближайшее
+                время</p>
+        {% endif %}
+
+    </div>
+{% endblock %}

@@ -1,0 +1,7 @@
+{% if status == 'work' %}
+    <span class="badge badge-info">Идет рассылка</span>
+{% elseif status == 'completed' %}
+    <span class="badge badge-success">Выполнена</span>
+{% elseif status == 'stop' %}
+    <span class="badge badge-danger">Остановлена</span>
+{% endif %}

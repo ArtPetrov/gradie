@@ -1,0 +1,106 @@
+{% extends 'frontend/container.html.twig' %}
+
+
+{% block contextSlider %}
+    {{ slider_context(2) }}
+{% endblock %}
+
+{% block main %}
+    <main>
+
+        {% block breadcrumbs %}
+        {% endblock %}
+
+        {% block headline %}
+        {% endblock %}
+
+        <div class="wrap">
+            {% block sidebar %}
+                <aside class="sidebar">
+                    {% set current=current??'' %}
+                    <nav class="sidebar-nav">
+                        <h2 class="sidebar__heading">Информация</h2>
+                        <ul class="sidebar-nav__list">
+
+                            {% if current ==  path('buyer.orders')  %}
+                                <li class="sidebar-nav__item  sidebar-nav__item--active">
+                                    <a class="sidebar-nav__link">Заказы</a>
+                                </li>
+                            {% else %}
+                                <li class="sidebar-nav__item">
+                                    <a class="sidebar-nav__link" href="{{ path('buyer.orders') }}">Заказы</a>
+                                </li>
+                            {% endif %}
+
+                            {% if current ==  path('buyer.settings')  %}
+                                <li class="sidebar-nav__item  sidebar-nav__item--active">
+                                    <a class="sidebar-nav__link">Личные данные</a>
+                                </li>
+                            {% else %}
+                                <li class="sidebar-nav__item">
+                                    <a class="sidebar-nav__link" href="{{ path('buyer.settings') }}">Личные данные</a>
+                                </li>
+                            {% endif %}
+
+                            {% if current ==  path('buyer.help')  %}
+                                <li class="sidebar-nav__item  sidebar-nav__item--active">
+                                    <a class="sidebar-nav__link">Помощь</a>
+                                </li>
+                            {% else %}
+                                <li class="sidebar-nav__item">
+                                    <a class="sidebar-nav__link" href="{{ path('buyer.help') }}">Помощь</a>
+                                </li>
+                            {% endif %}
+
+                            <li class="sidebar-nav__item">
+                                <a class="sidebar-nav__link" href="{{ path('buyer.logout') }}">Выход</a>
+                            </li>
+                        </ul>
+                    </nav>
+
+                </aside>
+            {% endblock %}
+
+
+            <div class="content">
+                {% block sidebarContent %}
+                    {% set current=current??'' %}
+                <nav class="user-nav">
+                    <ul class="user-nav__list">
+
+                        <li class="user-nav__item">
+                            {% if current == path('buyer.orders') %}
+                                <a class="user-nav__link  user-nav__link--orders user-nav__link--active">Заказы</a>
+                            {% else %}
+                                <a class="user-nav__link  user-nav__link--orders" href="{{ path('buyer.orders') }}">Заказы</a>
+                            {% endif %}
+                        </li>
+                        <li class="user-nav__item">
+                            {% if current == path('buyer.settings') %}
+                                <a class="user-nav__link  user-nav__link--data  user-nav__link--active">Личные данные</a>
+                            {% else %}
+                                <a class="user-nav__link  user-nav__link--data" href="{{ path('buyer.settings') }}">Личные данные</a>
+                            {% endif %}
+                        </li>
+                        <li class="user-nav__item">
+                            {% if current == path('buyer.help') %}
+                                <a class="user-nav__link  user-nav__link--help user-nav__link--active">Помощь</a>
+                            {% else %}
+                                <a class="user-nav__link  user-nav__link--help" href="{{ path('buyer.help') }}">Помощь</a>
+                            {% endif %}
+
+                        </li>
+                    </ul>
+                </nav>
+                {% endblock %}
+
+                {% include 'frontend/_flashes.html.twig' %}
+
+
+            {% block content %}
+            {% endblock %}
+            </div>
+        </div>
+
+    </main>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'frontend/pages/container.html.twig' %}
+
+{% block title %}{{ seo.title|default('Заголовок страницы') }}{% endblock %}
+{% block keywords %}{{ seo.keywords|default('Ключевые слова') }}{% endblock %}
+{% block description %}{{ seo.description|default('Описание') }}{% endblock %}
+
+{% block sidebar %}
+{% set current = slug %}
+{{ parent() }}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a class="breadcrumbs__link" href="{{ path('index') }}">Главная</a>
+        <span class="breadcrumbs__separator"></span>
+    </div>
+{% endblock %}
+
+{% block headline %}
+    <div class="news-page__headline">
+        <h1 class="page-title  news-page__title">{{ header|default('') }}
+        </h1>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="content">
+        <div class="news-page__entry">
+           {{ content|default('')|raw }}
+        </div>
+    </div>
+{% endblock %}

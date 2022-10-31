@@ -1,0 +1,38 @@
+{{ form_start(form,{
+    attr: {
+        class:'forms-sample'
+    }
+}) }}
+
+<div class="form-group">
+    <label for="exampleInputName">ФИО:</label>
+    {{ form_widget(form.name, {attr: {
+        placeholder: 'Имя Фамилия',
+        id: 'exampleInputName',
+        class: 'form-control'
+    }}) }}
+</div>
+{{ form_errors(form.name) }}
+
+<div class="form-group">
+    <label for="exampleInputPhone">Телефон:</label>
+    {{ form_widget(form.phone, {attr: {
+        placeholder: 'Контактный телефон',
+        id: 'exampleInputPhone',
+        class: 'form-control'
+    }}) }}
+</div>
+{{ form_errors(form.phone) }}
+
+<div class="form-group">
+    <label for="exampleInputEmail">Email адрес:</label>
+    {{ form_widget(form.email, {attr: {
+        placeholder: 'Email',
+        id: 'exampleInputEmail',
+        class: 'form-control'
+    }}) }}
+</div>
+{{ form_errors(form.email) }}
+
+<button type="submit" class="btn btn-primary mr-2">{{ name_sumbit }}</button>
+{{ form_end(form) }}

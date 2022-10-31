@@ -1,0 +1,188 @@
+{% extends 'frontend/pages/container.html.twig' %}
+
+{% block title %}{{ seo.title|default('Заголовок страницы') }}{% endblock %}
+{% block keywords %}{{ seo.keywords|default('Ключевые слова') }}{% endblock %}
+{% block description %}{{ seo.description|default('Описание') }}{% endblock %}
+
+{% block sidebar %}
+    {% set current = path('dealer.signup') %}
+    {{ parent() }}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a class="breadcrumbs__link" href="{{ path('index') }}">Главная</a>
+        <span class="breadcrumbs__separator"></span>
+    </div>
+{% endblock %}
+
+{% block headline %}
+    <div class="news-page__headline">
+        <h1 class="page-title  news-page__title">{{ header|default('') }}
+        </h1>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="content">
+        {% if complete==false %}
+            {{ form_start(form,{
+                attr: {
+                    class:'dealer-form'
+                }
+            }) }}
+
+            <div class="dealer-form__text">
+                {{ content|default('')|raw }}
+            </div>
+
+            <h2 class="dealer-form__heading">Заявка на дилера</h2>
+
+            {% for message in app.flashes('error') %}
+                <p><b style="color: red">
+                        {{ message|trans([],'frontend') }}
+                    </b></p>
+                <p></p>
+            {% endfor %}
+
+            <div class="dealer-form__fields">
+
+                <div class="dealer-form__row">
+
+                    <div class="dealer-form__field">
+                        <label class="dealer-form__label" for="company">Название организации <span>(обязательно)</span></label>
+                        {{ form_widget(form.company, {attr: {
+                            class: 'dealer-form__input',
+                            id: 'company',
+                        }}) }}
+                        {{ form_errors(form.company) }}
+                    </div>
+
+                    <div class="dealer-form__field">
+                        <label class="dealer-form__label" for="city">Город <span>(обязательно)</span></label>
+                        {{ form_widget(form.city, {attr: {
+                            class: 'dealer-form__input',
+                            id: 'city',
+                        }}) }}
+                        {{ form_errors(form.city) }}
+                    </div>
+
+                </div>
+
+                <div class="dealer-form__row">
+
+                    <div class="dealer-form__field">
+                        <label class="dealer-form__label" for="name">Контактное лицо <span>(обязательно)</span></label>
+                        {{ form_widget(form.name, {attr: {
+                            class: 'dealer-form__input',
+                            id: 'name',
+                        }}) }}
+                        {{ form_errors(form.name) }}
+                    </div>
+
+                    <div class="dealer-form__field">
+                        <label class="dealer-form__label" for="phone">Контактный телефон
+                            <span>(обязательно)</span></label>
+                        {{ form_widget(form.phone, {attr: {
+                            class: 'dealer-form__input  dealer-form__input--phone',
+                            id: 'phone',
+                        }}) }}
+                        {{ form_errors(form.phone) }}
+                    </div>
+
+                </div>
+
+                <div class="dealer-form__row">
+
+                    <div class="dealer-form__field">
+                        <label class="dealer-form__label" for="head-name">Ф. И. О. руководителя</label>
+                        {{ form_widget(form.leader, {attr: {
+                            class: 'dealer-form__input',
+                            id: 'head-name',
+                        }}) }}
+                        {{ form_errors(form.leader) }}
+                    </div>
+
+                    <div class="dealer-form__field">
+                        <label class="dealer-form__label" for="email">Контакный E-mail
+                            <span>(обязательно)</span></label>
+                        {{ form_widget(form.email, {attr: {
+                            class: 'dealer-form__input',
+                            id: 'email',
+                        }}) }}
+                        {{ form_errors(form.email) }}
+                    </div>
+
+                </div>
+
+                <div class="dealer-form__field">
+                    <label class="dealer-form__label" for="profile">Профиль деятельности, способ реализации <span>(обязательно)</span></label>
+                    {{ form_widget(form.profile, {attr: {
+                        class: 'dealer-form__input',
+                        id: 'profile',
+                    }}) }}
+                    {{ form_errors(form.profile) }}
+                </div>
+
+                <div class="dealer-form__field">
+                    <label class="dealer-form__label" for="site">Сайт</label>
+                    {{ form_widget(form.site, {attr: {
+                        class: 'dealer-form__input  dealer-form__input--site',
+                        id: 'site',
+                    }}) }}
+                    {{ form_errors(form.site) }}
+                </div>
+
+                <div class="dealer-form__field">
+                    <label class="dealer-form__label" for="what">Чем вас заинтересовала продукция Gardie?</label>
+                    {{ form_widget(form.why_we, {attr: {
+                        class: 'dealer-form__input  dealer-form__input--textarea',
+                        id: 'what',
+                        rows: '5'
+                    }}) }}
+                    {{ form_errors(form.why_we) }}
+                </div>
+
+                <div class="dealer-form__field">
+                    <label class="dealer-form__label" for="how">Как вы узнали о Gardie?</label>
+                    {{ form_widget(form.how_know, {attr: {
+                        class: 'dealer-form__input  dealer-form__input--textarea',
+                        id: 'how',
+                        rows: '5'
+                    }}) }}
+                    {{ form_errors(form.how_know) }}
+                </div>
+
+                <div class="dealer-form__field">
+                    <label class="dealer-form__label" for="exp">Имеется ли опыт работы с аналогичной продукцией (если
+                        да, то с каким брендом)?</label>
+                    {{ form_widget(form.experience, {attr: {
+                        class: 'dealer-form__input  dealer-form__input--textarea',
+                        id: 'exp',
+                        rows: '5'
+                    }}) }}
+                    {{ form_errors(form.experience) }}
+                </div>
+
+                <div class="dealer-form__agree">
+                    <label class="radio">
+                        <input class="radio__input  visually-hidden" type="radio" checked/>
+                        <span class="radio__indicator"></span>
+                        Я даю согласие на обработку своих персональных данных. <a href="{{ path('page',{slug:'personal'}) }}">Подробнее</a>
+                    </label>
+                </div>
+
+                <button class="dealer-form__button" type="submit">Отправить</button>
+
+            </div>
+
+            {{ form_widget(form.frod_result) }}
+            {{ form_widget(form.frod_a) }}
+            {{ form_widget(form.frod_b) }}
+
+            {{ form_end(form) }}
+        {% else %}
+            <p><b>Ваша заявка принята на рассмотрение!</b>  <p>Ждите Email письмо с дальнейшими инструкциями.</p></p>
+        {% endif %}
+    </div>
+{% endblock %}

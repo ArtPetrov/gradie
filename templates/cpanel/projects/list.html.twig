@@ -1,0 +1,120 @@
+{% extends 'cpanel/content.html.twig' %}
+
+{% block title %}{{ parent() }} - Заявки на дизайн-проект{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('cpanel.datetime') }}
+{% endblock %}
+
+{% block content %}
+    <div class="content-wrapper">
+        {% block breadcrumbs %}
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ path('cpanel.index') }}">Главная</a></li>
+                <li class="breadcrumb-item active">Дизайн-проекты</li>
+            </ol>
+        {% endblock %}
+
+        {% include 'cpanel/_flashes.html.twig' %}
+        <div class="row">
+
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body ">
+                        <h4 class="card-title  ">Заявки на дизайн-проекты</h4>
+
+                        {{ form_start(form,{
+                            attr: {
+                                class:'form-inline p-4',
+                            }
+                        }) }}
+                        <div class="ml-auto mr-auto d-flex">
+                            <div class="input-group mb-2 mr-sm-2">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">C:</div>
+                                </div>
+                                {{ form_widget(form.dateStart, {attr: {
+                                    class: 'form-control datetime',
+                                }}) }}
+                            </div>
+
+                            <div class="input-group mb-2 mr-sm-2">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">По:</div>
+                                </div>
+                                {{ form_widget(form.dateEnd, {attr: {
+                                    class: 'form-control datetime',
+                                }}) }}
+                            </div>
+
+                            <button type="submit" class="btn btn-primary mb-2">Сформировать отчет</button>
+                        </div>
+                        {{ form_end(form) }}
+
+                        <div class="table-responsive pt-3">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <td><b>Дата заявки</b></td>
+                                    <td><b>Имя клиента</b></td>
+                                    <td><b>Заголовок проекта</b></td>
+                                    <td class="text-center"><b>Статус заявки</b></td>
+                                    <td class="text-center"><b>Тип проекта</b></td>
+                                    <td class="text-right"><b>Действие</b></td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for project in projects %}
+                                    <tr>
+                                        <td>
+                                            {{ project.createdAt|date('d.m.Y H:i') }}
+                                        </td>
+                                        <td>
+                                            <a class="ml-2"
+                                               href="{{ path('cpanel.design.project',{id:project.id}) }}">{{ project.client.name }}</a>
+                                        </td>
+                                        <td>
+                                            <a class="ml-2"
+                                               href="{{ path('cpanel.design.project',{id:project.id}) }}">{{ project.info.name }}</a>
+                                        </td>
+                                        <td class="text-center">
+                                            {{ project_status(project.status.status) }}
+                                        </td>
+                                        <td class="text-center">
+                                            <b>{{ project.type.type }}</b>
+                                        </td>
+                                        <td class="text-right">
+                                            <a href="{{ path('cpanel.design.project',{id:project.id}) }}"
+                                               class="btn btn-sm btn-info">Редактировать</a>
+                                            <button data-path="{{ path('cpanel.design.project.remove', {id:project.id}) }}"
+                                                    data-parent="tr"
+                                                    class="btn btn-sm btn-danger delete-element">
+                                                Удалить
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                {% else %}
+                                    <tr>
+                                        <td colspan="6" class="text-center">
+                                            Заявки не обнаружены.
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                <input type="hidden" name="token_csrf" value="{{ csrf_token('any') }}"/>
+                                </tbody>
+                            </table>
+                            <div class="navigation" style="display:flex; margin-top: 30px">
+                                <div style="margin-left: auto;margin-right:auto">
+                                    {{ knp_pagination_render(projects) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

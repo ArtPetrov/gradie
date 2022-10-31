@@ -1,0 +1,16 @@
+{% extends 'mail.html.twig' %}
+
+{% block body %}
+
+    <h3>Добро пожаловать!</h3>
+
+    <p>Для Вас создан аккаунт:</p>
+    <p>Логин: <span>{{ email.to[0].address }}</span></p>
+    <p>Пароль: <span>{{ password }}</span></p>
+
+    <p>Ссылка для авторизации:</p>
+    {% set url = url('dealer.login') %}
+
+    <p><a href="{{ url }}">{{ url }}</a></p>
+
+{% endblock %}

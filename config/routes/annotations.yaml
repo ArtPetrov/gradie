@@ -1,0 +1,34 @@
+_liip_imagine:
+    resource: "@LiipImagineBundle/Resources/config/routing.yaml"
+
+ecommerce:
+    resource: ../../src/Controller/Cpanel/Ecommerce
+    prefix: /cpanel/ecommerce
+    name_prefix: ecommerce.
+    trailing_slash_on_root: false
+    type: annotation
+
+cpanel:
+    resource: ../../src/Controller/Cpanel/
+    prefix: /cpanel
+    name_prefix: cpanel.
+    trailing_slash_on_root: false
+    type: annotation
+
+dealer:
+    resource: ../../src/Controller/Dealer/
+    prefix: /dealer
+    name_prefix: dealer.
+    trailing_slash_on_root: false
+    type: annotation
+
+buyer:
+    resource: ../../src/Controller/Buyer/
+    prefix: /cabinet
+    name_prefix: buyer.
+    trailing_slash_on_root: false
+    type: annotation
+
+controllers:
+    resource: ../../src/Controller/
+    type: annotation

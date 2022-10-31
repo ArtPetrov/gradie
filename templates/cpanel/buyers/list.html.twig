@@ -1,0 +1,104 @@
+{% extends 'cpanel/content.html.twig' %}
+
+{% block title %}{{ parent() }} - Покупатели{% endblock %}
+
+{% block content %}
+    <div class="content-wrapper">
+        {% block breadcrumbs %}
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ path('cpanel.index') }}">Главная</a></li>
+                <li class="breadcrumb-item active">Покупатели</li>
+            </ol>
+        {% endblock %}
+
+        {% include 'cpanel/_flashes.html.twig' %}
+
+        <div class="row">
+
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        {{ form_start(form) }}
+                        <div class="row">
+                            <div class="col-md-9">{{ form_widget(form.query,{attr: {class: 'form-control',placeholder:'Введите ФИО/Email/Телефон покупателя'}}) }}</div>
+                            <div class="col-md-3">
+                                <button type="submit" class="btn btn-primary">Искать</button>
+                                <a href="{{ path('cpanel.buyers') }}" class="btn btn-outline-secondary">Очистить</a>
+                            </div>
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Список покупателей</h4>
+                        <div class="table-responsive pt-3">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>ФИО</th>
+                                    <th>Телефон</th>
+                                    <th>Email</th>
+                                    <th>Социальные сети</th>
+                                    <th class="text-right">Действие</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for buyer in pagination %}
+                                    <tr>
+                                        <td>{{ buyer.id }}</td>
+                                        <td>{{ buyer.information.name|default('Не указано')  }}</td>
+                                        <td>{{ buyer.information.phone|default('Не указано')  }}</td>
+                                        <td>{{ buyer.information.email|default('Не указано')  }}</td>
+                                        <td>
+                                            {% if buyer.hasNetwork('vk') %}
+                                                <i class="mdi mdi mdi-vk-box icon-md"></i>
+                                            {% endif %}
+                                            {% if buyer.hasNetwork('yandex') %}
+                                                <i class="mdi mdi-web icon-md" title="Яндекс"></i>
+                                            {% endif %}
+                                            {% if buyer.hasNetwork('facebook') %}
+                                                <i class="mdi mdi-facebook-box icon-md"></i>
+                                            {% endif %}
+                                            {% if buyer.hasNetwork('ok') %}
+                                                <i class="mdi mdi-odnoklassniki icon-md"></i>
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-right">
+                                            <a href="{{ path('cpanel.buyer.edit',{id:buyer.id}) }}"
+                                               class="btn btn-sm btn-info">Редактировать</a>
+                                            <button data-path="{{ path('cpanel.buyer.remove', {id:buyer.id}) }}"
+                                                    data-parent="tr"
+                                                    class="btn btn-sm btn-danger delete-element">
+                                                Удалить
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                {% else %}
+                                    <tr>
+                                        <td colspan="6" class="text-center">
+                                            Покупатели не найдены.
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                <input type="hidden" name="token_csrf" value="{{ csrf_token('any') }}"/>
+                                </tbody>
+                            </table>
+                            <div class="navigation" style="display:flex; margin-top: 30px">
+                                <div style="margin-left: auto;margin-right:auto">
+                                    {{ knp_pagination_render(pagination) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

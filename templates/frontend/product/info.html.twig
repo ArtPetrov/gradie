@@ -1,0 +1,496 @@
+{% extends 'frontend/container.html.twig' %}
+
+{% block title %}{{ product.seo.title|default('Заголовок страницы') }}{% endblock %}
+{% block keywords %}{{ product.seo.keywords|default('Ключевые слова') }}{% endblock %}
+{% block description %}{{ product.seo.description|default('Описание') }}{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('frontend.review') }}
+    {{ encore_entry_script_tags('frontend.quick-order') }}
+    {{ encore_entry_script_tags('frontend.product') }}
+{% endblock %}
+
+{% block main %}
+
+    <main class="product">
+
+        <div class="breadcrumbs">
+            <a class="breadcrumbs__link" href="{{ path('index') }}">Главная</a>
+            <span class="breadcrumbs__separator"></span>
+            <a class="breadcrumbs__link" href="{{ path('catalog') }}">Каталог</a>
+
+            {% macro breadcrumbs(category) %}
+                {% import _self as tree %}
+                {% if category.parent %}
+                    {{ tree.breadcrumbs(category.parent) }}
+                {% endif %}
+                <span class="breadcrumbs__separator"></span>
+                <a class="breadcrumbs__link"
+                   href="{{ path('catalog.categorie',{slug:category.path}) }}">{{ category.name }}</a>
+            {% endmacro %}
+            {% import _self as tree %}
+            {{ tree.breadcrumbs(product.getMainCategory) }}
+        </div>
+
+        <h1 class="page-title">{{ product.info.name }}</h1>
+
+        <div class="wrap">
+
+            <div class="product__content">
+
+                <div class="product__head">
+
+                    <div class="product-gallery">
+                        {% if product.images|length >0 %}
+
+                            <div class="product-gallery__images">
+                                <div class="swiper-wrapper">
+
+                                    {% for image in product.images %}
+                                        <div class="swiper-slide">
+                                            <a class="product-gallery__link" href="{{ '/files/'~image.file.path }}">
+                                                <img class="product-gallery__image"
+                                                     src="{{ image.file.path|imagine_filter('product_preview') }}"
+                                                     width="375" height="375" alt=""/>
+                                            </a>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                <div class="product-gallery__images-arrow  product-gallery__images-arrow--prev"></div>
+                                <div class="product-gallery__images-arrow  product-gallery__images-arrow--next"></div>
+                            </div>
+                            {% if product.images|length >1 %}
+                                <div class="product-gallery__thumbs-wrap">
+                                    <div class="product-gallery__thumbs">
+                                        <div class="swiper-wrapper">
+                                            {% for image in product.images %}
+                                                <div class="swiper-slide">
+                                                    <img class="product-gallery__thumb"
+                                                         src="{{ image.file.path|imagine_filter('product_68_68') }}"
+                                                         width="68" height="68" alt=""/>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <div class="product-gallery__arrow  product-gallery__arrow--prev"></div>
+                                    <div class="product-gallery__arrow  product-gallery__arrow--next"></div>
+                                </div>
+                            {% endif %}
+                        {% else %}
+                            <div class="product-gallery__images">
+                                <div class="swiper-wrapper">
+
+                                    <div class="swiper-slide">
+                                        <img class="product-gallery__image"
+                                             src=https://imgholder.ru/375/61BD6D/FFF&text=Фото+отсутствует&font=kelson"
+                                             width="375" height="375" alt=""/>
+                                    </div>
+
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="product__desc">
+                        <p>{{ product.info.content|raw }}</p>
+
+                        {% if product.attributes.count > 0 %}
+                            <ul class="product__params">
+                                {% for attr in product.attributes %}
+                                    {% if attr.visible %}
+                                        {{ product_attribute(attr) }}
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+
+                </div>
+
+                <div class="product__order  product__order--content">
+
+                    <p class="product__price">
+                        {{ product.finishPrice|number_format(2, '.',' ') }} ₽
+                        {% if product.price.old > 0 %}
+                            <span class="product__price-old">{{ product.price.old|number_format(2, '.',' ') }} ₽</span>
+                        {% endif %}
+                    </p>
+
+                    <p class="product__sku">Артикул: {{ product.info.article }}</p>
+
+                    <div class="product__fields">
+                        <div class="render-product-fields-mob"></div>
+                        <div class="product__row">
+                            <label class="product__label" for="quantity">Кол-во</label>
+                            <input class="product__quantity basket-add-count" type="number" name="" id="quantity"
+                                   value="1" min="1"/>
+                        </div>
+
+                        <button class="product__to-cart basket-adding" type="button" data-id="{{ product.id }}">В
+                            корзину
+                        </button>
+                        <button class="product__fast-order help-open" data-popup="quick-order" href="javascript:void(0)"
+                                type="button">Быстрый заказ
+                        </button>
+
+                    </div>
+
+                    <p class="product__order-text">Уважаемые клиенты! По вашему желанию Gardie осуществляет доставку и
+                        монтаж изделий.</p>
+
+                    <nav class="product-nav">
+                        <ul class="product-nav__list">
+                            <li class="product-nav__item  product-nav__item--1">
+                                <a class="product-nav__link  help-open" data-popup="service" href="javascript:void(0)">Условия
+                                    доставки</a>
+                            </li>
+                            <li class="product-nav__item  product-nav__item--2">
+                                <a class="product-nav__link help-open" data-popup="montag" href="javascript:void(0)">Условия
+                                    монтажа</a>
+                            </li>
+                            <li class="product-nav__item  product-nav__item--3">
+                                <a class="product-nav__link help-open" data-popup="garante" href="javascript:void(0)">Гарантия</a>
+                            </li>
+                        </ul>
+                    </nav>
+
+                </div>
+
+                {% if product.info.availableYoutube %}
+                    <div class="table">
+                        <iframe width="100%" height="420"
+                                src="https://www.youtube.com/embed/{{ product.info.youtubeHash }}" frameborder="0"
+                                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen></iframe>
+                    </div>
+                {% endif %}
+
+                {% if product.composition|length>0 %}
+                    <h2 class="product__heading">Детали</h2>
+                    <div class="table">
+                        <table>
+                            <tr>
+                                <th>Артикул</th>
+                                <th>Наименование</th>
+                                <th class="table__center">Кол-во</th>
+                            </tr>
+                            {% for element in product.composition %}
+                                <tr>
+                                    <td>{{ element.element.info.article }}</td>
+                                    <td>
+                                        {% if element.element.EnableStatus %}
+                                            <a href="{{ path('product',{id:element.element.id}) }}">{{ element.element.info.name }}</a>
+                                        {% else %}
+                                            {{ element.element.info.name }}
+                                        {% endif %}
+                                    </td>
+                                    <td class="table__center">{{ element.count }}</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                {% endif %}
+                {% set count_review = product.getApproveReviews|length %}
+                <input type="hidden" name="current-id" value="{{ product.id }}"/>
+                <input type="hidden" name="path-groups" value="{{ path('product.group',{id:product.id}) }}"/>
+                <input type="hidden" name="path-redirect" value="{{ path('product',{id:-1}) }}"/>
+                <div class="reviews">
+                    <div class="reviews__head">
+                        {% if count_review > 0 %}
+                            <div class="reviews__head-inner">
+                                <h2 class="product__heading">Отзывы
+                                    <span class="reviews__counter">({{ count_review }})</span>
+                                </h2>
+                            </div>
+                        {% endif %}
+                        <div class="reviews__head-aside">
+                            {% if count_review > 0 %}
+                                {% set rating_avg = product.getAvgRating %}
+                                <div class="reviews__rating">
+                                    <div class="stars  reviews__rating-stars" data-stars="{{ rating_avg }}"></div>
+                                    <p class="reviews__rating-value">{{ rating_avg }}/{{ count_review }}</p>
+                                </div>
+                            {% endif %}
+                            <button class="reviews__add adding-review help-open" type="button" data-popup="review">
+                                Написать {% if count_review == 0 %}первый {% endif %}отзыв
+                            </button>
+                        </div>
+
+                    </div>
+                    {% if count_review > 0 %}
+                        <div class="reviews__items">
+                            {% for review in product.getApproveReviews %}
+                                <div class="reviews__item">
+                                    <div class="reviews__item-meta">
+                                        <p class="reviews__item-name">{{ review.name }}</p>
+                                        <time class="reviews__item-date"
+                                              datetime="{{ review.createdAt|date("Y-m-d") }}">{{ review.createdAt|date("d.m.Y") }}</time>
+                                        <div class="stars  stars--small  reviews__item-stars"
+                                             data-stars="{{ review.rating }}"></div>
+                                    </div>
+                                    <div class="reviews__item-text">
+                                        <p>{{ review.message }}</p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+
+            </div>
+
+            <aside class="product__sidebar">
+
+                <div class="product__order  product__order--sidebar">
+
+                    <p class="product__price">
+                        {{ product.finishPrice|number_format(2, '.',' ') }} ₽
+                        {% if product.price.old > 0 %}
+                            <span class="product__price-old">{{ product.price.old|number_format(2, '.',' ') }} ₽</span>
+                        {% endif %}
+                    </p>
+
+                    <p class="product__sku">Артикул: {{ product.info.article }}</p>
+
+                    <div class="product__fields">
+
+                        <div class="render-product-fields"></div>
+
+                        <div class="product__row">
+                            <label class="product__label" for="quantity">Кол-во</label>
+                            <input class="product__quantity basket-add-count" type="number" name="" id="quantity" value="1" min="1"/>
+                        </div>
+
+                        <button class="product__to-cart basket-adding" type="button" data-id="{{ product.id }}">В корзину</button>
+                        <button class="product__fast-order help-open" data-popup="quick-order" href="javascript:void(0)"
+                                type="button">Быстрый заказ
+                        </button>
+
+                    </div>
+
+                    <p class="product__order-text">Уважаемые клиенты! По вашему желанию Gardie осуществляет доставку и
+                        монтаж изделий.</p>
+
+                    <nav class="product-nav">
+                        <ul class="product-nav__list">
+                            <li class="product-nav__item  product-nav__item--1">
+                                <a class="product-nav__link  help-open" data-popup="service" href="javascript:void(0)">Условия
+                                    доставки</a>
+                            </li>
+                            <li class="product-nav__item  product-nav__item--2">
+                                <a class="product-nav__link  help-open" data-popup="montag" href="javascript:void(0)">Условия
+                                    монтажа</a>
+                            </li>
+                            <li class="product-nav__item  product-nav__item--3">
+                                <a class="product-nav__link  help-open" data-popup="garante" href="javascript:void(0)">Гарантия</a>
+                            </li>
+                        </ul>
+                    </nav>
+
+                </div>
+                {% if product.recommended|length > 0 %}
+                    {{ recommended_for_product(product.id) }}
+                {% else %}
+                    {{ recommended_for_categories(product.getMainCategory.path) }}
+                {% endif %}
+            </aside>
+
+        </div>
+
+        <div class="modal  modal--product help-popup close-help" data-popup="service" style="display: none">
+            <div class="modal__container">
+                <div class="modal__inner">
+
+                    <h2 class="modal__heading">Условия доставки</h2>
+
+                    <div class="modal__text">
+                        <p>Наш магазин предлагает следующие варианты доставки:</p>
+
+                        <p><strong>Доставка по Москве</strong> в пределах МКАД – БЕСПЛАТНО (при покупке на сумму от 30
+                            000₽).</p>
+
+                        <p><strong>Доставка за МКАД</strong>: стоимость доставки равна 30₽ за каждый км от МКАД.</p>
+
+                        <p>Более подробные условия доставки Вы можете посмотреть <a href="/service">здесь</a>.</p>
+                    </div>
+
+                </div>
+                <button class="modal__close close-help" type="button" aria-label="Закрыть"></button>
+            </div>
+        </div>
+
+        <div class="modal  modal--product help-popup close-help" data-popup="montag" style="display: none">
+            <div class="modal__container">
+                <div class="modal__inner">
+
+                    <h2 class="modal__heading">Условия монтажа</h2>
+
+                    <div class="modal__text">
+                        <p>По Вашему желанию высококвалифицированные специалисты нашей компании сделают монтаж
+                            гардеробной системы, приобретенной в нашем интернет-магазине.</p>
+
+                        <p><strong>Стоимость монтажа</strong> составляет 10% от стоимости заказа без учета действующих
+                            скидок, но не менее 3000₽.</p>
+
+                        <p>О необходимости монтажа сообщайте при оформлении заказа.</p>
+                    </div>
+
+                </div>
+                <button class="modal__close close-help" type="button" aria-label="Закрыть"></button>
+            </div>
+        </div>
+
+        <div class="modal  modal--product help-popup close-help" data-popup="garante" style="display: none">
+            <div class="modal__container">
+                <div class="modal__inner">
+                    <h2 class="modal__heading">Гарантия</h2>
+                    <div class="modal__text">
+                        <p>При соблюдении условий эксплуатации и технологии монтажа, на всю продукцию Gardie действует
+                            гарантия 10 лет, кроме деревянных элементов и роликов в выдвижных конструкциях - на них
+                            гарантия 1 год.</p>
+                    </div>
+                </div>
+                <button class="modal__close close-help" type="button" aria-label="Закрыть"></button>
+            </div>
+        </div>
+
+        <div class="modal  modal--product  modal--order help-popup close-help" data-popup="quick-order"
+             style="display:none;">
+            <div class="modal__container">
+                <div class="modal__inner  quick-order-form">
+                    <h2 class="modal__heading">Быстрый заказ</h2>
+
+                    <div class="quick-order__item">
+
+                        <img class="quick-order__image"
+                             src="{% if product.cover %}{{ product.cover.path|imagine_filter('product_95_95') }}{% else %}https://imgholder.ru/90/DDD/&text=Нет фото&font=kelson{% endif %}"
+                             width="90" height="90" alt="">
+
+                        <div class="quick-order__headline">
+                            <p class="quick-order__heading">{{ product.info.name }}</p>
+                            <p class="quick-order__sku">Артикул: {{ product.info.article }}</p>
+                        </div>
+
+                        <div class="quick-order__bottom">
+                            <div class="quick-order__row">
+                                <label class="visually-hidden" for="quick-order-quantity">Кол-во</label>
+                                <input class="quick-order__quantity" type="number" name="quick-order-count"
+                                       id="quick-order-quantity" value="1" min="1">
+                                <p class="quick-order__price">
+                                    {{ product.finishPrice|number_format(2, '.',' ') }} ₽
+                                    {% if product.price.old > 0 %}
+                                        <span class="product__price-old">{{ product.price.old|number_format(2, '.',' ') }} ₽</span>
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="quick-order__text">Заполните поля ниже, чтобы наш менеджер мог связаться с вами</p>
+
+                    <div class="quick-order__field quick-order-name">
+                        <label class="quick-order__label" for="quick-order-name">Как к Вам обращаться <span
+                                    class="quick-order__required">*</span></label>
+                        <input class="quick-order__input" id="quick-order-name" name="quick-order-name" type="text"
+                               required="">
+                    </div>
+
+                    <div class="quick-order__field quick-order-contact">
+                        <label class="quick-order__label" for="quick-order-phone">Номер телефона или Email-адрес <span
+                                    class="quick-order__required">*</span></label>
+                        <input class="quick-order__input" id="quick-order-phone" type="text" name="quick-order-contact"
+                               required="">
+                    </div>
+
+                    <input type="hidden" name="quick-order-id" value="{{ product.id }}">
+                    <input type="hidden" name="quick-order-path" value="{{ path('quick.order.create') }}">
+                    <button class="quick-order__button quick-order-make" type="button">Оставить заказ</button>
+
+                    <p class="modal__note">Нажимая кнопку «Отправить заказ», я соглашаюсь на получение информации от
+                        интернет-магазина и уведомлений о состоянии моих заказов, а также принимаю <a
+                                href="{{ path('page',{slug:'personal'}) }}">условия политики конфиденциальности</a> и <a
+                                href="{{ path('page',{slug:'personal'}) }}">пользовательского соглашения</a>.</p>
+                </div>
+                <div class="modal__inner quick-order-thanks" style="display: none">
+                    <p class="modal__thanks">Спасибо! Данные отправлены.<br> В ближайшее время наш менеджер<br> свяжется
+                        с вами</p>
+                    <a class="modal__continue close-help" href="javascript:void(0)">Продолжить покупки</a>
+                </div>
+                <button class="modal__close close-help" type="button" aria-label="Закрыть"></button>
+            </div>
+            <
+        </div>
+
+        <div class="modal modal--product modal--review help-popup close-help" data-popup="review" style="display: none">
+            <div class="modal__container">
+                <div class="modal__inner review-form">
+
+                    <h2 class="modal__heading">Оставить отзыв</h2>
+
+                    <div class="add-review__row">
+                        <div class="add-review__field  add-review__field--name review-field-name">
+                            <label class="add-review__label" for="add-review-name">Имя <span
+                                        class="add-review__required">*</span></label>
+                            <input name="review-name" class="add-review__input" id="add-review-name" type="text"
+                                   required=""
+                                    {% if app.user is not null %} value="{{ app.user.information.name }}" readonly disabled{% endif %}>
+                        </div>
+
+                        <input name="review-path" type="hidden" value="{{ path('review.create') }}">
+                        <input name="product-id" type="hidden" value="{{ product.id }}">
+                        <input name="token" type="hidden" value="{{ csrf_token('any') }}">
+
+                        <div class="add-review__field">
+                            <div class="form-stars  add-review__stars">
+                                <input class="form-stars__input" id="rating-1" type="radio" name="review-rating"
+                                       value="1" required="">
+                                <label class="form-stars__star" for="rating-1" aria-label="1"></label>
+                                <input class="form-stars__input" id="rating-2" type="radio" name="review-rating"
+                                       value="2" required="">
+                                <label class="form-stars__star" for="rating-2" aria-label="2"></label>
+                                <input class="form-stars__input" id="rating-3" type="radio" name="review-rating"
+                                       value="3" required="">
+                                <label class="form-stars__star" for="rating-3" aria-label="3"></label>
+                                <input class="form-stars__input" id="rating-4" type="radio" name="review-rating"
+                                       value="4" required="">
+                                <label class="form-stars__star" for="rating-4" aria-label="4"></label>
+                                <input class="form-stars__input" id="rating-5" type="radio" name="review-rating"
+                                       value="5" required="" checked>
+                                <label class="form-stars__star" for="rating-5" aria-label="5"></label>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="add-review__field review-field-message">
+                        <label class="add-review__label" for="add-review-message">Ваш отзыв <span
+                                    class="add-review__required">*</span></label>
+                        <textarea class="add-review__input" name="review-message" id="add-review-message" rows="8"
+                                  required=""></textarea>
+                        *Отзыв должен содержать минимум 10 символов.
+                    </div>
+                    <button class="add-review__button review-send" type="button">Отправить</button>
+
+
+                    <p class="modal__note">Нажимая кнопку «Отправить», я соглашаюсь на получение информации от
+                        интернет-магазина и уведомлений о состоянии моих заказов, а также принимаю <a
+                                href="{{ path('page',{slug:'personal'}) }}">условия политики конфиденциальности</a> и <a
+                                href="{{ path('page',{slug:'personal'}) }}">пользовательского соглашения</a>.</p>
+
+                </div>
+                <div class="modal__inner review-thanks" style="display: none;">
+                    <p class="modal__thanks">Спасибо! Данные отправлены.<br> В ближайшее время наш менеджер<br>
+                        опубликует Ваш отзыв.</p>
+
+                    <a class="modal__continue close-help" href="javascript:void(0)">Продолжить покупки</a>
+
+                </div>
+                <button class="modal__close close-help" type="button" aria-label="Закрыть"></button>
+            </div>
+        </div>
+    </main>
+
+{% endblock %}

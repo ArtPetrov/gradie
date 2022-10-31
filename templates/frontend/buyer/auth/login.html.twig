@@ -1,0 +1,24 @@
+{% extends 'frontend/pages/container.html.twig' %}
+
+{% block title %}Авторизация в личный кабинет{% endblock %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a class="breadcrumbs__link" href="{{ path('index') }}">Главная</a>
+        <span class="breadcrumbs__separator"></span>
+        <a class="breadcrumbs__link" href="{{ path('buyer.index') }}">Личный кабинет</a>
+        <span class="breadcrumbs__separator"></span>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="content">
+        <div class="authoriz">
+
+            {% include 'frontend/_flashes.html.twig' %}
+
+            {% include 'frontend/_login.html.twig' %}
+
+        </div>
+    </div>
+{% endblock %}

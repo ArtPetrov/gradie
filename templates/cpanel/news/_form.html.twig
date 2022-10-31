@@ -1,0 +1,36 @@
+{{ form_start(form,{
+    attr: {
+        class:'forms-sample tinymce-form',
+        'data-path-upload': path('cpanel.upload.tiny.temporary')
+    }
+}) }}
+
+<div class="form-group">
+    <label for="exampleInputHeader">Заголовок новости:</label>
+    {{ form_widget(form.header, {attr: {
+        placeholder: 'Например: Приглашение на выставку',
+        id: 'exampleInputHeader',
+        class: 'form-control'
+    }}) }}
+</div>
+{{ form_errors(form.header) }}
+
+<div class="form-group">
+    <label for="exampleInputPublishedAt">Дата публикации:</label>
+    {{ form_widget(form.publishedAt, {attr: {
+        id: 'exampleInputPublishedAt',
+        class: 'form-control datetime'
+    }}) }}
+</div>
+{{ form_errors(form.publishedAt) }}
+
+<div class="form-group">
+    {{ form_widget(form.content, {attr: {
+        class: 'form-control tinymce',
+        rows:25
+    }}) }}
+    {{ form_errors(form.content) }}
+</div>
+
+<button type="submit" class="btn btn-primary mr-2">{{ name_sumbit }}</button>
+{{ form_end(form) }}

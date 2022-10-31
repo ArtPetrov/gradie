@@ -1,0 +1,182 @@
+# See dos how to configure the bundle: https://symfony.com/doc/current/bundles/LiipImagineBundle/basic-usage.html
+liip_imagine:
+
+    # valid drivers options include "gd" or "gmagick" or "imagick"
+    driver: imagick
+    loaders:
+        default:
+            filesystem:
+                data_root: '%kernel.project_dir%/public/files/'
+
+    cache: default
+    data_loader: default
+
+    filter_sets:
+        product_preview:
+            quality: 100
+            jpeg_quality: 100
+            filters:
+                preview_square: {}
+
+        product_295_295:
+            quality: 100
+            jpeg_quality: 100
+            filters:
+                thumbnail:
+                    size: [295,295]
+                    mode: outbound
+                    allow_upscale: true
+
+        product_297_297:
+            quality: 100
+            jpeg_quality: 100
+            filters:
+                thumbnail:
+                    size: [297,297]
+                    mode: outbound
+                    allow_upscale: true
+
+        product_500_500:
+            quality: 100
+            jpeg_quality: 100
+            filters:
+                thumbnail:
+                    size: [500,500]
+                    mode: outbound
+
+        product_375_375:
+            quality: 100
+            jpeg_quality: 100
+            filters:
+                thumbnail:
+                    size: [375,375]
+                    mode: outbound
+
+        product_95_95:
+            quality: 100
+            jpeg_quality: 100
+            filters:
+                thumbnail:
+                    size: [95,95]
+                    mode: outbound
+                    allow_upscale: true
+        product_185_185:
+            quality: 100
+            jpeg_quality: 100
+            filters:
+                thumbnail:
+                    size: [185,185]
+                    mode: outbound
+                    allow_upscale: true
+
+        product_68_68:
+            quality: 100
+            jpeg_quality: 100
+            filters:
+                thumbnail:
+                    size: [68,68]
+                    mode: outbound
+                    allow_upscale: true
+
+        product_200_200:
+            quality: 100
+            jpeg_quality: 100
+            filters:
+                thumbnail:
+                    size: [200,200]
+                    mode: outbound
+                    allow_upscale: true
+
+        product_48:
+            quality: 100
+            jpeg_quality: 100
+            filters:
+                thumbnail:
+                    size: [48,48]
+                    mode: outbound
+                    allow_upscale: true
+
+        gallery_215_215:
+            quality: 100
+            jpeg_quality: 100
+            filters:
+                thumbnail:
+                    size: [215,215]
+                    mode: outbound
+                    allow_upscale: true
+
+        gallery_index:
+            quality: 100
+            jpeg_quality: 100
+            filters:
+                thumbnail:
+                    size: [235,235]
+                    mode: outbound
+                    allow_upscale: true
+
+        article_215_320:
+            filters:
+                thumbnail:
+                    size: [215,320]
+                    mode: outbound
+                    allow_upscale: true
+
+        article_220_320:
+            filters:
+                thumbnail:
+                    size: [220,320]
+                    mode: outbound
+                    allow_upscale: true
+
+        article_940_560:
+            filters:
+                thumbnail:
+                    size: [940,560]
+                    mode: outbound
+                    allow_upscale: true
+        article_148_105:
+            filters:
+                thumbnail:
+                    size: [148,105]
+                    mode: outbound
+                    allow_upscale: true
+
+        work_148_105:
+            filters:
+                thumbnail:
+                    size: [148,105]
+                    mode: outbound
+                    allow_upscale: true
+        work_index:
+            filters:
+                thumbnail:
+                    size: [277,403]
+                    mode: outbound
+                    allow_upscale: true
+
+        work_297_297:
+            filters:
+                thumbnail:
+                    size: [297,297]
+                    mode: outbound
+                    allow_upscale: true
+
+        work_940_560:
+            filters:
+                thumbnail:
+                    size: [940,560]
+                    mode: outbound
+
+        quiz_small:
+            filters:
+                thumbnail:
+                    size: [168,168]
+                    mode: outbound
+                    allow_upscale: true
+
+        quiz_big:
+            filters:
+                thumbnail:
+                    size: [430,245]
+                    mode: outbound
+

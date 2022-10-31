@@ -1,0 +1,98 @@
+{% extends 'cpanel/content.html.twig' %}
+
+{% block title %}{{ parent() }} - Отзывы{% endblock %}
+
+{% block content %}
+    <div class="content-wrapper">
+        {% block breadcrumbs %}
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ path('cpanel.index') }}">Главная</a></li>
+                <li class="breadcrumb-item active">Отзывы</li>
+            </ol>
+        {% endblock %}
+
+        {% include 'cpanel/_flashes.html.twig' %}
+        <div class="row">
+
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Список отзывов</h4>
+                        <div class="table-responsive pt-3">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Дата</th>
+                                    <th>Автор</th>
+                                    <th>Отзыв</th>
+                                    <th>Продукт</th>
+                                    <th class="text-center">Статус</th>
+                                    <th class="text-right">Действие</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for review in reviews %}
+                                    <tr>
+                                        <td>
+                                            {{ review.createdAt|date("d.m.Y H:s") }}
+                                        </td>
+                                        <td>
+                                            {% if review.buyer is not null %}
+                                                <a href="{{ path('cpanel.buyer.edit',{id: review.buyer.id}) }}">{{ review.name }}</a>
+                                            {% else %}
+                                                {{ review.name }}
+                                            {% endif %}
+                                        </td>
+
+                                        <td>
+                                            {{ review.message }}
+                                        </td>
+
+                                        <td>
+                                            <a href="{{ path('cpanel.product',{id: review.product.id}) }}">{{ review.product.info.name }}</a>
+                                        </td>
+
+                                        <td class="text-center">
+                                            {{ review_status(review.status.status) }}
+                                        </td>
+
+                                        <td class="text-right">
+
+                                            {% if review.status.isWait %}
+                                                <a href="{{ path('cpanel.review.active',{id:review.id}) }}" class="btn btn-sm btn-success">Одобрить</a>
+                                            {% endif %}
+
+                                            <a href="{{ path('cpanel.review',{id:review.id}) }}"
+                                               class="btn btn-sm btn-info">Редактировать</a>
+
+                                            <button data-path="{{ path('cpanel.review.remove', {id:review.id}) }}"
+                                                    data-parent="tr"
+                                                    class="btn btn-sm btn-danger delete-element">
+                                                Удалить
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                {% else %}
+                                    <tr>
+                                        <td colspan="6" class="text-center">
+                                            Отзывы не найдены.
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                <input type="hidden" name="token_csrf" value="{{ csrf_token('any') }}"/>
+                                </tbody>
+                            </table>
+                            <div class="navigation" style="display:flex; margin-top: 30px">
+                                <div style="margin-left: auto;margin-right:auto">
+                                    {{ knp_pagination_render(reviews) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

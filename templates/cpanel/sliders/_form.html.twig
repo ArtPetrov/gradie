@@ -1,0 +1,87 @@
+<div class="card-body dashboard-tabs p-0">
+    <ul class="nav nav-tabs px-4" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="main-tab" data-toggle="tab" href="#main" role="tab" aria-controls="main"
+               aria-selected="true">Основное</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="button-tab" data-toggle="tab" href="#button" role="tab" aria-controls="button"
+               aria-selected="false">Кнопка</a>
+        </li>
+    </ul>
+
+    {{ form_start(form)}}
+
+    <div class="tab-content py-0 px-0">
+
+        <div class="tab-pane fade active show" id="main" role="tabpanel" aria-labelledby="main-tab">
+            <div class=" m-5">
+
+                <div class="form-group">
+                    <label for="inputFullName">Заголовок:</label>
+                    {{ form_widget(form.info.header, {attr: {
+                        id: 'inputFullName',
+                        class: 'form-control'
+                    }}) }}
+                </div>
+                {{ form_errors(form.info.header) }}
+
+                <div class="form-group">
+                    <label for="inputFullName">Подзаголовок:</label>
+                    {{ form_widget(form.info.description, {attr: {
+                        id: 'inputFullName',
+                        class: 'form-control'
+                    }}) }}
+                </div>
+                {{ form_errors(form.info.description) }}
+
+                <div class="form-group{% if type!='index' %} d-none{% endif %}">
+                    <label>Обложка слайдера</label>
+                    {{ form_widget(form.cover, {attr: {
+                        class: 'file-upload-default'
+                    }}) }}
+                    <div class="input-group col-xs-12">
+                        <input type="text" class="form-control file-upload-info" disabled="" placeholder="Обязательный размер: 1600x900px">
+                        <span class="input-group-append">
+                          <button class="file-upload-browse btn btn-primary" type="button">Загрузить фотографию</button>
+                        </span>
+                    </div>
+                </div>
+                {{ form_errors(form.cover) }}
+
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="button" role="tabpanel" aria-labelledby="button-tab">
+            <div class=" m-5">
+                <div class="form-group">
+                {{ form_widget(form.button.enable, {label: 'Отображать кнопку у слайдера'}) }}
+                </div>
+                <div class="form-group">
+                    <label for="btnLabel">Надпись на кнопке:</label>
+                    {{ form_widget(form.button.label, {attr: {
+                        id: 'btnLabel',
+                        class: 'form-control'
+                    }}) }}
+                </div>
+                {{ form_errors(form.button.label) }}
+
+                <div class="form-group">
+                    <label for="btnLink">Адрес ссылки:</label>
+                    {{ form_widget(form.button.link, {attr: {
+                        id: 'btnLink',
+                        class: 'form-control'
+                    }}) }}
+                </div>
+                {{ form_errors(form.button.link) }}
+            </div>
+        </div>
+
+    </div>
+
+    <div class="text-center mt-5 mb-4">
+        <input type="hidden" name="token_csrf" value="{{ csrf_token('any') }}"/>
+        <button type="submit" class="btn btn-primary">{{ name_sumbit }}</button>
+    </div>
+    {{ form_end(form) }}
+</div>

@@ -1,0 +1,24 @@
+{% if categories|length > 0 %}
+    <nav class="header-catalog">
+        <button class="header-catalog__heading" type="button">Каталог <span>товаров</span></button>
+        <ul class="header-catalog__list">
+            {% for category in categories %}
+                <li class="header-catalog__item">
+                    <a class="header-catalog__link"
+                       href="{{ path('catalog.categorie',{slug:category.path}) }}">{{ category.name }}</a>
+                    {% if category.childs|length > 0 %}
+                        <button class="header-catalog__toggle" type="button"></button>
+                        <ul class="header-catalog__sub-menu">
+                            {% for child in category.childs %}
+                                <li class="header-catalog__item active">
+                                    <a class="header-catalog__link"
+                                       href="{{ path('catalog.categorie',{slug:child.path}) }}">{{ child.name }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </nav>
+{% endif %}

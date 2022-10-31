@@ -1,0 +1,42 @@
+{{ form_start(form,{
+    attr: {
+        class:'forms-sample',
+        novalidate:'',
+    }
+}) }}
+
+<div class="form-group">
+    <label for="exampleInputHeader">Тема обращения:</label>
+    {{ form_widget(form.header, {attr: {
+        placeholder: 'Например: Не получил письмо с реквизитами',
+        id: 'exampleInputHeader',
+        class: 'form-control'
+    }}) }}
+</div>
+{{ form_errors(form.header) }}
+
+<div class="form-group">
+    {{ form_widget(form.content, {attr: {
+        class: 'form-control tinymce',
+        rows:15
+    }}) }}
+    {{ form_errors(form.content) }}
+</div>
+
+<div class="form-group">
+    {{ form_widget(form.file, {attr: {
+        class: 'file-upload-default'
+    }}) }}
+    <div class="input-group col-xs-12">
+        <input type="text" class="form-control file-upload-info file-upload-browse" readonly placeholder="Добавьте если необходимо любое изображение, архив или офисный файл">
+        <span class="input-group-append">
+            <button class="file-upload-browse btn btn-success" type="button">Прикрепить файл</button>
+            <button class="file-upload-browse-clear btn btn-light ml-3" type="button">Сбросить файл</button>
+        </span>
+    </div>
+    {{ form_errors(form.file) }}
+</div>
+
+
+<button type="submit" class="btn btn-primary mr-2 ">{{ name_sumbit }}</button>
+{{ form_end(form) }}
